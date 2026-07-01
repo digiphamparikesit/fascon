@@ -1,0 +1,792 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FASCON — Kalkulator Farmasi RS</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
+:root{
+  --bg:#f0f4f2; --panel:#fff; --ink:#15221e; --soft:#566460; --line:#dae1dd;
+  --g:#0d6b59; --gd:#094f40; --gl:#e1f0ec; --gc:#bdd9d1;
+  --amber:#c07a28; --ambl:#fdf0df;
+  --radius:10px; --sans:'IBM Plex Sans',system-ui,sans-serif; --mono:'IBM Plex Mono',monospace;
+}
+*{box-sizing:border-box; margin:0; padding:0;}
+body{background:var(--bg); color:var(--ink); font-family:var(--sans); -webkit-font-smoothing:antialiased;}
+
+/* LAYOUT */
+.shell{max-width:1120px; margin:0 auto; padding:24px 20px 64px;}
+header{border-bottom:2.5px solid var(--ink); padding-bottom:14px; margin-bottom:20px; display:flex; align-items:flex-end; justify-content:space-between; flex-wrap:wrap; gap:12px;}
+.brand{display:flex; align-items:center; gap:11px;}
+.logo{width:40px; height:40px; background:var(--g); border-radius:8px; display:flex; align-items:center; justify-content:center; color:#fff; font-family:var(--mono); font-weight:700; font-size:13px; flex-shrink:0;}
+.brand h1{font-size:17px; letter-spacing:.1px;}
+.brand p{font-size:11.5px; color:var(--soft); margin-top:2px;}
+.badge{font-family:var(--mono); font-size:10.5px; color:var(--amber); background:var(--ambl); border:1px solid #e8c68a; padding:4px 10px; border-radius:5px;}
+
+/* NAV */
+.nav-group{margin-bottom:2px;}
+.nav-group-label{font-size:10px; text-transform:uppercase; letter-spacing:.6px; color:var(--soft); font-weight:700; padding:14px 2px 6px;}
+.nav-tabs{display:flex; flex-wrap:wrap; gap:4px; border-bottom:1px solid var(--line); padding-bottom:0; margin-bottom:0;}
+.nav-tabs button{font-family:var(--sans); font-size:13px; font-weight:500; background:none; border:none; padding:9px 14px; cursor:pointer; color:var(--soft); border-bottom:3px solid transparent; margin-bottom:-1px; border-radius:4px 4px 0 0; transition:.12s;}
+.nav-tabs button:hover{color:var(--ink); background:#f7f9f8;}
+.nav-tabs button.active{color:var(--gd); border-bottom-color:var(--g); font-weight:600; background:none;}
+
+/* PANELS */
+.panel{background:var(--panel); border:1px solid var(--line); border-radius:var(--radius); padding:24px; margin-top:18px; display:none;}
+.panel.show{display:block;}
+.panel h2{font-size:15px; margin-bottom:3px; display:flex; align-items:center; gap:8px;}
+.panel .desc{font-size:12.5px; color:var(--soft); margin-bottom:20px; line-height:1.5;}
+
+/* FORM */
+.grid{display:grid; grid-template-columns:1fr 1fr; gap:18px;}
+.grid3{display:grid; grid-template-columns:1fr 1fr 1fr; gap:18px;}
+@media(max-width:680px){.grid,.grid3{grid-template-columns:1fr;}}
+.field{position:relative; margin-bottom:14px;}
+label.lbl{display:block; font-size:11.5px; font-weight:700; text-transform:uppercase; letter-spacing:.35px; color:var(--soft); margin-bottom:5px;}
+input[type=number], input[type=text], select{
+  width:100%; padding:10px 44px 10px 12px; border:1.5px solid var(--line); border-radius:7px;
+  font-family:var(--mono); font-size:14px; background:#fafcfb; color:var(--ink);
+  transition:border-color .12s;
+}
+input:focus, select:focus{outline:none; border-color:var(--g);}
+input[readonly]{background:#f2f5f3; color:var(--soft);}
+.unit-tag{position:absolute; right:10px; top:32px; font-family:var(--mono); font-size:11px; color:var(--soft); pointer-events:none;}
+
+/* AUTOCOMPLETE */
+.ac-wrap{position:relative;}
+.ac-list{position:absolute; top:calc(100% + 3px); left:0; right:0; z-index:50; background:#fff; border:1.5px solid var(--g); border-radius:8px; max-height:240px; overflow-y:auto; box-shadow:0 8px 28px rgba(13,107,89,.14); display:none;}
+.ac-row{padding:9px 12px; cursor:pointer; border-bottom:1px solid #f0f5f3; font-size:13px;}
+.ac-row:last-child{border-bottom:none;}
+.ac-row:hover, .ac-row.sel{background:var(--gl);}
+.ac-row .ac-name{font-weight:600; line-height:1.3;}
+.ac-row .ac-meta{font-family:var(--mono); font-size:11px; color:var(--soft); margin-top:2px;}
+.ac-empty{padding:10px 12px; font-size:12.5px; color:var(--soft);}
+
+/* RESULT BOX */
+.result-box{margin-top:18px; padding:18px 20px; background:var(--gl); border:1px solid var(--gc); border-radius:9px; display:none;}
+.result-box.show{display:block;}
+.result-box .rlabel{font-size:11px; text-transform:uppercase; letter-spacing:.4px; color:var(--gd); font-weight:700; margin-bottom:4px;}
+.result-box .rval{font-family:var(--mono); font-size:28px; font-weight:600; color:var(--gd); line-height:1.2;}
+.result-box .rval .runit{font-size:14px; font-weight:400; color:var(--soft); margin-left:5px;}
+.result-box .rformula{font-family:var(--mono); font-size:11px; color:var(--soft); margin-top:10px; padding-top:10px; border-top:1px dashed var(--gc); line-height:1.6;}
+.result-pair{display:grid; grid-template-columns:1fr 1fr; gap:16px;}
+.result-item .ri-label{font-size:11px; color:var(--soft); margin-bottom:3px;}
+.result-item .ri-val{font-family:var(--mono); font-size:22px; font-weight:600; color:var(--gd);}
+.result-item .ri-unit{font-size:12px; font-weight:400; color:var(--soft); margin-left:4px;}
+
+/* TABLE RESULT */
+.rtable{width:100%; border-collapse:collapse; font-family:var(--mono); font-size:13px; margin-top:12px;}
+.rtable th{text-align:left; color:var(--soft); font-size:11px; font-weight:600; text-transform:uppercase; padding:6px 8px; border-bottom:1.5px solid var(--gc);}
+.rtable td{padding:8px 8px; border-bottom:1px solid #eaf1ee;}
+.rtable tr:hover td{background:rgba(13,107,89,.04);}
+
+/* BUTTONS */
+.btn-row{display:flex; gap:8px; margin-top:6px; flex-wrap:wrap;}
+button.btn-primary{background:var(--g); color:#fff; border:none; padding:10px 22px; border-radius:7px; font-size:13.5px; font-weight:600; cursor:pointer; font-family:var(--sans);}
+button.btn-primary:hover{background:var(--gd);}
+button.btn-reset{background:none; border:1.5px solid var(--line); color:var(--soft); padding:10px 16px; border-radius:7px; font-size:13px; cursor:pointer; font-family:var(--sans);}
+button.btn-reset:hover{border-color:var(--soft); color:var(--ink);}
+
+/* MODE SWITCHER */
+.mode-switch{display:flex; gap:0; background:#f0f4f2; border-radius:8px; padding:3px; margin-bottom:20px; max-width:420px;}
+.mode-switch button{flex:1; padding:8px 12px; border:none; background:none; font-size:12.5px; font-weight:500; cursor:pointer; border-radius:6px; font-family:var(--sans); color:var(--soft); transition:.12s;}
+.mode-switch button.active{background:#fff; color:var(--gd); font-weight:600; box-shadow:0 1px 4px rgba(0,0,0,.1);}
+
+/* DIVIDER */
+.divider{border:none; border-top:1px solid var(--line); margin:22px 0;}
+.section-title{font-size:12.5px; font-weight:700; color:var(--soft); text-transform:uppercase; letter-spacing:.4px; margin-bottom:14px;}
+
+/* NOTE */
+.note-box{background:var(--ambl); border:1px dashed #dab06a; border-radius:8px; padding:13px 16px; font-size:12px; color:#7a5010; line-height:1.6; margin-top:16px;}
+
+footer{text-align:center; font-family:var(--mono); font-size:11px; color:var(--soft); margin-top:32px;}
+</style>
+</head>
+<body>
+<div class="shell">
+
+<header>
+  <div class="brand">
+    <div class="logo">Fx</div>
+    <div>
+      <h1>FASCON — Kalkulator Farmasi</h1>
+      <p>Referensi: FAST_CALCULATION_APLICATION · Database 888 obat · Semua rumus diverifikasi dari sel Excel</p>
+    </div>
+  </div>
+  <div class="badge">PROTOTIPE — belum tervalidasi klinis</div>
+</header>
+
+<!-- NAV GROUP 1 -->
+<div class="nav-group">
+  <div class="nav-group-label">Racikan & Dosis</div>
+  <div class="nav-tabs" id="navA">
+    <button class="active" data-panel="jumlah">Hitung Jumlah Obat</button>
+    <button data-panel="konversi">Konversi Dosis & Tetes</button>
+    <button data-panel="albumin">Albumin</button>
+    <button data-panel="gfr">GFR</button>
+  </div>
+</div>
+<div class="nav-group">
+  <div class="nav-group-label">Cairan TPN</div>
+  <div class="nav-tabs" id="navB">
+    <button data-panel="tpndex">TPN Dextrose</button>
+    <button data-panel="tpnns">TPN Dextrose + NaCl</button>
+  </div>
+</div>
+<div class="nav-group">
+  <div class="nav-group-label">Obat Drip / Syringe Pump</div>
+  <div class="nav-tabs" id="navC">
+    <button data-panel="drip">Dopamine · Nicardipine · Dobutamine · Norepinephrine · ISDN · NTG · Vasopressin · Diltiazem</button>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════
+     PANEL 1 — HITUNG JUMLAH OBAT
+     Rumus Excel: =B3/B2*B4
+     ════════════════════════════════════════ -->
+<div class="panel show" data-panel="jumlah">
+  <h2>Hitung Jumlah Obat</h2>
+  <p class="desc">Nama obat → kekuatan sediaan otomatis dari database (VLOOKUP) · Rumus: Jumlah Diambil = Kekuatan Diminta ÷ Kekuatan Sediaan × Jumlah Permintaan</p>
+
+  <div class="field ac-wrap">
+    <label class="lbl">Nama Obat</label>
+    <input type="text" id="j-search" placeholder="ketik nama obat..." autocomplete="off">
+    <div class="ac-list" id="j-ac"></div>
+  </div>
+
+  <div class="grid">
+    <div class="field">
+      <label class="lbl">Kekuatan Sediaan Jadi (otomatis)</label>
+      <input type="text" id="j-sediaan" readonly placeholder="→ pilih obat dari daftar">
+      <span class="unit-tag" id="j-sat"></span>
+    </div>
+    <div class="field">
+      <label class="lbl">Kekuatan Yang Diminta</label>
+      <input type="number" id="j-diminta" placeholder="0" min="0">
+      <span class="unit-tag" id="j-sat2"></span>
+    </div>
+  </div>
+  <div class="field" style="max-width:260px;">
+    <label class="lbl">Jumlah Permintaan</label>
+    <input type="number" id="j-jumlah" placeholder="0" min="0">
+    <span class="unit-tag">pcs</span>
+  </div>
+
+  <div class="btn-row">
+    <button class="btn-primary" onclick="hitungJumlah()">Hitung</button>
+    <button class="btn-reset" onclick="resetPanel('jumlah')">↻ Reset</button>
+  </div>
+
+  <div class="result-box" id="j-result">
+    <div class="rlabel">Jumlah Obat Yang Diambil</div>
+    <div class="rval" id="j-rval">— <span class="runit">pcs</span></div>
+    <div class="rformula" id="j-rformula"></div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════
+     PANEL 2 — KONVERSI DOSIS & TETES
+     ════════════════════════════════════════ -->
+<div class="panel" data-panel="konversi">
+  <h2>Konversi Dosis & Tetes</h2>
+  <p class="desc">Dua arah seperti di Excel: (A) cari kekuatan dari volume yang diminta, (B) cari volume dari kekuatan yang diminta · Plus konversi mL ↔ tetes (1 mL = 20 gtt).</p>
+
+  <div class="mode-switch">
+    <button class="active" id="k-modeA" onclick="setKonversiMode('A')">A · Kekuatan ← Volume</button>
+    <button id="k-modeB" onclick="setKonversiMode('B')">B · Volume ← Kekuatan</button>
+  </div>
+
+  <!-- MODE A -->
+  <div id="k-blockA">
+    <div class="section-title">A · Input: Volume yang diminta → Output: Kekuatan yang diambil</div>
+    <div class="field ac-wrap">
+      <label class="lbl">Nama Obat (sirup/cairan)</label>
+      <input type="text" id="ka-search" placeholder="ketik nama obat sirup/drop..." autocomplete="off">
+      <div class="ac-list" id="ka-ac"></div>
+    </div>
+    <div class="grid">
+      <div class="field">
+        <label class="lbl">Kekuatan Sediaan Jadi (otomatis)</label>
+        <input type="text" id="ka-kekuatan" readonly placeholder="→ pilih obat">
+        <span class="unit-tag" id="ka-ksat"></span>
+      </div>
+      <div class="field">
+        <label class="lbl">Volume Sediaan Jadi (otomatis)</label>
+        <input type="text" id="ka-volsediaan" readonly placeholder="→ pilih obat">
+        <span class="unit-tag" id="ka-vsat"></span>
+      </div>
+    </div>
+    <div class="field" style="max-width:220px;">
+      <label class="lbl">Volume Yang Diminta</label>
+      <input type="number" id="ka-voldiminta" placeholder="0" min="0">
+      <span class="unit-tag" id="ka-vdsat">mL</span>
+    </div>
+    <div class="btn-row">
+      <button class="btn-primary" onclick="hitungKonversiA()">Hitung</button>
+      <button class="btn-reset" onclick="resetPanel('konversi')">↻ Reset</button>
+    </div>
+    <div class="result-box" id="ka-result">
+      <div class="rlabel">Kekuatan Yang Diambil</div>
+      <div class="rval" id="ka-rval">—</div>
+      <div class="rformula" id="ka-rformula">Rumus: Kekuatan Sediaan × Volume Diminta ÷ Volume Sediaan</div>
+    </div>
+  </div>
+
+  <!-- MODE B -->
+  <div id="k-blockB" style="display:none;">
+    <div class="section-title">B · Input: Kekuatan yang diminta → Output: Volume yang diambil</div>
+    <div class="field ac-wrap">
+      <label class="lbl">Nama Obat</label>
+      <input type="text" id="kb-search" placeholder="ketik nama obat..." autocomplete="off">
+      <div class="ac-list" id="kb-ac"></div>
+    </div>
+    <div class="grid">
+      <div class="field">
+        <label class="lbl">Kekuatan Sediaan Jadi (otomatis)</label>
+        <input type="text" id="kb-kekuatan" readonly placeholder="→ pilih obat">
+        <span class="unit-tag" id="kb-ksat"></span>
+      </div>
+      <div class="field">
+        <label class="lbl">Volume Sediaan Jadi (otomatis)</label>
+        <input type="text" id="kb-volsediaan" readonly placeholder="→ pilih obat">
+        <span class="unit-tag" id="kb-vsat"></span>
+      </div>
+    </div>
+    <div class="field" style="max-width:260px;">
+      <label class="lbl">Kekuatan Yang Diminta</label>
+      <input type="number" id="kb-kdiminta" placeholder="0" min="0">
+      <span class="unit-tag" id="kb-kdsat"></span>
+    </div>
+    <div class="btn-row">
+      <button class="btn-primary" onclick="hitungKonversiB()">Hitung</button>
+      <button class="btn-reset" onclick="resetPanel('konversi')">↻ Reset</button>
+    </div>
+    <div class="result-box" id="kb-result">
+      <div class="rlabel">Volume Yang Diambil</div>
+      <div class="rval" id="kb-rval">—</div>
+      <div class="rformula" id="kb-rformula">Rumus: Kekuatan Diminta × Volume Sediaan ÷ Kekuatan Sediaan</div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- mL ↔ TETES -->
+  <div class="section-title">Konversi mL ↔ Tetes (gtt) · Faktor: 1 mL = 20 gtt</div>
+  <div class="grid">
+    <div class="field">
+      <label class="lbl">mL → Tetes (gtt)</label>
+      <input type="number" id="g-ml" placeholder="0" min="0" oninput="updateGtt()">
+      <span class="unit-tag">mL</span>
+      <div style="font-family:var(--mono);font-size:14px;color:var(--gd);margin-top:8px;min-height:22px;" id="g-ml-out"></div>
+    </div>
+    <div class="field">
+      <label class="lbl">Tetes (gtt) → mL</label>
+      <input type="number" id="g-gtt" placeholder="0" min="0" oninput="updateMl()">
+      <span class="unit-tag">gtt</span>
+      <div style="font-family:var(--mono);font-size:14px;color:var(--gd);margin-top:8px;min-height:22px;" id="g-gtt-out"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════
+     PANEL 3 — ALBUMIN
+     Rumus: =(3.5-B1)*0.8*B2  →  =IF(B4=20,B3*5,IF(B4=25,B3*4,B3*20))
+     ════════════════════════════════════════ -->
+<div class="panel" data-panel="albumin">
+  <h2>Kebutuhan Albumin</h2>
+  <p class="desc">Target koreksi albumin normal 3.5 g/dL · Rumus: Kekuatan = (3.5 − Kadar Pasien) × 0.8 × BB · Volume = Kekuatan × faktor (20%→×5, 25%→×4)</p>
+
+  <div class="grid3">
+    <div class="field">
+      <label class="lbl">Kadar Albumin Pasien</label>
+      <input type="number" id="al-kadar" placeholder="2.5" step="0.1" min="0">
+      <span class="unit-tag">g/dL</span>
+    </div>
+    <div class="field">
+      <label class="lbl">Berat Badan Pasien</label>
+      <input type="number" id="al-bb" placeholder="50" min="0">
+      <span class="unit-tag">kg</span>
+    </div>
+    <div class="field">
+      <label class="lbl">Albumin Tersedia</label>
+      <select id="al-tersedia">
+        <option value="20">20%</option>
+        <option value="25">25%</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="btn-row">
+    <button class="btn-primary" onclick="hitungAlbumin()">Hitung</button>
+    <button class="btn-reset" onclick="resetPanel('albumin')">↻ Reset</button>
+  </div>
+
+  <div class="result-box" id="al-result">
+    <div class="result-pair">
+      <div class="result-item">
+        <div class="ri-label">Kekuatan Albumin Yang Diminta</div>
+        <div class="ri-val" id="al-gram">—<span class="ri-unit">gram</span></div>
+      </div>
+      <div class="result-item">
+        <div class="ri-label">Volume Albumin Yang Diminta</div>
+        <div class="ri-val" id="al-ml">—<span class="ri-unit">mL</span></div>
+      </div>
+    </div>
+    <div class="rformula" style="margin-top:14px;">
+      Kekuatan = (3.5 − Kadar) × 0.8 × BB &nbsp;·&nbsp; Volume = Kekuatan × 5 (jika 20%) atau × 4 (jika 25%)
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════
+     PANEL 4 — GFR (Cockcroft-Gault)
+     Rumus: =(140-B1)*B2*(IF(B3="L",1,0.85))/(72*B4)
+     ════════════════════════════════════════ -->
+<div class="panel" data-panel="gfr">
+  <h2>GFR (Cockcroft-Gault)</h2>
+  <p class="desc">Rumus: GFR = (140 − Usia) × BB × (1 jika Laki-laki, 0.85 jika Perempuan) ÷ (72 × Serum Kreatinin)</p>
+
+  <div class="grid">
+    <div class="field">
+      <label class="lbl">Usia Pasien</label>
+      <input type="number" id="gf-usia" placeholder="50" min="0">
+      <span class="unit-tag">tahun</span>
+    </div>
+    <div class="field">
+      <label class="lbl">Berat Badan</label>
+      <input type="number" id="gf-bb" placeholder="50" min="0">
+      <span class="unit-tag">kg</span>
+    </div>
+    <div class="field">
+      <label class="lbl">Jenis Kelamin</label>
+      <select id="gf-jk">
+        <option value="P">Perempuan (× 0.85)</option>
+        <option value="L">Laki-laki (× 1)</option>
+      </select>
+    </div>
+    <div class="field">
+      <label class="lbl">Serum Kreatinin</label>
+      <input type="number" id="gf-scr" placeholder="0.8" step="0.01" min="0.01">
+      <span class="unit-tag">mg/dL</span>
+    </div>
+  </div>
+
+  <div class="btn-row">
+    <button class="btn-primary" onclick="hitungGFR()">Hitung</button>
+    <button class="btn-reset" onclick="resetPanel('gfr')">↻ Reset</button>
+  </div>
+
+  <div class="result-box" id="gf-result">
+    <div class="rlabel">Nilai GFR</div>
+    <div class="rval" id="gf-val">— <span class="runit">mL/menit</span></div>
+    <div class="rformula" id="gf-formula"></div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════
+     PANEL 5 — TPN DEXTROSE
+     Rumus persis dari sel Excel (konstanta baku 4 opsi D):
+     D12.5: D5=27.5/35×V, D40=7.5/35×V
+     D15:   D5=25/35×V,   D40=10/35×V
+     D20:   D5=20/35×V,   D40=15/35×V
+     D25:   D5=15/35×V,   D40=20/35×V
+     ════════════════════════════════════════ -->
+<div class="panel" data-panel="tpndex">
+  <h2>TPN — Campuran Dextrose (D5% + D40%)</h2>
+  <p class="desc">Tabel 4 opsi kadar dextrose akhir sesuai Excel · Rumus per opsi menggunakan konstanta baku dari sel asli.</p>
+
+  <div class="field" style="max-width:240px;">
+    <label class="lbl">Volume Sediaan Total</label>
+    <input type="number" id="t-vol" placeholder="200" min="0">
+    <span class="unit-tag">mL</span>
+  </div>
+
+  <div class="btn-row">
+    <button class="btn-primary" onclick="hitungTPN()">Hitung Semua Opsi</button>
+    <button class="btn-reset" onclick="resetPanel('tpndex')">↻ Reset</button>
+  </div>
+
+  <div class="result-box" id="t-result">
+    <div class="rlabel">Hasil per target kadar dextrose (D)</div>
+    <table class="rtable">
+      <thead>
+        <tr><th>Target D (%)</th><th>Volume D5% (mL)</th><th>Volume D40% (mL)</th><th>Total (mL)</th></tr>
+      </thead>
+      <tbody id="t-tbody"></tbody>
+    </table>
+    <div class="rformula" style="margin-top:10px;">
+      D12.5: D5=27.5/35×V, D40=7.5/35×V &nbsp;·&nbsp; D15: D5=25/35×V, D40=10/35×V<br>
+      D20: D5=20/35×V, D40=15/35×V &nbsp;·&nbsp; D25: D5=15/35×V, D40=20/35×V
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════
+     PANEL 6 — TPN DEXTROSE + NaCl
+     =B3/B2*B4 → volume NaCl
+     =B4-B5 → sisa volume dextrose
+     lalu tabel D sama seperti TPN Dextrose dari sisa volume
+     ════════════════════════════════════════ -->
+<div class="panel" data-panel="tpnns">
+  <h2>TPN — Dextrose + NaCl</h2>
+  <p class="desc">Langkah 1: hitung volume NaCl yang diambil · Langkah 2: sisa volume dipecah ke D5+D40 untuk tiap opsi kadar dextrose</p>
+
+  <div class="grid3">
+    <div class="field">
+      <label class="lbl">Kadar NaCl Tersedia</label>
+      <input type="number" id="n-kt" placeholder="0.9" step="0.01" min="0">
+      <span class="unit-tag">%</span>
+    </div>
+    <div class="field">
+      <label class="lbl">Kadar NaCl Diinginkan</label>
+      <input type="number" id="n-kd" placeholder="0.18" step="0.01" min="0">
+      <span class="unit-tag">%</span>
+    </div>
+    <div class="field">
+      <label class="lbl">Volume Total Yang Dibuat</label>
+      <input type="number" id="n-vt" placeholder="100" min="0">
+      <span class="unit-tag">mL</span>
+    </div>
+  </div>
+
+  <div class="btn-row">
+    <button class="btn-primary" onclick="hitungTPNNS()">Hitung</button>
+    <button class="btn-reset" onclick="resetPanel('tpnns')">↻ Reset</button>
+  </div>
+
+  <div class="result-box" id="n-result">
+    <div class="result-pair" style="margin-bottom:16px;">
+      <div class="result-item">
+        <div class="ri-label">Volume NaCl Yang Diambil</div>
+        <div class="ri-val" id="n-nacl">—<span class="ri-unit">mL</span></div>
+      </div>
+      <div class="result-item">
+        <div class="ri-label">Sisa Volume Dextrose</div>
+        <div class="ri-val" id="n-sisa">—<span class="ri-unit">mL</span></div>
+      </div>
+    </div>
+    <div class="rlabel" style="margin-bottom:8px;">Distribusi D5/D40 dari sisa volume dextrose</div>
+    <table class="rtable">
+      <thead>
+        <tr><th>Target D (%)</th><th>Volume D5% (mL)</th><th>Volume D40% (mL)</th><th>Sisa (mL)</th></tr>
+      </thead>
+      <tbody id="n-tbody"></tbody>
+    </table>
+    <div class="rformula" style="margin-top:10px;">
+      NaCl diambil = (Kadar diinginkan ÷ Kadar tersedia) × Volume total &nbsp;·&nbsp; Sisa = Total − NaCl diambil
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════
+     PANEL 7 — OBAT DRIP
+     Semua rumus 1:1 dari sel Excel per obat
+     ════════════════════════════════════════ -->
+<div class="panel" data-panel="drip">
+  <h2>Obat Drip / Syringe Pump</h2>
+  <p class="desc">Pilih obat · Rumus diambil 1:1 dari masing-masing sheet Excel · Hasil dalam CC/jam.</p>
+
+  <div class="field" style="max-width:400px;">
+    <label class="lbl">Pilih Obat</label>
+    <select id="d-pilih" onchange="renderDrip()"></select>
+  </div>
+
+  <div id="d-form"></div>
+
+  <div class="btn-row" style="margin-top:6px;">
+    <button class="btn-primary" onclick="hitungDrip()">Hitung</button>
+    <button class="btn-reset" onclick="resetPanel('drip')">↻ Reset</button>
+  </div>
+
+  <div class="result-box" id="d-result">
+    <div class="rlabel">Rate Infus</div>
+    <div class="rval" id="d-rval">— <span class="runit">CC/jam</span></div>
+    <div class="rformula" id="d-rformula"></div>
+  </div>
+</div>
+
+<footer>obat.json · 888 nama obat (DATABASE SIM lengkap) · Semua rumus dari FAST_CALCULATION_APLICATION</footer>
+</div>
+
+<script>
+// ── DATABASE ──────────────────────────────────────
+let DB = [];
+fetch('obat.json').then(r=>r.json()).then(d=>{DB=d;}).catch(()=>{
+  document.querySelectorAll('.ac-list').forEach(el=>{
+    el.innerHTML='<div class="ac-empty">⚠ Gagal memuat obat.json — taruh file ini di folder yang sama, lalu buka lewat server lokal (bukan double-click).</div>';
+    el.style.display='block';
+  });
+});
+
+// ── TAB SWITCHING ─────────────────────────────────
+let ACTIVE_PANEL = 'jumlah';
+function activatePanel(id){
+  ACTIVE_PANEL = id;
+  document.querySelectorAll('.panel').forEach(p=>{
+    p.classList.toggle('show', p.dataset.panel === id);
+  });
+  document.querySelectorAll('.nav-tabs button').forEach(b=>{
+    b.classList.toggle('active', b.dataset.panel === id);
+  });
+}
+document.querySelectorAll('.nav-tabs button').forEach(b=>{
+  b.addEventListener('click', ()=>activatePanel(b.dataset.panel));
+});
+
+// ── AUTOCOMPLETE HELPER ───────────────────────────
+let PICKED = {};
+function setupAC(searchId, acId, key, onPick){
+  const inp = document.getElementById(searchId);
+  const ac  = document.getElementById(acId);
+  inp.addEventListener('input', ()=>{
+    const q = inp.value.trim().toLowerCase();
+    PICKED[key] = null;
+    if(q.length < 2){ ac.style.display='none'; return; }
+    const hits = DB.filter(o => o.nama && o.nama.toLowerCase().includes(q)).slice(0,12);
+    if(!hits.length){
+      ac.innerHTML = '<div class="ac-empty">Tidak ditemukan dalam database 888 obat.</div>';
+    } else {
+      ac.innerHTML = hits.map((_,i)=>`
+        <div class="ac-row" data-i="${DB.indexOf(hits[i])}">
+          <div class="ac-name">${hits[i].nama}</div>
+          <div class="ac-meta">${hits[i].kekuatan ?? '—'} ${hits[i].satuan ?? ''} ${hits[i].volume ? '· ' + hits[i].volume + (hits[i].satuan_vol ?? '') : ''}</div>
+        </div>`).join('');
+      ac.querySelectorAll('.ac-row').forEach(row=>{
+        row.addEventListener('click', ()=>{
+          const o = DB[row.dataset.i];
+          PICKED[key] = o;
+          inp.value = o.nama;
+          ac.style.display = 'none';
+          onPick(o);
+        });
+      });
+    }
+    ac.style.display = 'block';
+  });
+  document.addEventListener('click', e=>{
+    if(!e.target.closest(`#${searchId}`) && !e.target.closest(`#${acId}`)) ac.style.display='none';
+  });
+}
+
+// ── PANEL 1: HITUNG JUMLAH OBAT ──────────────────
+setupAC('j-search','j-ac','j', o=>{
+  document.getElementById('j-sediaan').value = o.kekuatan ?? '(tidak ada data)';
+  document.getElementById('j-sat').textContent  = o.satuan ?? '';
+  document.getElementById('j-sat2').textContent = o.satuan ?? '';
+});
+function hitungJumlah(){
+  const o = PICKED['j'];
+  const sediaan = o ? parseFloat(o.kekuatan) : NaN;
+  const diminta = parseFloat(document.getElementById('j-diminta').value);
+  const jumlah  = parseFloat(document.getElementById('j-jumlah').value);
+  const res = document.getElementById('j-result');
+  if(!o || isNaN(sediaan) || sediaan===0){ alert('Pilih obat dari daftar terlebih dahulu.'); return; }
+  if(isNaN(diminta) || isNaN(jumlah)){ alert('Isi kekuatan yang diminta dan jumlah permintaan.'); return; }
+  const hasil = diminta / sediaan * jumlah;
+  document.getElementById('j-rval').innerHTML = hasil.toFixed(3) + ' <span class="runit">pcs</span>';
+  document.getElementById('j-rformula').textContent =
+    `= Kekuatan Diminta ÷ Kekuatan Sediaan × Jumlah Permintaan\n= ${diminta} ÷ ${sediaan} × ${jumlah} = ${hasil.toFixed(3)} pcs`;
+  res.classList.add('show');
+}
+
+// ── PANEL 2: KONVERSI DOSIS ───────────────────────
+function setKonversiMode(m){
+  document.getElementById('k-blockA').style.display = m==='A' ? '' : 'none';
+  document.getElementById('k-blockB').style.display = m==='B' ? '' : 'none';
+  document.getElementById('k-modeA').classList.toggle('active', m==='A');
+  document.getElementById('k-modeB').classList.toggle('active', m==='B');
+}
+setupAC('ka-search','ka-ac','ka', o=>{
+  document.getElementById('ka-kekuatan').value  = o.kekuatan ?? '(kosong)';
+  document.getElementById('ka-volsediaan').value = o.volume ?? '(kosong)';
+  document.getElementById('ka-ksat').textContent = o.satuan ?? '';
+  document.getElementById('ka-vsat').textContent = o.satuan_vol ?? 'mL';
+  document.getElementById('ka-vdsat').textContent = o.satuan_vol ?? 'mL';
+});
+function hitungKonversiA(){
+  const o = PICKED['ka'];
+  const k = o ? parseFloat(o.kekuatan) : NaN;
+  const v = o ? parseFloat(o.volume) : NaN;
+  const vd= parseFloat(document.getElementById('ka-voldiminta').value);
+  const res = document.getElementById('ka-result');
+  if(!o){ alert('Pilih obat dulu.'); return; }
+  if(isNaN(k)||isNaN(v)||v===0){ alert('Obat ini tidak punya data kekuatan atau volume sediaan.'); return; }
+  if(isNaN(vd)){ alert('Isi volume yang diminta.'); return; }
+  const hasil = k * vd / v;
+  document.getElementById('ka-rval').innerHTML = hasil.toFixed(4) + ' <span class="runit">' + (o.satuan??'') + '</span>';
+  document.getElementById('ka-rformula').textContent =
+    `= Kekuatan Sediaan × Volume Diminta ÷ Volume Sediaan\n= ${k} × ${vd} ÷ ${v} = ${hasil.toFixed(4)} ${o.satuan??''}`;
+  res.classList.add('show');
+}
+setupAC('kb-search','kb-ac','kb', o=>{
+  document.getElementById('kb-kekuatan').value  = o.kekuatan ?? '(kosong)';
+  document.getElementById('kb-volsediaan').value = o.volume ?? '(kosong)';
+  document.getElementById('kb-ksat').textContent = o.satuan ?? '';
+  document.getElementById('kb-vsat').textContent = o.satuan_vol ?? 'mL';
+  document.getElementById('kb-kdsat').textContent = o.satuan ?? '';
+});
+function hitungKonversiB(){
+  const o = PICKED['kb'];
+  const k = o ? parseFloat(o.kekuatan) : NaN;
+  const v = o ? parseFloat(o.volume) : NaN;
+  const kd= parseFloat(document.getElementById('kb-kdiminta').value);
+  const res = document.getElementById('kb-result');
+  if(!o){ alert('Pilih obat dulu.'); return; }
+  if(isNaN(k)||k===0||isNaN(v)){ alert('Obat ini tidak punya data kekuatan atau volume sediaan.'); return; }
+  if(isNaN(kd)){ alert('Isi kekuatan yang diminta.'); return; }
+  const hasil = kd * v / k;
+  document.getElementById('kb-rval').innerHTML = hasil.toFixed(4) + ' <span class="runit">' + (o.satuan_vol??'mL') + '</span>';
+  document.getElementById('kb-rformula').textContent =
+    `= Kekuatan Diminta × Volume Sediaan ÷ Kekuatan Sediaan\n= ${kd} × ${v} ÷ ${k} = ${hasil.toFixed(4)} ${o.satuan_vol??'mL'}`;
+  res.classList.add('show');
+}
+function updateGtt(){ const v=parseFloat(document.getElementById('g-ml').value); document.getElementById('g-ml-out').textContent = isNaN(v)?'':v*20+' gtt';}
+function updateMl(){  const v=parseFloat(document.getElementById('g-gtt').value); document.getElementById('g-gtt-out').textContent = isNaN(v)?'':(v/20).toFixed(2)+' mL';}
+
+// ── PANEL 3: ALBUMIN ──────────────────────────────
+function hitungAlbumin(){
+  const kadar   = parseFloat(document.getElementById('al-kadar').value);
+  const bb      = parseFloat(document.getElementById('al-bb').value);
+  const tersedia= parseFloat(document.getElementById('al-tersedia').value);
+  const res = document.getElementById('al-result');
+  if(isNaN(kadar)||isNaN(bb)){ alert('Isi kadar albumin dan berat badan.'); return; }
+  const gram = (3.5 - kadar) * 0.8 * bb;
+  const ml   = tersedia===20 ? gram*5 : gram*4;
+  document.getElementById('al-gram').innerHTML = gram.toFixed(2) + '<span class="ri-unit">gram</span>';
+  document.getElementById('al-ml').innerHTML   = ml.toFixed(2) + '<span class="ri-unit">mL</span>';
+  res.classList.add('show');
+}
+
+// ── PANEL 4: GFR ─────────────────────────────────
+function hitungGFR(){
+  const usia = parseFloat(document.getElementById('gf-usia').value);
+  const bb   = parseFloat(document.getElementById('gf-bb').value);
+  const jk   = document.getElementById('gf-jk').value;
+  const scr  = parseFloat(document.getElementById('gf-scr').value);
+  const res = document.getElementById('gf-result');
+  if(isNaN(usia)||isNaN(bb)||isNaN(scr)||scr===0){ alert('Lengkapi semua field GFR.'); return; }
+  const faktor = jk==='L' ? 1 : 0.85;
+  const gfr = (140-usia)*bb*faktor/(72*scr);
+  document.getElementById('gf-val').innerHTML = gfr.toFixed(2) + ' <span class="runit">mL/menit</span>';
+  document.getElementById('gf-formula').textContent =
+    `= (140 − ${usia}) × ${bb} × ${faktor} ÷ (72 × ${scr})\n= ${(140-usia)} × ${bb} × ${faktor} ÷ ${(72*scr).toFixed(4)} = ${gfr.toFixed(2)} mL/menit`;
+  res.classList.add('show');
+}
+
+// ── PANEL 5: TPN DEXTROSE ─────────────────────────
+// Rumus konstan dari Excel (bukan formula (D-5)/35 umum):
+const TPN_ROWS = [
+  {d:12.5, d5k:27.5, d40k:7.5},
+  {d:15,   d5k:25,   d40k:10},
+  {d:20,   d5k:20,   d40k:15},
+  {d:25,   d5k:15,   d40k:20},
+];
+function hitungTPN(){
+  const v = parseFloat(document.getElementById('t-vol').value);
+  const res = document.getElementById('t-result');
+  if(isNaN(v)||v<=0){ alert('Isi volume sediaan.'); return; }
+  document.getElementById('t-tbody').innerHTML = TPN_ROWS.map(r=>{
+    const d5  = r.d5k/35*v;
+    const d40 = r.d40k/35*v;
+    return `<tr><td><strong>D${r.d}%</strong></td><td>${d5.toFixed(2)}</td><td>${d40.toFixed(2)}</td><td>${(d5+d40).toFixed(2)}</td></tr>`;
+  }).join('');
+  res.classList.add('show');
+}
+
+// ── PANEL 6: TPN + NS ────────────────────────────
+function hitungTPNNS(){
+  const kt = parseFloat(document.getElementById('n-kt').value);
+  const kd = parseFloat(document.getElementById('n-kd').value);
+  const vt = parseFloat(document.getElementById('n-vt').value);
+  const res = document.getElementById('n-result');
+  if(isNaN(kt)||kt===0||isNaN(kd)||isNaN(vt)){ alert('Lengkapi semua field.'); return; }
+  const nacl = kd/kt*vt;
+  const sisa = vt - nacl;
+  document.getElementById('n-nacl').innerHTML = nacl.toFixed(2)+'<span class="ri-unit">mL</span>';
+  document.getElementById('n-sisa').innerHTML = sisa.toFixed(2)+'<span class="ri-unit">mL</span>';
+  document.getElementById('n-tbody').innerHTML = TPN_ROWS.map(r=>{
+    const d5  = r.d5k/35*sisa;
+    const d40 = r.d40k/35*sisa;
+    return `<tr><td><strong>D${r.d}%</strong></td><td>${d5.toFixed(2)}</td><td>${d40.toFixed(2)}</td><td>${sisa.toFixed(2)}</td></tr>`;
+  }).join('');
+  res.classList.add('show');
+}
+
+// ── PANEL 7: DRIP ────────────────────────────────
+// Semua rumus dari sel Excel per sheet
+const DRIP_CFG = {
+  dopamine:      {label:'Dopamine (Syringe Pump)',               needsBB:true,  doseUnit:'mcg/KgBB/menit', calc:(d,bb,a)=>d*bb*60/(a*4000),   fx:'Dosis × BB × 60 ÷ (JumlahAmp × 4000)'},
+  nicardipine:   {label:'Nicardipine (Syringe)',                 needsBB:true,  doseUnit:'mcg/KgBB/menit', calc:(d,bb,a)=>d*bb*60/(a*200),    fx:'Dosis × BB × 60 ÷ (JumlahAmp × 200)'},
+  dobutamine:    {label:'Dobutamine (Syringe Pump)',             needsBB:true,  doseUnit:'mcg/KgBB/menit', calc:(d,bb,a)=>d*bb*60/(a*5000),   fx:'Dosis × BB × 60 ÷ (JumlahAmp × 5000)'},
+  norepinephrine:{label:'Norepinephrine (Syringe Pump)',         needsBB:true,  doseUnit:'ng/KgBB/menit',  calc:(d,bb,a)=>d*bb*60/(a*80000),  fx:'Dosis × BB × 60 ÷ (JumlahAmp × 80000)'},
+  isdn:          {label:'ISDN — Isosorbid Dinitrat (Syringe)',   needsBB:false, doseUnit:'mg/jam',          calc:(d,_,a)=>d/(a*10)*50,         fx:'Dosis ÷ (JumlahAmp × 10) × 50'},
+  ntg:           {label:'NTG — Nitrogliserin (Syringe)',         needsBB:false, doseUnit:'mcg/menit',       calc:(d,_,a)=>d*60/(a*10000)*50,   fx:'Dosis × 60 ÷ (JumlahAmp × 10000) × 50'},
+  vasopressin:   {label:'Vasopressin / Farpressin (Syringe)',    needsBB:false, doseUnit:'unit/menit',      calc:(d,_,a)=>d*60/(a*20)*50,      fx:'Dosis × 60 ÷ (JumlahAmp × 20) × 50'},
+  diltiazem:     {label:'Diltiazem / Herbesser (Syringe)',       needsBB:false, doseUnit:'mg/jam',          calc:(d,_,a)=>d/(a*25)*50,         fx:'Dosis ÷ (JumlahAmp × 25) × 50'},
+};
+const dPilih = document.getElementById('d-pilih');
+dPilih.innerHTML = Object.entries(DRIP_CFG).map(([k,v])=>`<option value="${k}">${v.label}</option>`).join('');
+
+function renderDrip(){
+  const k = dPilih.value;
+  const c = DRIP_CFG[k];
+  document.getElementById('d-result').classList.remove('show');
+  document.getElementById('d-form').innerHTML = `
+    <div class="grid3" style="margin-top:16px;">
+      <div class="field">
+        <label class="lbl">Dosis Permintaan</label>
+        <input type="number" id="d-dosis" placeholder="0" min="0">
+        <span class="unit-tag">${c.doseUnit}</span>
+      </div>
+      ${c.needsBB ? `<div class="field">
+        <label class="lbl">Berat Badan</label>
+        <input type="number" id="d-bb" placeholder="0" min="0">
+        <span class="unit-tag">Kg</span>
+      </div>` : ''}
+      <div class="field">
+        <label class="lbl">Jumlah Ampul</label>
+        <input type="number" id="d-amp" placeholder="1" min="1">
+        <span class="unit-tag">Pcs</span>
+      </div>
+    </div>`;
+}
+renderDrip();
+
+function hitungDrip(){
+  const k = dPilih.value;
+  const c = DRIP_CFG[k];
+  const d = parseFloat(document.getElementById('d-dosis').value);
+  const a = parseFloat(document.getElementById('d-amp').value);
+  const bb= c.needsBB ? parseFloat(document.getElementById('d-bb').value) : 0;
+  const res = document.getElementById('d-result');
+  if(isNaN(d)||isNaN(a)||a===0||(c.needsBB&&isNaN(bb))){ alert('Lengkapi semua field drip.'); return; }
+  const rate = c.calc(d, bb, a);
+  document.getElementById('d-rval').innerHTML = rate.toFixed(4) + ' <span class="runit">CC/jam</span>';
+  document.getElementById('d-rformula').textContent =
+    `${c.label}\n${c.fx}\n= ${rate.toFixed(4)} CC/jam`;
+  res.classList.add('show');
+}
+
+// ── RESET PANEL ───────────────────────────────────
+function resetPanel(id){
+  const p = document.querySelector(`.panel[data-panel="${id}"]`);
+  p.querySelectorAll('input[type=number],input[type=text]').forEach(i=>{
+    if(!i.readOnly) i.value='';
+  });
+  p.querySelectorAll('input[readonly]').forEach(i=>i.value='');
+  p.querySelectorAll('.unit-tag[id]').forEach(s=>{ if(s.id.includes('sat')) s.textContent=''; });
+  p.querySelectorAll('.result-box').forEach(r=>r.classList.remove('show'));
+  p.querySelectorAll('.ac-list').forEach(a=>a.style.display='none');
+  ['j','ka','kb'].forEach(k=>{ if(k.startsWith(id[0])) PICKED[k]=null; });
+  if(id==='drip') renderDrip();
+  if(id==='konversi'){
+    document.getElementById('g-ml-out').textContent='';
+    document.getElementById('g-gtt-out').textContent='';
+    PICKED['ka']=null; PICKED['kb']=null;
+  }
+  if(id==='jumlah') PICKED['j']=null;
+}
+</script>
+</body>
+</html>
