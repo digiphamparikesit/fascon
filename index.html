@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>FASCON — Kalkulator Farmasi RS</title>
 <style>
+/* ========== GAYA (sama seperti sebelumnya, tidak diubah) ========== */
 @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
 :root{
   --bg:#f0f4f2; --panel:#fff; --ink:#15221e; --soft:#566460; --line:#dae1dd;
@@ -15,9 +16,7 @@
 *{box-sizing:border-box; margin:0; padding:0;}
 body{background:var(--bg); color:var(--ink); font-family:var(--sans); -webkit-font-smoothing:antialiased;}
 
-/* LAYOUT */
 .shell{max-width:1280px; margin:0 auto; padding:0;}
-header{border-bottom:2.5px solid var(--ink); padding-bottom:14px; margin-bottom:20px;}
 .brand{display:flex; align-items:center; gap:11px;}
 .logo{height:40px; padding:0 12px; min-width:40px; background:var(--g); border-radius:8px; display:flex; align-items:center; justify-content:center; color:#fff; font-family:var(--mono); font-weight:700; font-size:11px; flex-shrink:0; letter-spacing:.5px; white-space:nowrap;}
 .brand h1{font-size:17px; letter-spacing:.1px;}
@@ -32,14 +31,13 @@ header{border-bottom:2.5px solid var(--ink); padding-bottom:14px; margin-bottom:
 .counter-badge .c-dot{width:7px; height:7px; border-radius:50%; background:#22c55e; animation:pulse 2s infinite;}
 @keyframes pulse{0%,100%{opacity:1;}50%{opacity:.4;}}
 .counter-badge .c-num{font-size:14px; font-weight:700; color:var(--gd); font-family:var(--mono);}
+.counter-source{font-size:9px; color:var(--soft); margin-left:4px;}
 
-/* PANELS */
 .panel{background:var(--panel); border:1px solid var(--line); border-radius:var(--radius); padding:24px; margin-top:18px; display:none;}
 .panel.show{display:block;}
 .panel h2{font-size:15px; margin-bottom:3px; display:flex; align-items:center; gap:8px;}
 .panel .desc{font-size:12.5px; color:var(--soft); margin-bottom:20px; line-height:1.5;}
 
-/* FORM */
 .grid{display:grid; grid-template-columns:1fr 1fr; gap:18px;}
 .grid3{display:grid; grid-template-columns:1fr 1fr 1fr; gap:18px;}
 @media(max-width:680px){.grid,.grid3{grid-template-columns:1fr;}}
@@ -54,7 +52,6 @@ input:focus, select:focus{outline:none; border-color:var(--g);}
 input[readonly]{background:#f2f5f3; color:var(--soft);}
 .unit-tag{position:absolute; right:10px; top:32px; font-family:var(--mono); font-size:11px; color:var(--soft); pointer-events:none;}
 
-/* AUTOCOMPLETE */
 .ac-wrap{position:relative;}
 .ac-list{position:absolute; top:calc(100% + 3px); left:0; right:0; z-index:50; background:#fff; border:1.5px solid var(--g); border-radius:8px; max-height:240px; overflow-y:auto; box-shadow:0 8px 28px rgba(13,107,89,.14); display:none;}
 .ac-row{padding:9px 12px; cursor:pointer; border-bottom:1px solid #f0f5f3; font-size:13px;}
@@ -64,7 +61,6 @@ input[readonly]{background:#f2f5f3; color:var(--soft);}
 .ac-row .ac-meta{font-family:var(--mono); font-size:11px; color:var(--soft); margin-top:2px;}
 .ac-empty{padding:10px 12px; font-size:12.5px; color:var(--soft);}
 
-/* RESULT BOX */
 .result-box{margin-top:18px; padding:18px 20px; background:var(--gl); border:1px solid var(--gc); border-radius:9px; display:none;}
 .result-box.show{display:block;}
 .result-box .rlabel{font-size:11px; text-transform:uppercase; letter-spacing:.4px; color:var(--gd); font-weight:700; margin-bottom:4px;}
@@ -76,34 +72,26 @@ input[readonly]{background:#f2f5f3; color:var(--soft);}
 .result-item .ri-val{font-family:var(--mono); font-size:22px; font-weight:600; color:var(--gd);}
 .result-item .ri-unit{font-size:12px; font-weight:400; color:var(--soft); margin-left:4px;}
 
-/* TABLE RESULT */
 .rtable{width:100%; border-collapse:collapse; font-family:var(--mono); font-size:13px; margin-top:12px;}
 .rtable th{text-align:left; color:var(--soft); font-size:11px; font-weight:600; text-transform:uppercase; padding:6px 8px; border-bottom:1.5px solid var(--gc);}
 .rtable td{padding:8px 8px; border-bottom:1px solid #eaf1ee;}
 .rtable tr:hover td{background:rgba(13,107,89,.04);}
 
-/* BUTTONS */
 .btn-row{display:flex; gap:8px; margin-top:6px; flex-wrap:wrap;}
 button.btn-primary{background:var(--g); color:#fff; border:none; padding:10px 22px; border-radius:7px; font-size:13.5px; font-weight:600; cursor:pointer; font-family:var(--sans);}
 button.btn-primary:hover{background:var(--gd);}
 button.btn-reset{background:none; border:1.5px solid var(--line); color:var(--soft); padding:10px 16px; border-radius:7px; font-size:13px; cursor:pointer; font-family:var(--sans);}
 button.btn-reset:hover{border-color:var(--soft); color:var(--ink);}
 
-/* MODE SWITCHER */
 .mode-switch{display:flex; gap:0; background:#f0f4f2; border-radius:8px; padding:3px; margin-bottom:20px; max-width:420px;}
 .mode-switch button{flex:1; padding:8px 12px; border:none; background:none; font-size:12.5px; font-weight:500; cursor:pointer; border-radius:6px; font-family:var(--sans); color:var(--soft); transition:.12s;}
 .mode-switch button.active{background:#fff; color:var(--gd); font-weight:600; box-shadow:0 1px 4px rgba(0,0,0,.1);}
 
-/* DIVIDER */
 .divider{border:none; border-top:1px solid var(--line); margin:22px 0;}
 .section-title{font-size:12.5px; font-weight:700; color:var(--soft); text-transform:uppercase; letter-spacing:.4px; margin-bottom:14px;}
-
-/* NOTE */
 .note-box{background:var(--ambl); border:1px dashed #dab06a; border-radius:8px; padding:13px 16px; font-size:12px; color:#7a5010; line-height:1.6; margin-top:16px;}
-
 footer{text-align:center; font-family:var(--mono); font-size:11px; color:var(--soft); margin-top:32px;}
 
-/* RIWAYAT */
 .riwayat-wrap{margin-top:28px;}
 .riwayat-header{
   display:flex; align-items:center; justify-content:space-between;
@@ -148,14 +136,11 @@ footer{text-align:center; font-family:var(--mono); font-size:11px; color:var(--s
   width:22px; height:22px; border-radius:50%; display:flex;
   align-items:center; justify-content:center; flex-shrink:0; margin-top:1px;
 }
-.ri-body{}
 .ri-modul{font-size:10.5px; text-transform:uppercase; letter-spacing:.4px; color:var(--soft); font-weight:700; margin-bottom:2px;}
 .ri-detail{font-size:13px; color:var(--ink); line-height:1.4;}
 .ri-result{font-family:var(--mono); font-size:15px; font-weight:700; color:var(--gd); white-space:nowrap; text-align:right;}
 .ri-time{font-family:var(--mono); font-size:10px; color:var(--soft); margin-top:3px; text-align:right;}
 
-
-/* SIDEBAR LAYOUT */
 .app-body{
   display:grid;
   grid-template-columns:240px 1fr;
@@ -166,7 +151,6 @@ footer{text-align:center; font-family:var(--mono); font-size:11px; color:var(--s
   .sidebar{display:none;}
 }
 
-/* SIDEBAR */
 .sidebar{
   background:#fff;
   border-right:1px solid var(--line);
@@ -204,18 +188,14 @@ footer{text-align:center; font-family:var(--mono); font-size:11px; color:var(--s
 }
 .sb-item.active .sb-icon{background:var(--g); filter:brightness(10);}
 
-/* MAIN CONTENT */
 .main-content{
   padding:28px 32px 60px;
   background:var(--bg);
   min-width:0;
 }
 @media(max-width:900px){.main-content{padding:20px 16px 40px;}}
-
-/* PANEL — override margin */
 .panel{margin-top:0; margin-bottom:0;}
 
-/* HEADER slim */
 .top-header{
   background:#fff;
   border-bottom:2px solid var(--ink);
@@ -226,13 +206,13 @@ footer{text-align:center; font-family:var(--mono); font-size:11px; color:var(--s
   gap:16px; flex-wrap:wrap;
   position:sticky; top:0; z-index:100;
 }
-
 </style>
 </head>
 <body>
 
 <div class="shell">
 
+<!-- HEADER -->
 <div class="top-header">
   <div class="brand">
     <div class="logo">DIGIPHARM</div>
@@ -246,85 +226,55 @@ footer{text-align:center; font-family:var(--mono); font-size:11px; color:var(--s
       <span class="c-dot"></span>
       <span>Pengguna</span>
       <span class="c-num" id="visit-count">…</span>
+      <span class="counter-source" id="counter-source">(lokal)</span>
     </div>
     <div class="badge">Update Fascon V.3</div>
   </div>
 </div>
 
+<!-- APP BODY -->
 <div class="app-body">
 
   <!-- SIDEBAR -->
   <nav class="sidebar">
     <div class="sb-group">
       <div class="sb-group-label">Racikan &amp; Dosis</div>
-      <div class="sb-item active" data-panel="jumlah" onclick="navTo('jumlah')">
-        <span class="sb-icon">💊</span> Hitung Jumlah Obat
-      </div>
-      <div class="sb-item" data-panel="konversi" onclick="navTo('konversi')">
-        <span class="sb-icon">🔄</span> Konversi Dosis &amp; Tetes
-      </div>
-      <div class="sb-item" data-panel="albumin" onclick="navTo('albumin')">
-        <span class="sb-icon">🧪</span> Albumin
-      </div>
-      <div class="sb-item" data-panel="gfr" onclick="navTo('gfr')">
-        <span class="sb-icon">🫘</span> GFR
-      </div>
+      <div class="sb-item active" data-panel="jumlah" onclick="navTo('jumlah')"><span class="sb-icon">💊</span> Hitung Jumlah Obat</div>
+      <div class="sb-item" data-panel="konversi" onclick="navTo('konversi')"><span class="sb-icon">🔄</span> Konversi Dosis &amp; Tetes</div>
+      <div class="sb-item" data-panel="albumin" onclick="navTo('albumin')"><span class="sb-icon">🧪</span> Albumin</div>
+      <div class="sb-item" data-panel="gfr" onclick="navTo('gfr')"><span class="sb-icon">🫘</span> GFR</div>
     </div>
     <div class="sb-group">
       <div class="sb-group-label">Cairan TPN</div>
-      <div class="sb-item" data-panel="tpndex" onclick="navTo('tpndex')">
-        <span class="sb-icon">💧</span> TPN Dextrose
-      </div>
-      <div class="sb-item" data-panel="tpnns" onclick="navTo('tpnns')">
-        <span class="sb-icon">🧴</span> TPN Dextrose + NaCl
-      </div>
+      <div class="sb-item" data-panel="tpndex" onclick="navTo('tpndex')"><span class="sb-icon">💧</span> TPN Dextrose</div>
+      <div class="sb-item" data-panel="tpnns" onclick="navTo('tpnns')"><span class="sb-icon">🧴</span> TPN Dextrose + NaCl</div>
     </div>
     <div class="sb-group">
       <div class="sb-group-label">Obat Drip / Syringe Pump</div>
-      <div class="sb-item" data-panel="heparin" onclick="navTo('heparin')">
-        <span class="sb-icon">🩸</span> Heparin
-      </div>
-      <div class="sb-item" data-panel="amiodaron" onclick="navTo('amiodaron')">
-        <span class="sb-icon">❤️</span> Amiodaron
-      </div>
-      <div class="sb-item" data-panel="lidocain" onclick="navTo('lidocain')">
-        <span class="sb-icon">⚡</span> Lidocain
-      </div>
-      <div class="sb-item" data-panel="fentanil" onclick="navTo('fentanil')">
-        <span class="sb-icon">💊</span> Fentanil
-      </div>
-      <div class="sb-item" data-panel="dexmed" onclick="navTo('dexmed')">
-        <span class="sb-icon">🧬</span> Dexmedetomidin
-      </div>
-      <div class="sb-item" data-panel="pantoprazole" onclick="navTo('pantoprazole')">
-        <span class="sb-icon">🟣</span> Pantoprazole
-      </div>
-      <div class="sb-item" data-panel="omeprazole" onclick="navTo('omeprazole')">
-        <span class="sb-icon">🔵</span> Omeprazole
-      </div>
-      <div class="sb-item" data-panel="nac" onclick="navTo('nac')">
-        <span class="sb-icon">🧬</span> N-Asetilsistein
-      </div>
-      <div class="sb-item" data-panel="drip" onclick="navTo('drip')">
-        <span class="sb-icon">💉</span> Dopamine · Nicardipine<br>
-        <span style="margin-left:38px;font-size:11px;color:var(--soft);">Dobutamine · NE · ISDN<br>NTG · Vasopressin · Diltiazem</span>
-      </div>
+      <div class="sb-item" data-panel="heparin" onclick="navTo('heparin')"><span class="sb-icon">🩸</span> Heparin</div>
+      <div class="sb-item" data-panel="amiodaron" onclick="navTo('amiodaron')"><span class="sb-icon">❤️</span> Amiodaron</div>
+      <div class="sb-item" data-panel="lidocain" onclick="navTo('lidocain')"><span class="sb-icon">⚡</span> Lidocain</div>
+      <div class="sb-item" data-panel="fentanil" onclick="navTo('fentanil')"><span class="sb-icon">💊</span> Fentanil</div>
+      <div class="sb-item" data-panel="dexmed" onclick="navTo('dexmed')"><span class="sb-icon">🧬</span> Dexmedetomidin</div>
+      <div class="sb-item" data-panel="pantoprazole" onclick="navTo('pantoprazole')"><span class="sb-icon">🟣</span> Pantoprazole</div>
+      <div class="sb-item" data-panel="omeprazole" onclick="navTo('omeprazole')"><span class="sb-icon">🔵</span> Omeprazole</div>
+      <div class="sb-item" data-panel="nac" onclick="navTo('nac')"><span class="sb-icon">🧬</span> N-Asetilsistein</div>
+      <div class="sb-item" data-panel="drip" onclick="navTo('drip')"><span class="sb-icon">💉</span> Dopamine · Nicardipine<br><span style="margin-left:38px;font-size:11px;color:var(--soft);">Dobutamine · NE · ISDN<br>NTG · Vasopressin · Diltiazem</span></div>
     </div>
   </nav>
 
   <!-- MAIN CONTENT -->
   <div class="main-content">
-    <!-- PANEL 1 — HITUNG JUMLAH OBAT -->
+
+    <!-- ========== PANEL 1: JUMLAH ========== -->
     <div class="panel show" data-panel="jumlah">
       <h2>Hitung Jumlah Obat</h2>
       <p class="desc">Nama obat → kekuatan sediaan otomatis dari database · Rumus: Jumlah Diambil = Kekuatan Diminta ÷ Kekuatan Sediaan × Jumlah Permintaan</p>
-
       <div class="field ac-wrap">
         <label class="lbl">Nama Obat</label>
         <input type="text" id="j-search" placeholder="ketik nama obat..." autocomplete="off">
         <div class="ac-list" id="j-ac"></div>
       </div>
-
       <div class="grid">
         <div class="field">
           <label class="lbl">Kekuatan Sediaan Jadi (otomatis)</label>
@@ -342,12 +292,10 @@ footer{text-align:center; font-family:var(--mono); font-size:11px; color:var(--s
         <input type="number" id="j-jumlah" placeholder="0" min="0">
         <span class="unit-tag">pcs</span>
       </div>
-
       <div class="btn-row">
         <button class="btn-primary" onclick="hitungJumlah()">Hitung</button>
         <button class="btn-reset" onclick="resetPanel('jumlah')">↻ Reset</button>
       </div>
-
       <div class="result-box" id="j-result">
         <div class="rlabel">Jumlah Obat Yang Diambil</div>
         <div class="rval" id="j-rval">— <span class="runit">pcs</span></div>
@@ -355,17 +303,14 @@ footer{text-align:center; font-family:var(--mono); font-size:11px; color:var(--s
       </div>
     </div>
 
-    <!-- PANEL 2 — KONVERSI DOSIS & TETES -->
+    <!-- ========== PANEL 2: KONVERSI ========== -->
     <div class="panel" data-panel="konversi">
       <h2>Konversi Dosis & Tetes</h2>
       <p class="desc">Dua arah seperti di Excel: (A) cari kekuatan dari volume yang diminta, (B) cari volume dari kekuatan yang diminta · Plus konversi mL ↔ tetes (1 mL = 20 gtt).</p>
-
       <div class="mode-switch">
         <button class="active" id="k-modeA" onclick="setKonversiMode('A')">A · Kekuatan ← Volume</button>
         <button id="k-modeB" onclick="setKonversiMode('B')">B · Volume ← Kekuatan</button>
       </div>
-
-      <!-- MODE A -->
       <div id="k-blockA">
         <div class="section-title">A · Input: Volume yang diminta → Output: Kekuatan yang diambil</div>
         <div class="field ac-wrap">
@@ -400,8 +345,6 @@ footer{text-align:center; font-family:var(--mono); font-size:11px; color:var(--s
           <div class="rformula" id="ka-rformula">Rumus: Kekuatan Sediaan × Volume Diminta ÷ Volume Sediaan</div>
         </div>
       </div>
-
-      <!-- MODE B -->
       <div id="k-blockB" style="display:none;">
         <div class="section-title">B · Input: Kekuatan yang diminta → Output: Volume yang diambil</div>
         <div class="field ac-wrap">
@@ -436,10 +379,7 @@ footer{text-align:center; font-family:var(--mono); font-size:11px; color:var(--s
           <div class="rformula" id="kb-rformula">Rumus: Kekuatan Diminta × Volume Sediaan ÷ Kekuatan Sediaan</div>
         </div>
       </div>
-
       <hr class="divider">
-
-      <!-- mL ↔ TETES -->
       <div class="section-title">Konversi mL ↔ Tetes (gtt) · Faktor: 1 mL = 20 gtt</div>
       <div class="grid">
         <div class="field">
@@ -457,11 +397,10 @@ footer{text-align:center; font-family:var(--mono); font-size:11px; color:var(--s
       </div>
     </div>
 
-    <!-- PANEL 3 — ALBUMIN -->
+    <!-- ========== PANEL 3: ALBUMIN ========== -->
     <div class="panel" data-panel="albumin">
       <h2>Kebutuhan Albumin</h2>
       <p class="desc">Target koreksi albumin normal 3.5 g/dL · Rumus: Kekuatan = (3.5 − Kadar Pasien) × 0.8 × BB · Volume = Kekuatan × faktor (20%→×5, 25%→×4)</p>
-
       <div class="grid3">
         <div class="field">
           <label class="lbl">Kadar Albumin Pasien</label>
@@ -481,12 +420,10 @@ footer{text-align:center; font-family:var(--mono); font-size:11px; color:var(--s
           </select>
         </div>
       </div>
-
       <div class="btn-row">
         <button class="btn-primary" onclick="hitungAlbumin()">Hitung</button>
         <button class="btn-reset" onclick="resetPanel('albumin')">↻ Reset</button>
       </div>
-
       <div class="result-box" id="al-result">
         <div class="result-pair">
           <div class="result-item">
@@ -498,17 +435,14 @@ footer{text-align:center; font-family:var(--mono); font-size:11px; color:var(--s
             <div class="ri-val" id="al-ml">—<span class="ri-unit">mL</span></div>
           </div>
         </div>
-        <div class="rformula" style="margin-top:14px;">
-          Kekuatan = (3.5 − Kadar) × 0.8 × BB &nbsp;·&nbsp; Volume = Kekuatan × 5 (jika 20%) atau × 4 (jika 25%)
-        </div>
+        <div class="rformula" style="margin-top:14px;">Kekuatan = (3.5 − Kadar) × 0.8 × BB &nbsp;·&nbsp; Volume = Kekuatan × 5 (jika 20%) atau × 4 (jika 25%)</div>
       </div>
     </div>
 
-    <!-- PANEL 4 — GFR -->
+    <!-- ========== PANEL 4: GFR ========== -->
     <div class="panel" data-panel="gfr">
       <h2>GFR (Cockcroft-Gault)</h2>
       <p class="desc">Rumus: GFR = (140 − Usia) × BB × (1 jika Laki-laki, 0.85 jika Perempuan) ÷ (72 × Serum Kreatinin)</p>
-
       <div class="grid">
         <div class="field">
           <label class="lbl">Usia Pasien</label>
@@ -533,12 +467,10 @@ footer{text-align:center; font-family:var(--mono); font-size:11px; color:var(--s
           <span class="unit-tag">mg/dL</span>
         </div>
       </div>
-
       <div class="btn-row">
         <button class="btn-primary" onclick="hitungGFR()">Hitung</button>
         <button class="btn-reset" onclick="resetPanel('gfr')">↻ Reset</button>
       </div>
-
       <div class="result-box" id="gf-result">
         <div class="rlabel">Nilai GFR</div>
         <div class="rval" id="gf-val">— <span class="runit">mL/menit</span></div>
@@ -546,42 +478,33 @@ footer{text-align:center; font-family:var(--mono); font-size:11px; color:var(--s
       </div>
     </div>
 
-    <!-- PANEL 5 — TPN DEXTROSE -->
+    <!-- ========== PANEL 5: TPN DEXTROSE ========== -->
     <div class="panel" data-panel="tpndex">
       <h2>TPN — Campuran Dextrose (D5% + D40%)</h2>
       <p class="desc">Tabel 4 opsi kadar dextrose akhir sesuai Excel · Rumus per opsi menggunakan konstanta baku dari sel asli.</p>
-
       <div class="field" style="max-width:240px;">
         <label class="lbl">Volume Sediaan Total</label>
         <input type="number" id="t-vol" placeholder="200" min="0">
         <span class="unit-tag">mL</span>
       </div>
-
       <div class="btn-row">
         <button class="btn-primary" onclick="hitungTPN()">Hitung Semua Opsi</button>
         <button class="btn-reset" onclick="resetPanel('tpndex')">↻ Reset</button>
       </div>
-
       <div class="result-box" id="t-result">
         <div class="rlabel">Hasil per target kadar dextrose (D)</div>
         <table class="rtable">
-          <thead>
-            <tr><th>Target D (%)</th><th>Volume D5% (mL)</th><th>Volume D40% (mL)</th><th>Total (mL)</th></tr>
-          </thead>
+          <thead><tr><th>Target D (%)</th><th>Volume D5% (mL)</th><th>Volume D40% (mL)</th><th>Total (mL)</th></tr></thead>
           <tbody id="t-tbody"></tbody>
         </table>
-        <div class="rformula" style="margin-top:10px;">
-          D12.5: D5=27.5/35×V, D40=7.5/35×V &nbsp;·&nbsp; D15: D5=25/35×V, D40=10/35×V<br>
-          D20: D5=20/35×V, D40=15/35×V &nbsp;·&nbsp; D25: D5=15/35×V, D40=20/35×V
-        </div>
+        <div class="rformula" style="margin-top:10px;">D12.5: D5=27.5/35×V, D40=7.5/35×V &nbsp;·&nbsp; D15: D5=25/35×V, D40=10/35×V<br>D20: D5=20/35×V, D40=15/35×V &nbsp;·&nbsp; D25: D5=15/35×V, D40=20/35×V</div>
       </div>
     </div>
 
-    <!-- PANEL 6 — TPN + NaCl -->
+    <!-- ========== PANEL 6: TPN + NaCl ========== -->
     <div class="panel" data-panel="tpnns">
       <h2>TPN — Dextrose + NaCl</h2>
       <p class="desc">Langkah 1: hitung volume NaCl yang diambil · Langkah 2: sisa volume dipecah ke D5+D40 untuk tiap opsi kadar dextrose</p>
-
       <div class="grid3">
         <div class="field">
           <label class="lbl">Kadar NaCl Tersedia</label>
@@ -599,53 +522,37 @@ footer{text-align:center; font-family:var(--mono); font-size:11px; color:var(--s
           <span class="unit-tag">mL</span>
         </div>
       </div>
-
       <div class="btn-row">
         <button class="btn-primary" onclick="hitungTPNNS()">Hitung</button>
         <button class="btn-reset" onclick="resetPanel('tpnns')">↻ Reset</button>
       </div>
-
       <div class="result-box" id="n-result">
         <div class="result-pair" style="margin-bottom:16px;">
-          <div class="result-item">
-            <div class="ri-label">Volume NaCl Yang Diambil</div>
-            <div class="ri-val" id="n-nacl">—<span class="ri-unit">mL</span></div>
-          </div>
-          <div class="result-item">
-            <div class="ri-label">Sisa Volume Dextrose</div>
-            <div class="ri-val" id="n-sisa">—<span class="ri-unit">mL</span></div>
-          </div>
+          <div class="result-item"><div class="ri-label">Volume NaCl Yang Diambil</div><div class="ri-val" id="n-nacl">—<span class="ri-unit">mL</span></div></div>
+          <div class="result-item"><div class="ri-label">Sisa Volume Dextrose</div><div class="ri-val" id="n-sisa">—<span class="ri-unit">mL</span></div></div>
         </div>
         <div class="rlabel" style="margin-bottom:8px;">Distribusi D5/D40 dari sisa volume dextrose</div>
         <table class="rtable">
-          <thead>
-            <tr><th>Target D (%)</th><th>Volume D5% (mL)</th><th>Volume D40% (mL)</th><th>Sisa (mL)</th></tr>
-          </thead>
+          <thead><tr><th>Target D (%)</th><th>Volume D5% (mL)</th><th>Volume D40% (mL)</th><th>Sisa (mL)</th></tr></thead>
           <tbody id="n-tbody"></tbody>
         </table>
-        <div class="rformula" style="margin-top:10px;">
-          NaCl diambil = (Kadar diinginkan ÷ Kadar tersedia) × Volume total &nbsp;·&nbsp; Sisa = Total − NaCl diambil
-        </div>
+        <div class="rformula" style="margin-top:10px;">NaCl diambil = (Kadar diinginkan ÷ Kadar tersedia) × Volume total &nbsp;·&nbsp; Sisa = Total − NaCl diambil</div>
       </div>
     </div>
 
-    <!-- PANEL 7 — OBAT DRIP (generik) -->
+    <!-- ========== PANEL 7: DRIP GENERIK ========== -->
     <div class="panel" data-panel="drip">
       <h2>Obat Drip / Syringe Pump</h2>
       <p class="desc">Pilih obat · Rumus diambil 1:1 dari masing-masing sheet Excel · Hasil dalam CC/jam.</p>
-
       <div class="field" style="max-width:400px;">
         <label class="lbl">Pilih Obat</label>
         <select id="d-pilih" onchange="renderDrip()"></select>
       </div>
-
       <div id="d-form"></div>
-
       <div class="btn-row" style="margin-top:6px;">
         <button class="btn-primary" onclick="hitungDrip()">Hitung</button>
         <button class="btn-reset" onclick="resetPanel('drip')">↻ Reset</button>
       </div>
-
       <div class="result-box" id="d-result">
         <div class="rlabel">Rate Infus</div>
         <div class="rval" id="d-rval">— <span class="runit">mL/jam</span></div>
@@ -653,50 +560,36 @@ footer{text-align:center; font-family:var(--mono); font-size:11px; color:var(--s
       </div>
     </div>
 
-    <!-- ════════════════════════════════════════════════════════════════ -->
-    <!-- PANEL TAMBAHAN: HEPARIN, AMIODARON, LIDOCAIN, FENTANIL, DEXMED, PANTOPRAZOLE, OMEPRAZOLE, NAC -->
-    <!-- ════════════════════════════════════════════════════════════════ -->
-
-    <!-- HEPARIN -->
+    <!-- ========== PANEL 8: HEPARIN ========== -->
     <div class="panel" data-panel="heparin">
       <h2>🩸 Heparin Syringe Pump</h2>
-      <p class="desc">
-        Standar sediaan: Heparin 25.000 unit/5 mL = <strong>5.000 unit/mL</strong><br>
-        Konsentrasi larutan dihitung otomatis · Rumus: Rate = Dosis ÷ Konsentrasi Larutan
-      </p>
-
+      <p class="desc">Standar sediaan: Heparin 25.000 unit/5 mL = <strong>5.000 unit/mL</strong><br>Konsentrasi larutan dihitung otomatis · Rumus: Rate = Dosis ÷ Konsentrasi Larutan</p>
       <div class="grid3">
         <div class="field">
           <label class="lbl">Dosis Yang Diminta</label>
-          <input type="number" id="hp-dosis" placeholder="1000" min="0"
-                 oninput="calcHepKonsentrasi()">
+          <input type="number" id="hp-dosis" placeholder="1000" min="0" oninput="calcHepKonsentrasi()">
           <span class="unit-tag">unit/jam</span>
         </div>
         <div class="field">
           <label class="lbl">Jumlah Heparin Diambil</label>
-          <input type="number" id="hp-ambil" placeholder="2" min="0" step="0.1"
-                 oninput="calcHepKonsentrasi()">
+          <input type="number" id="hp-ambil" placeholder="2" min="0" step="0.1" oninput="calcHepKonsentrasi()">
           <span class="unit-tag">mL</span>
         </div>
         <div class="field">
           <label class="lbl">Volume Larutan Total</label>
-          <input type="number" id="hp-vol" placeholder="50" min="0"
-                 oninput="calcHepKonsentrasi()">
+          <input type="number" id="hp-vol" placeholder="50" min="0" oninput="calcHepKonsentrasi()">
           <span class="unit-tag">mL</span>
         </div>
       </div>
-
       <div class="field" style="max-width:300px;">
         <label class="lbl">Konsentrasi Larutan (otomatis)</label>
         <input type="text" id="hp-konsentrasi" readonly placeholder="→ isi kolom di atas">
         <span class="unit-tag">unit/mL</span>
       </div>
-
       <div class="btn-row">
         <button class="btn-primary" onclick="hitungHeparin()">Hitung</button>
         <button class="btn-reset" onclick="resetPanel('heparin')">↻ Reset</button>
       </div>
-
       <div class="result-box" id="hp-result">
         <div class="rlabel">Rate Infus</div>
         <div class="rval" id="hp-rate">— <span class="runit">mL/jam</span></div>
@@ -704,46 +597,36 @@ footer{text-align:center; font-family:var(--mono); font-size:11px; color:var(--s
       </div>
     </div>
 
-    <!-- AMIODARON -->
+    <!-- ========== PANEL 9: AMIODARON ========== -->
     <div class="panel" data-panel="amiodaron">
       <h2>❤️ Amiodaron Syringe Pump</h2>
-      <p class="desc">
-        Standar sediaan: 1 ampul = <strong>150 mg / 3 mL</strong><br>
-        Konsentrasi larutan dihitung otomatis · Rumus: Rate = Dosis (mg/menit) × 60 ÷ Konsentrasi
-      </p>
-
+      <p class="desc">Standar sediaan: 1 ampul = <strong>150 mg / 3 mL</strong><br>Konsentrasi larutan dihitung otomatis · Rumus: Rate = Dosis (mg/menit) × 60 ÷ Konsentrasi</p>
       <div class="grid3">
         <div class="field">
           <label class="lbl">Dosis Yang Diminta</label>
-          <input type="number" id="am-dosis" placeholder="0.5" min="0" step="0.1"
-                 oninput="calcKonsentrasi('am',150)">
+          <input type="number" id="am-dosis" placeholder="0.5" min="0" step="0.1" oninput="calcKonsentrasi('am',150)">
           <span class="unit-tag">mg/menit</span>
         </div>
         <div class="field">
           <label class="lbl">Jumlah Ampul</label>
-          <input type="number" id="am-amp" placeholder="1" min="1" step="1"
-                 oninput="calcKonsentrasi('am',150)">
+          <input type="number" id="am-amp" placeholder="1" min="1" step="1" oninput="calcKonsentrasi('am',150)">
           <span class="unit-tag">amp</span>
         </div>
         <div class="field">
           <label class="lbl">Volume Larutan Total</label>
-          <input type="number" id="am-vol" placeholder="50" min="0"
-                 oninput="calcKonsentrasi('am',150)">
+          <input type="number" id="am-vol" placeholder="50" min="0" oninput="calcKonsentrasi('am',150)">
           <span class="unit-tag">mL</span>
         </div>
       </div>
-
       <div class="field" style="max-width:300px;">
         <label class="lbl">Konsentrasi Larutan (otomatis)</label>
         <input type="text" id="am-konsentrasi" readonly placeholder="→ isi kolom di atas">
         <span class="unit-tag">mg/mL</span>
       </div>
-
       <div class="btn-row">
         <button class="btn-primary" onclick="hitungDripMgMenit('am','Amiodaron',150)">Hitung</button>
         <button class="btn-reset" onclick="resetPanel('amiodaron')">↻ Reset</button>
       </div>
-
       <div class="result-box" id="am-result">
         <div class="rlabel">Rate Infus</div>
         <div class="rval" id="am-rate">— <span class="runit">mL/jam</span></div>
@@ -751,46 +634,36 @@ footer{text-align:center; font-family:var(--mono); font-size:11px; color:var(--s
       </div>
     </div>
 
-    <!-- LIDOCAIN -->
+    <!-- ========== PANEL 10: LIDOCAIN ========== -->
     <div class="panel" data-panel="lidocain">
       <h2>⚡ Lidocain Syringe Pump</h2>
-      <p class="desc">
-        Standar sediaan: 1 ampul = <strong>400 mg / 20 mL</strong><br>
-        Konsentrasi larutan dihitung otomatis · Rumus: Rate = Dosis (mg/menit) × 60 ÷ Konsentrasi
-      </p>
-
+      <p class="desc">Standar sediaan: 1 ampul = <strong>400 mg / 20 mL</strong><br>Konsentrasi larutan dihitung otomatis · Rumus: Rate = Dosis (mg/menit) × 60 ÷ Konsentrasi</p>
       <div class="grid3">
         <div class="field">
           <label class="lbl">Dosis Yang Diminta</label>
-          <input type="number" id="li-dosis" placeholder="2" min="0" step="0.1"
-                 oninput="calcKonsentrasi('li',400)">
+          <input type="number" id="li-dosis" placeholder="2" min="0" step="0.1" oninput="calcKonsentrasi('li',400)">
           <span class="unit-tag">mg/menit</span>
         </div>
         <div class="field">
           <label class="lbl">Jumlah Ampul</label>
-          <input type="number" id="li-amp" placeholder="1" min="1" step="1"
-                 oninput="calcKonsentrasi('li',400)">
+          <input type="number" id="li-amp" placeholder="1" min="1" step="1" oninput="calcKonsentrasi('li',400)">
           <span class="unit-tag">amp</span>
         </div>
         <div class="field">
           <label class="lbl">Volume Larutan Total</label>
-          <input type="number" id="li-vol" placeholder="50" min="0"
-                 oninput="calcKonsentrasi('li',400)">
+          <input type="number" id="li-vol" placeholder="50" min="0" oninput="calcKonsentrasi('li',400)">
           <span class="unit-tag">mL</span>
         </div>
       </div>
-
       <div class="field" style="max-width:300px;">
         <label class="lbl">Konsentrasi Larutan (otomatis)</label>
         <input type="text" id="li-konsentrasi" readonly placeholder="→ isi kolom di atas">
         <span class="unit-tag">mg/mL</span>
       </div>
-
       <div class="btn-row">
         <button class="btn-primary" onclick="hitungDripMgMenit('li','Lidocain',400)">Hitung</button>
         <button class="btn-reset" onclick="resetPanel('lidocain')">↻ Reset</button>
       </div>
-
       <div class="result-box" id="li-result">
         <div class="rlabel">Rate Infus</div>
         <div class="rval" id="li-rate">— <span class="runit">mL/jam</span></div>
@@ -798,46 +671,36 @@ footer{text-align:center; font-family:var(--mono); font-size:11px; color:var(--s
       </div>
     </div>
 
-    <!-- FENTANIL -->
+    <!-- ========== PANEL 11: FENTANIL ========== -->
     <div class="panel" data-panel="fentanil">
       <h2>💊 Fentanil Syringe Pump</h2>
-      <p class="desc">
-        Standar sediaan: 1 ampul = <strong>500 mcg / 10 mL</strong><br>
-        Konsentrasi larutan dihitung otomatis · Rumus: Rate = Dosis (mcg/jam) ÷ Konsentrasi
-      </p>
-
+      <p class="desc">Standar sediaan: 1 ampul = <strong>500 mcg / 10 mL</strong><br>Konsentrasi larutan dihitung otomatis · Rumus: Rate = Dosis (mcg/jam) ÷ Konsentrasi</p>
       <div class="grid3">
         <div class="field">
           <label class="lbl">Dosis Yang Diminta</label>
-          <input type="number" id="fn-dosis" placeholder="100" min="0"
-                 oninput="calcKonsentrasiMcg('fn',500)">
+          <input type="number" id="fn-dosis" placeholder="100" min="0" oninput="calcKonsentrasiMcg('fn',500)">
           <span class="unit-tag">mcg/jam</span>
         </div>
         <div class="field">
           <label class="lbl">Jumlah Ampul</label>
-          <input type="number" id="fn-amp" placeholder="1" min="1" step="1"
-                 oninput="calcKonsentrasiMcg('fn',500)">
+          <input type="number" id="fn-amp" placeholder="1" min="1" step="1" oninput="calcKonsentrasiMcg('fn',500)">
           <span class="unit-tag">amp</span>
         </div>
         <div class="field">
           <label class="lbl">Volume Larutan Total</label>
-          <input type="number" id="fn-vol" placeholder="50" min="0"
-                 oninput="calcKonsentrasiMcg('fn',500)">
+          <input type="number" id="fn-vol" placeholder="50" min="0" oninput="calcKonsentrasiMcg('fn',500)">
           <span class="unit-tag">mL</span>
         </div>
       </div>
-
       <div class="field" style="max-width:300px;">
         <label class="lbl">Konsentrasi Larutan (otomatis)</label>
         <input type="text" id="fn-konsentrasi" readonly placeholder="→ isi kolom di atas">
         <span class="unit-tag">mcg/mL</span>
       </div>
-
       <div class="btn-row">
         <button class="btn-primary" onclick="hitungDripPerJam('fn','Fentanil',500)">Hitung</button>
         <button class="btn-reset" onclick="resetPanel('fentanil')">↻ Reset</button>
       </div>
-
       <div class="result-box" id="fn-result">
         <div class="rlabel">Rate Infus</div>
         <div class="rval" id="fn-rate">— <span class="runit">mL/jam</span></div>
@@ -845,19 +708,14 @@ footer{text-align:center; font-family:var(--mono); font-size:11px; color:var(--s
       </div>
     </div>
 
-    <!-- DEXMEDETOMIDIN -->
+    <!-- ========== PANEL 12: DEXMEDETOMIDIN ========== -->
     <div class="panel" data-panel="dexmed">
       <h2>🧬 Dexmedetomidin Syringe Pump</h2>
-      <p class="desc">
-        Standar sediaan: 1 vial = <strong>200 mcg / 2 mL</strong> (Precedex)<br>
-        Konsentrasi larutan dihitung otomatis · Rumus: Rate = (Dosis × BB) ÷ Konsentrasi
-      </p>
-
+      <p class="desc">Standar sediaan: 1 vial = <strong>200 mcg / 2 mL</strong> (Precedex)<br>Konsentrasi larutan dihitung otomatis · Rumus: Rate = (Dosis × BB) ÷ Konsentrasi</p>
       <div class="grid" style="grid-template-columns:1fr 1fr;">
         <div class="field">
           <label class="lbl">Dosis Yang Diminta</label>
-          <input type="number" id="dx-dosis" placeholder="0.5" min="0" step="0.1"
-                 oninput="calcKonsentrasiMcg('dx',200)">
+          <input type="number" id="dx-dosis" placeholder="0.5" min="0" step="0.1" oninput="calcKonsentrasiMcg('dx',200)">
           <span class="unit-tag">mcg/kgBB/jam</span>
         </div>
         <div class="field">
@@ -869,29 +727,24 @@ footer{text-align:center; font-family:var(--mono); font-size:11px; color:var(--s
       <div class="grid" style="grid-template-columns:1fr 1fr;">
         <div class="field">
           <label class="lbl">Jumlah Vial</label>
-          <input type="number" id="dx-amp" placeholder="1" min="1" step="1"
-                 oninput="calcKonsentrasiMcg('dx',200)">
+          <input type="number" id="dx-amp" placeholder="1" min="1" step="1" oninput="calcKonsentrasiMcg('dx',200)">
           <span class="unit-tag">vial</span>
         </div>
         <div class="field">
           <label class="lbl">Volume Larutan Total</label>
-          <input type="number" id="dx-vol" placeholder="50" min="0"
-                 oninput="calcKonsentrasiMcg('dx',200)">
+          <input type="number" id="dx-vol" placeholder="50" min="0" oninput="calcKonsentrasiMcg('dx',200)">
           <span class="unit-tag">mL</span>
         </div>
       </div>
-
       <div class="field" style="max-width:300px;">
         <label class="lbl">Konsentrasi Larutan (otomatis)</label>
         <input type="text" id="dx-konsentrasi" readonly placeholder="→ isi vial & volume">
         <span class="unit-tag">mcg/mL</span>
       </div>
-
       <div class="btn-row">
         <button class="btn-primary" onclick="hitungDexmed()">Hitung</button>
         <button class="btn-reset" onclick="resetPanel('dexmed')">↻ Reset</button>
       </div>
-
       <div class="result-box" id="dx-result">
         <div class="rlabel">Rate Infus</div>
         <div class="rval" id="dx-rate">— <span class="runit">mL/jam</span></div>
@@ -899,46 +752,36 @@ footer{text-align:center; font-family:var(--mono); font-size:11px; color:var(--s
       </div>
     </div>
 
-    <!-- PANTOPRAZOLE -->
+    <!-- ========== PANEL 13: PANTOPRAZOLE ========== -->
     <div class="panel" data-panel="pantoprazole">
       <h2>🟣 Pantoprazole Syringe Pump</h2>
-      <p class="desc">
-        Standar sediaan: 1 vial = <strong>40 mg</strong><br>
-        Konsentrasi larutan dihitung otomatis · Rumus: Rate = Dosis (mg/jam) ÷ Konsentrasi
-      </p>
-
+      <p class="desc">Standar sediaan: 1 vial = <strong>40 mg</strong><br>Konsentrasi larutan dihitung otomatis · Rumus: Rate = Dosis (mg/jam) ÷ Konsentrasi</p>
       <div class="grid3">
         <div class="field">
           <label class="lbl">Dosis Yang Diminta</label>
-          <input type="number" id="pt-dosis" placeholder="8" min="0" step="0.5"
-                 oninput="calcKonsentrasiVial('pt',40)">
+          <input type="number" id="pt-dosis" placeholder="8" min="0" step="0.5" oninput="calcKonsentrasiVial('pt',40)">
           <span class="unit-tag">mg/jam</span>
         </div>
         <div class="field">
           <label class="lbl">Jumlah Vial</label>
-          <input type="number" id="pt-vial" placeholder="1" min="1" step="1"
-                 oninput="calcKonsentrasiVial('pt',40)">
+          <input type="number" id="pt-vial" placeholder="1" min="1" step="1" oninput="calcKonsentrasiVial('pt',40)">
           <span class="unit-tag">vial</span>
         </div>
         <div class="field">
           <label class="lbl">Volume Larutan Total</label>
-          <input type="number" id="pt-vol" placeholder="100" min="0"
-                 oninput="calcKonsentrasiVial('pt',40)">
+          <input type="number" id="pt-vol" placeholder="100" min="0" oninput="calcKonsentrasiVial('pt',40)">
           <span class="unit-tag">mL</span>
         </div>
       </div>
-
       <div class="field" style="max-width:300px;">
         <label class="lbl">Konsentrasi Larutan (otomatis)</label>
         <input type="text" id="pt-konsentrasi" readonly placeholder="→ isi kolom di atas">
         <span class="unit-tag">mg/mL</span>
       </div>
-
       <div class="btn-row">
         <button class="btn-primary" onclick="hitungPPI('pt','Pantoprazole',40)">Hitung</button>
         <button class="btn-reset" onclick="resetPanel('pantoprazole')">↻ Reset</button>
       </div>
-
       <div class="result-box" id="pt-result">
         <div class="rlabel">Rate Infus</div>
         <div class="rval" id="pt-rate">— <span class="runit">mL/jam</span></div>
@@ -946,46 +789,36 @@ footer{text-align:center; font-family:var(--mono); font-size:11px; color:var(--s
       </div>
     </div>
 
-    <!-- OMEPRAZOLE -->
+    <!-- ========== PANEL 14: OMEPRAZOLE ========== -->
     <div class="panel" data-panel="omeprazole">
       <h2>🔵 Omeprazole Syringe Pump</h2>
-      <p class="desc">
-        Standar sediaan: 1 vial = <strong>40 mg</strong><br>
-        Konsentrasi larutan dihitung otomatis · Rumus: Rate = Dosis (mg/jam) ÷ Konsentrasi
-      </p>
-
+      <p class="desc">Standar sediaan: 1 vial = <strong>40 mg</strong><br>Konsentrasi larutan dihitung otomatis · Rumus: Rate = Dosis (mg/jam) ÷ Konsentrasi</p>
       <div class="grid3">
         <div class="field">
           <label class="lbl">Dosis Yang Diminta</label>
-          <input type="number" id="om-dosis" placeholder="8" min="0" step="0.5"
-                 oninput="calcKonsentrasiVial('om',40)">
+          <input type="number" id="om-dosis" placeholder="8" min="0" step="0.5" oninput="calcKonsentrasiVial('om',40)">
           <span class="unit-tag">mg/jam</span>
         </div>
         <div class="field">
           <label class="lbl">Jumlah Vial</label>
-          <input type="number" id="om-vial" placeholder="1" min="1" step="1"
-                 oninput="calcKonsentrasiVial('om',40)">
+          <input type="number" id="om-vial" placeholder="1" min="1" step="1" oninput="calcKonsentrasiVial('om',40)">
           <span class="unit-tag">vial</span>
         </div>
         <div class="field">
           <label class="lbl">Volume Larutan Total</label>
-          <input type="number" id="om-vol" placeholder="100" min="0"
-                 oninput="calcKonsentrasiVial('om',40)">
+          <input type="number" id="om-vol" placeholder="100" min="0" oninput="calcKonsentrasiVial('om',40)">
           <span class="unit-tag">mL</span>
         </div>
       </div>
-
       <div class="field" style="max-width:300px;">
         <label class="lbl">Konsentrasi Larutan (otomatis)</label>
         <input type="text" id="om-konsentrasi" readonly placeholder="→ isi kolom di atas">
         <span class="unit-tag">mg/mL</span>
       </div>
-
       <div class="btn-row">
         <button class="btn-primary" onclick="hitungPPI('om','Omeprazole',40)">Hitung</button>
         <button class="btn-reset" onclick="resetPanel('omeprazole')">↻ Reset</button>
       </div>
-
       <div class="result-box" id="om-result">
         <div class="rlabel">Rate Infus</div>
         <div class="rval" id="om-rate">— <span class="runit">mL/jam</span></div>
@@ -993,59 +826,42 @@ footer{text-align:center; font-family:var(--mono); font-size:11px; color:var(--s
       </div>
     </div>
 
-    <!-- N-ASETILSISTEIN (NAC) -->
+    <!-- ========== PANEL 15: N-ASETILSISTEIN ========== -->
     <div class="panel" data-panel="nac">
       <h2>🧬 N-Asetilsistein (NAC)</h2>
-      <p class="desc">
-        Sediaan: <strong>200 mg/mL</strong> · Hitung volume NAC yang diambil, volume pelarut, dan rate infus<br>
-        Rumus: Vol NAC = (Dosis × BB) ÷ 200 &nbsp;·&nbsp; Vol Pelarut = Vol Larutan − Vol NAC &nbsp;·&nbsp; Rate = Vol Larutan (mL/jam)
-      </p>
-
-      <!-- Protokol 3 fase sebagai panduan -->
+      <p class="desc">Sediaan: <strong>200 mg/mL</strong> · Hitung volume NAC yang diambil, volume pelarut, dan rate infus<br>Rumus: Vol NAC = (Dosis × BB) ÷ 200 &nbsp;·&nbsp; Vol Pelarut = Vol Larutan − Vol NAC &nbsp;·&nbsp; Rate = Vol Larutan (mL/jam)</p>
       <div style="background:var(--ambl);border:1px solid #e8c68a;border-radius:8px;padding:12px 16px;margin-bottom:18px;font-size:12.5px;color:#7a5010;line-height:1.7;">
         <strong>Protokol standar antidotum paracetamol (total 21 jam):</strong><br>
         Fase 1 — <strong>150 mg/kgBB</strong> dalam 200 mL D5W selama <strong>1 jam</strong><br>
         Fase 2 — <strong>50 mg/kgBB</strong> dalam 500 mL D5W selama <strong>4 jam</strong><br>
         Fase 3 — <strong>100 mg/kgBB</strong> dalam 1000 mL D5W selama <strong>16 jam</strong>
       </div>
-
       <div class="grid">
         <div class="field">
           <label class="lbl">Dosis Yang Diminta</label>
-          <input type="number" id="nac-dosis" placeholder="150" min="0" step="0.5"
-                 oninput="calcNAC()">
+          <input type="number" id="nac-dosis" placeholder="150" min="0" step="0.5" oninput="calcNAC()">
           <span class="unit-tag">mg/kgBB/jam</span>
         </div>
         <div class="field">
           <label class="lbl">Berat Badan Pasien</label>
-          <input type="number" id="nac-bb" placeholder="60" min="0"
-                 oninput="calcNAC()">
+          <input type="number" id="nac-bb" placeholder="60" min="0" oninput="calcNAC()">
           <span class="unit-tag">kg</span>
         </div>
       </div>
       <div class="field" style="max-width:260px;">
         <label class="lbl">Volume Larutan Total</label>
-        <input type="number" id="nac-vol" placeholder="200" min="0"
-               oninput="calcNAC()">
+        <input type="number" id="nac-vol" placeholder="200" min="0" oninput="calcNAC()">
         <span class="unit-tag">mL</span>
       </div>
-
       <div class="btn-row">
         <button class="btn-primary" onclick="hitungNAC()">Hitung</button>
         <button class="btn-reset" onclick="resetPanel('nac')">↻ Reset</button>
       </div>
-
       <div class="result-box" id="nac-result">
         <div class="rlabel">Hasil Perhitungan</div>
         <div class="result-pair" style="margin-bottom:16px;">
-          <div class="result-item">
-            <div class="ri-label">Volume NAC Diambil</div>
-            <div class="ri-val" id="nac-rvol">—<span class="ri-unit">mL</span></div>
-          </div>
-          <div class="result-item">
-            <div class="ri-label">Volume Pelarut (D5W)</div>
-            <div class="ri-val" id="nac-rpelarut">—<span class="ri-unit">mL</span></div>
-          </div>
+          <div class="result-item"><div class="ri-label">Volume NAC Diambil</div><div class="ri-val" id="nac-rvol">—<span class="ri-unit">mL</span></div></div>
+          <div class="result-item"><div class="ri-label">Volume Pelarut (D5W)</div><div class="ri-val" id="nac-rpelarut">—<span class="ri-unit">mL</span></div></div>
         </div>
         <div class="rlabel" style="margin-bottom:4px;">Rate Infus</div>
         <div class="rval" id="nac-rrate">— <span class="runit">mL/jam</span></div>
@@ -1056,7 +872,7 @@ footer{text-align:center; font-family:var(--mono); font-size:11px; color:var(--s
   </div> <!-- penutup main-content -->
 </div> <!-- penutup app-body -->
 
-<!-- RIWAYAT -->
+<!-- ========== RIWAYAT ========== -->
 <div class="riwayat-wrap" id="riwayat-wrap">
   <div class="riwayat-header" id="riwayat-toggle" onclick="toggleRiwayat()">
     <div class="rh-left">
@@ -1081,24 +897,36 @@ footer{text-align:center; font-family:var(--mono); font-size:11px; color:var(--s
 </div> <!-- penutup shell -->
 
 <script>
-// ==================== VISITOR COUNTER ====================
+// ==================== VISITOR COUNTER (valid) ====================
 (function(){
+  const el = document.getElementById('visit-count');
+  const src = document.getElementById('counter-source');
+  let localCount = parseInt(localStorage.getItem('fascon_visits') || '0', 10);
+  localCount += 1;
+  localStorage.setItem('fascon_visits', localCount);
+  el.textContent = localCount.toLocaleString('id-ID');
+  src.textContent = '(lokal)';
   const NAMESPACE = 'fascon-digipharm-rs';
-  const KEY       = 'visits';
-  const el        = document.getElementById('visit-count');
+  const KEY = 'visits';
   fetch(`https://api.counterapi.dev/v1/${NAMESPACE}/${KEY}/up`)
     .then(r => r.json())
     .then(data => {
-      const n = data.count ?? data.value ?? '?';
-      el.textContent = typeof n === 'number' ? n.toLocaleString('id-ID') : n;
+      const global = data.count ?? data.value ?? null;
+      if (global !== null) {
+        el.textContent = global.toLocaleString('id-ID');
+        src.textContent = '🌐 global';
+        el.title = `Total global: ${global} · Lokal: ${localCount}`;
+      } else {
+        el.title = `Lokal (perangkat ini): ${localCount}`;
+      }
     })
     .catch(() => {
-      el.textContent = '—';
-      el.title = 'Counter tidak terjangkau (offline atau diblokir)';
+      el.title = `Lokal (perangkat ini): ${localCount} (CounterAPI tidak terjangkau)`;
+      src.textContent = '(lokal)';
     });
 })();
 
-// ==================== FORMAT ANGKA ====================
+// ==================== FUNGSI UTILITY ====================
 function fmt(n, dec=3){
   if(isNaN(n)) return '—';
   return parseFloat(n.toFixed(dec)).toLocaleString('id-ID', {maximumFractionDigits: dec});
@@ -1153,17 +981,25 @@ function clearRiwayat(){
 let DB = [];
 DB=[{"id":"A001","nama":"ABACAVIR TABLET PROGRAM300mg","kekuatan":300.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A002","nama":"AMBROKSOL (MUCOS) DROP15mg","kekuatan":15.0,"satuan":"mg","volume":1.0,"satuan_vol":"mL"},{"id":"A003","nama":"ALUMINIUM HIDROKSIDA200mg","kekuatan":200.0,"satuan":"mg","volume":5.0,"satuan_vol":null},{"id":"A004","nama":"MAGNESIUM HIDROKSIDA200mg","kekuatan":200.0,"satuan":"mg","volume":5.0,"satuan_vol":"mL"},{"id":"A005","nama":"ALTEPLASE (ACTYLISE) INJEKSI50mg","kekuatan":50.0,"satuan":"mg","volume":1.0,"satuan_vol":"VIAL"},{"id":"A006","nama":"AIR UNTUK INJEKSI","kekuatan":null,"satuan":null,"volume":25.0,"satuan_vol":"mL"},{"id":"A007","nama":"AIR UNTUK IRIGASI (WIDA WI UNICAP) INFUS","kekuatan":null,"satuan":null,"volume":1000.0,"satuan_vol":"mL"},{"id":"A008","nama":"AKARBOSE TABLET100mg","kekuatan":100.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A009","nama":"AKARBOSE TABLET50mg","kekuatan":50.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A010","nama":"ALBENDAZOL TABLET400mg","kekuatan":400.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A011","nama":"ALBUMIN (ALBAPURE) INFUS 20%20gram","kekuatan":20.0,"satuan":"gram","volume":100.0,"satuan_vol":"mL"},{"id":"A012","nama":"ALBUMIN (ALBAPURE) INFUS 20%10gram","kekuatan":10.0,"satuan":"gram","volume":50.0,"satuan_vol":"mL"},{"id":"A013","nama":"ALILESTRENOL (PROGESTON) TABLET5mg","kekuatan":5.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A014","nama":"ALLOPURINOL TABLET100mg","kekuatan":100.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A015","nama":"ALLOPURINOL TABLET300mg","kekuatan":300.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A016","nama":"ALPRAZOLAM TABLET0,5mg","kekuatan":0.5,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A017","nama":"AMBROKSOL SIRUP15mg","kekuatan":15.0,"satuan":"mg","volume":5.0,"satuan_vol":"mL"},{"id":"A018","nama":"AMBROKSOL TABLET30mg","kekuatan":30.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A019","nama":"AMIKASIN INJEKSI500mg","kekuatan":500.0,"satuan":"mg","volume":2.0,"satuan_vol":"mL"},{"id":"A020","nama":"AMINEFRON (ESENSIAL KETOACID) TABLET","kekuatan":null,"satuan":null,"volume":null,"satuan_vol":null},{"id":"A021","nama":"AMINOFILIN TABLET200mg","kekuatan":200.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A022","nama":"AMINOFILIN TABLET200mg","kekuatan":200.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A023","nama":"AMINOFILIN INJEKSI240mg","kekuatan":240.0,"satuan":"mg","volume":10.0,"satuan_vol":"mL"},{"id":"A024","nama":"AMINOFLUID INFUS","kekuatan":null,"satuan":null,"volume":500.0,"satuan_vol":"mL"},{"id":"A025","nama":"AMINOFUSIN HEPAR INFUS","kekuatan":null,"satuan":null,"volume":null,"satuan_vol":null},{"id":"A026","nama":"AMINOFUSIN PAED INFUS","kekuatan":null,"satuan":null,"volume":null,"satuan_vol":null},{"id":"A027","nama":"AMINOSTERIL INFANT INFUS6gram","kekuatan":6.0,"satuan":"gram","volume":100.0,"satuan_vol":"mL"},{"id":"A028","nama":"AMIODARON (TIARIT) INJEKSI150mg","kekuatan":150.0,"satuan":"mg","volume":3.0,"satuan_vol":"mL"},{"id":"A029","nama":"AMIODARON INJEKSI150mg","kekuatan":150.0,"satuan":"mg","volume":3.0,"satuan_vol":"mL"},{"id":"A030","nama":"AMIODARON (KENDARON) TABLET200mg","kekuatan":200.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A031","nama":"AMIODARON (REXIDRON) TABLET200mg","kekuatan":200.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A032","nama":"AMIPAREN INFUS","kekuatan":null,"satuan":null,"volume":500.0,"satuan_vol":"mL"},{"id":"A033","nama":"AMITRIPTILIN TABLET25mg","kekuatan":25.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A034","nama":"AmLODIPIN TABLET10mg","kekuatan":10.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A035","nama":"AmLODIPIN TABLET5mg","kekuatan":5.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A036","nama":"AMOKSISILIN (AMOXSAN) DROP100mg","kekuatan":100.0,"satuan":"mg","volume":1.0,"satuan_vol":"mL"},{"id":"A037","nama":"AMOKSISILIN TABLET500mg","kekuatan":500.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A038","nama":"AMOKSISILIN DROP100mg","kekuatan":100.0,"satuan":"mg","volume":1.0,"satuan_vol":"mL"},{"id":"A039","nama":"AMOKSISILIN INJEKSI1000mg","kekuatan":1000.0,"satuan":"mg","volume":1.0,"satuan_vol":"VIAL"},{"id":"A040","nama":"AMOKSISILIN (AMOXSAN) INJEKSI1000mg","kekuatan":1000.0,"satuan":"mg","volume":1.0,"satuan_vol":"VIAL"},{"id":"A041","nama":"AMOKSISILIN (CO-AMOXICLAV) SIRUP125mg","kekuatan":125.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A042","nama":"ASAM KLAVULANAT (CO-AMOXICLAV) SIRUP31.25mg","kekuatan":"31.25","satuan":"mg","volume":null,"satuan_vol":null},{"id":"A043","nama":"AMOKSISILIN SIRUP125mg","kekuatan":125.0,"satuan":"mg","volume":5.0,"satuan_vol":"mL"},{"id":"A044","nama":"AMOKSISILIN (CO-AMOXICLAV FORTE)250mg","kekuatan":250.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A045","nama":"ASAM KLAVULANAT (CO-AMOXICLAV FORTE)62,5mg","kekuatan":62.5,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A046","nama":"AMOKSISILIN SIRUP (FORTE)250mg","kekuatan":250.0,"satuan":"mg","volume":5.0,"satuan_vol":"mL"},{"id":"A047","nama":"AMOKSISILIN TABLET500mg","kekuatan":500.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A048","nama":"ASAM KLAVULANAT (CO-AMOXICLAV) TABLET125mg","kekuatan":125.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A049","nama":"AMPISILIN (SANPICILIN) INJEKSI1000mg","kekuatan":1000.0,"satuan":"mg","volume":1.0,"satuan_vol":"VIAL"},{"id":"A050","nama":"AMPISILIN INJEKSI1000mg","kekuatan":1000.0,"satuan":"mg","volume":1.0,"satuan_vol":"VIAL"},{"id":"A051","nama":"AMPISILIN (PICYN) INJEKSI500mg","kekuatan":500.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A052","nama":"SULBAKTAM (PICYN) INJEKSI250mg","kekuatan":250.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A053","nama":"ANASTROZOL (ARIMIDEX) TABLET1mg","kekuatan":1.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A054","nama":"ANTIHEMOROID (AMVAR) TABLET","kekuatan":null,"satuan":null,"volume":null,"satuan_vol":null},{"id":"A055","nama":"ANTIHEMOROID (FAKTU) SUPPOSITORIA","kekuatan":null,"satuan":null,"volume":null,"satuan_vol":null},{"id":"A056","nama":"ANTIHEMOROID (VERIDIN) TABLET","kekuatan":null,"satuan":null,"volume":null,"satuan_vol":null},{"id":"A057","nama":"ANTIHEMOROID SUPPOSITORIA2gram","kekuatan":2.0,"satuan":"gram","volume":null,"satuan_vol":null},{"id":"A058","nama":"APIDRA SOLOSTAR300IU","kekuatan":300.0,"satuan":"IU","volume":3.0,"satuan_vol":"mL"},{"id":"A059","nama":"ARIPIPRAZOLE (ABILIFY) TABLET10mg","kekuatan":10.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A060","nama":"ARTEMETHER (ARTEM) INJEKSI80mg","kekuatan":80.0,"satuan":"mg","volume":1.0,"satuan_vol":"mL"},{"id":"A061","nama":"ARTESUNATE INJEKSI PROGRAM60mg","kekuatan":60.0,"satuan":"mg","volume":1.0,"satuan_vol":"VIAL"},{"id":"A062","nama":"ARTHEMETHER TABLET20mg","kekuatan":20.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A063","nama":"LUMEFANTRINE TABLET120mg","kekuatan":120.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A064","nama":"ARTICAINE TABLET40mg","kekuatan":40.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A065","nama":"EPINEFRIN TARTRAT TABLET0,01mg","kekuatan":0.01,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A066","nama":"ASAM ASETILSALISILAT (FARMASAL) TABLET100mg","kekuatan":100.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A067","nama":"ASAM ASETILSALISILAT (ASPILET CHEWABLE) TABLET80mg","kekuatan":80.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A068","nama":"ASAM ASETILSALISILAT (MINIASPI) TABLET80mg","kekuatan":80.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A069","nama":"ASAM ASKORBAT (PROVE-C) INJEKSI1000mg","kekuatan":1000.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A070","nama":"ASAM ASKORBAT (ASCORIN) DONASI","kekuatan":null,"satuan":null,"volume":null,"satuan_vol":null},{"id":"A071","nama":"ASAM FOLAT (AFOLAT) TABLET0,4mg","kekuatan":0.4,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A072","nama":"ASAM FOLAT (ANEMOLAT) TABLET1mg","kekuatan":1.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A073","nama":"ASAM FOLAT TABLET1mg","kekuatan":1.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A074","nama":"ASAM IBANDRONAT (BONEVELL) INJEKSI6mg","kekuatan":6.0,"satuan":"mg","volume":6.0,"satuan_vol":"mL"},{"id":"A075","nama":"ASAM MEFENAMAT (PONDEX) SIRUP50mg","kekuatan":50.0,"satuan":"mg","volume":5.0,"satuan_vol":"mL"},{"id":"A076","nama":"ASAM MEFENAMAT SIRUP50mg","kekuatan":50.0,"satuan":"mg","volume":5.0,"satuan_vol":"mL"},{"id":"A077","nama":"ASAM MEFENAMAT TABLET500mg","kekuatan":500.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A078","nama":"ASAM PIPEMIDAT (URINTER) KAPSUL500mg","kekuatan":500.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A079","nama":"ASAM RETIONAT (VITACID) KRIM0,1%","kekuatan":0.1,"satuan":"%","volume":null,"satuan_vol":null},{"id":"A080","nama":"ASAM TRANEKSAMAT INJEKSI250mg","kekuatan":250.0,"satuan":"mg","volume":5.0,"satuan_vol":"mL"},{"id":"A081","nama":"ASAM TRANEKSAMAT TABLET500mg","kekuatan":500.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A082","nama":"ASAM TRANEKSAMAT INJEKSI500mg","kekuatan":500.0,"satuan":"mg","volume":5.0,"satuan_vol":"mL"},{"id":"A083","nama":"ASAM URSODEOKSIKOLAT (UDCA) TABLET250mg","kekuatan":250.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A084","nama":"ASAM ZOLEDRONAT (ZOMETA) INFUS4mg","kekuatan":4.0,"satuan":"mg","volume":100.0,"satuan_vol":"mL"},{"id":"A085","nama":"ASERING INFUS","kekuatan":null,"satuan":null,"volume":500.0,"satuan_vol":"mL"},{"id":"A086","nama":"ASERING-5 INFUS","kekuatan":null,"satuan":null,"volume":500.0,"satuan_vol":"mL"},{"id":"A087","nama":"ASETAZOLAMID (GLAUCETA) TABLET250mg","kekuatan":250.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A088","nama":"ASETILSISTEIN (FLUMUCIL) GRANULA200mg","kekuatan":200.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A089","nama":"ASETILSISTEIN TABLET200mg","kekuatan":200.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A090","nama":"ASETILSISTEIN INFUS5gram","kekuatan":5.0,"satuan":"gram","volume":25.0,"satuan_vol":"mL"},{"id":"A091","nama":"ASIKLOVIR (C. HERVIS) SALEP MATA","kekuatan":null,"satuan":null,"volume":null,"satuan_vol":null},{"id":"A092","nama":"ASIKLOVIR TABLET200mg","kekuatan":200.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A093","nama":"ASIKLOVIR TABLET400mg","kekuatan":400.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A094","nama":"ASIKLOVIR KRIM5%","kekuatan":5.0,"satuan":"%","volume":null,"satuan_vol":null},{"id":"A095","nama":"ATOPICLAIR KRIM","kekuatan":null,"satuan":null,"volume":40.0,"satuan_vol":"mL"},{"id":"A096","nama":"ATORVASTATIN TABLET20mg","kekuatan":20.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A097","nama":"ATRAKURIUM (FARELAX) INJEKSI50mg","kekuatan":50.0,"satuan":"mg","volume":5.0,"satuan_vol":"mL"},{"id":"A098","nama":"ATRAKURIUM INJEKSI50mg","kekuatan":50.0,"satuan":"mg","volume":5.0,"satuan_vol":"mL"},{"id":"A099","nama":"ATROPIN (C. TROPIN) TETES MATA1%","kekuatan":1.0,"satuan":"%","volume":5.0,"satuan_vol":"mL"},{"id":"A100","nama":"ATROPIN SULFAT INJEKSI0,25mg","kekuatan":0.25,"satuan":"mg","volume":1.0,"satuan_vol":"mL"},{"id":"A101","nama":"ATTAPULGIT/PECTIN (DIAGIN) TABLET600mg","kekuatan":600.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A102","nama":"AVITER SACHET","kekuatan":null,"satuan":null,"volume":null,"satuan_vol":null},{"id":"A103","nama":"AZATIOPRIN (IMURAN) TABLET50mg","kekuatan":50.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A104","nama":"AZITROMISIN TABLET500mg","kekuatan":500.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A105","nama":"AZITROMISIN TABLET PROGRAM500mg","kekuatan":500.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A106","nama":"AZITROMISIN (INFIMYCIN) INJEKSI500mg","kekuatan":500.0,"satuan":"mg","volume":1.0,"satuan_vol":"VIAL"},{"id":"A107","nama":"AZITROMISIN INJEKSI500mg","kekuatan":500.0,"satuan":"mg","volume":1.0,"satuan_vol":"VIAL"},{"id":"A108","nama":"AZITROMISIN INJEKSI DONASI500mg","kekuatan":500.0,"satuan":"mg","volume":1.0,"satuan_vol":"VIAL"},{"id":"A109","nama":"BARIUM SULFAT SERBUK92gram","kekuatan":92.0,"satuan":"gram","volume":100.0,"satuan_vol":"gram"},{"id":"A110","nama":"BATUGIN ELIXIR SIRUP","kekuatan":null,"satuan":null,"volume":null,"satuan_vol":null},{"id":"A111","nama":"BECOM Z TABLET HIBAH","kekuatan":null,"satuan":null,"volume":null,"satuan_vol":null},{"id":"A112","nama":"BEDAK SALISIL 2gram","kekuatan":2.0,"satuan":"gram","volume":100.0,"satuan_vol":"gram"},{"id":"A113","nama":"BEDAKUILIN FUMARAT (SIRTURO) TABLET PROGRAM100mg","kekuatan":100.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A114","nama":"BENZATIN BENZILPENISILIN1.200.000IU","kekuatan":1200000.0,"satuan":"IU","volume":null,"satuan_vol":null},{"id":"A115","nama":"BENZATIN BENZILPENISILIN2.400.000IU","kekuatan":2400000.0,"satuan":"IU","volume":null,"satuan_vol":null},{"id":"A116","nama":"BENZIDAMIN HCL/ALKOHOL (TANTUM VERDE)7,5mg","kekuatan":7.5,"satuan":"mg","volume":60.0,"satuan_vol":"mL"},{"id":"A117","nama":"BERAPROST (DORNER) KAPSUL20mcg","kekuatan":20.0,"satuan":"mcg","volume":null,"satuan_vol":null},{"id":"A118","nama":"BETAHISTIN TABLET6mg","kekuatan":6.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A119","nama":"BETAMETASON KRIM0,1%","kekuatan":0.1,"satuan":"%","volume":5.0,"satuan_vol":"gram"},{"id":"A120","nama":"BFLUID INFUS","kekuatan":null,"satuan":null,"volume":500.0,"satuan_vol":"mL"},{"id":"A121","nama":"BIONICOM ZINK TABLET PROGRAM","kekuatan":null,"satuan":null,"volume":null,"satuan_vol":null},{"id":"A122","nama":"BISAKODIL (DULCOLAX) SUPPOSITORIA10mg","kekuatan":10.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A123","nama":"BISAKODIL (DULCOLAX) SUPPOSITORIA5mg","kekuatan":5.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A124","nama":"BISAKODIL TABLET5mg","kekuatan":5.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A125","nama":"BISOPROLOL (CONCOR) TABLET1,25mg","kekuatan":1.25,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A126","nama":"BISOPROLOL TABLET2,5mg","kekuatan":2.5,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A127","nama":"BISOPROLOL (CONCOR) TABLET2,5mg","kekuatan":2.5,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A128","nama":"BISOPROLOL TABLET5mg","kekuatan":5.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A129","nama":"BLEOMISIN (BLEOCIN) INJEKSI15mg","kekuatan":15.0,"satuan":"mg","volume":1.0,"satuan_vol":"VIAL"},{"id":"A130","nama":"BRALIFEX TETES MATA","kekuatan":null,"satuan":null,"volume":null,"satuan_vol":null},{"id":"A131","nama":"BROMOKRIPTIN (CRIPSA) TABLET2,5mg","kekuatan":2.5,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A132","nama":"BUDESONID (PULMICORT) RESPULE0,5mg","kekuatan":0.5,"satuan":"mg","volume":1.0,"satuan_vol":"mL"},{"id":"A133","nama":"BUPIVAKAIN (QUANOCAIN) INJEKSI 0,5%0,02gram","kekuatan":0.02,"satuan":"gram","volume":4.0,"satuan_vol":"mL"},{"id":"A134","nama":"BUPIVAKAIN EPIDURAL (BUNASCAN) INJEKSI 0,5%0,01gram","kekuatan":0.01,"satuan":"gram","volume":20.0,"satuan_vol":"mL"},{"id":"A135","nama":"BUPIVAKAIN SPINAL(BUNASCAN) INJEKSI 0,5%0,02gram","kekuatan":0.02,"satuan":"gram","volume":4.0,"satuan_vol":"mL"},{"id":"A136","nama":"C. ASTHENOF TETES MATA","kekuatan":null,"satuan":null,"volume":null,"satuan_vol":null},{"id":"A137","nama":"C. AUGENTONIC TETES MATA","kekuatan":null,"satuan":null,"volume":null,"satuan_vol":null},{"id":"A138","nama":"C. CARPINE TETES MATA1%","kekuatan":1.0,"satuan":"%","volume":null,"satuan_vol":null},{"id":"A139","nama":"C. CARPINE TETES MATA2%","kekuatan":2.0,"satuan":"%","volume":null,"satuan_vol":null},{"id":"A140","nama":"C. CATARLENT TETES MATA","kekuatan":null,"satuan":null,"volume":null,"satuan_vol":null},{"id":"A141","nama":"C. CONVER TETES MATA","kekuatan":null,"satuan":null,"volume":null,"satuan_vol":null},{"id":"A142","nama":"C. EDTA TETES MATA","kekuatan":null,"satuan":null,"volume":null,"satuan_vol":null},{"id":"A143","nama":"C. EYEFRESH MINIDOSE TETES MATA","kekuatan":null,"satuan":null,"volume":null,"satuan_vol":null},{"id":"A144","nama":"C. EYEFRESH TETES MATA","kekuatan":null,"satuan":null,"volume":null,"satuan_vol":null},{"id":"A145","nama":"C. FENICOL SALEP MATA","kekuatan":null,"satuan":null,"volume":null,"satuan_vol":null},{"id":"A146","nama":"C. FLOXA TETES MATA","kekuatan":null,"satuan":null,"volume":null,"satuan_vol":null},{"id":"A147","nama":"C. GENTAMIN SALEP MATA","kekuatan":null,"satuan":null,"volume":null,"satuan_vol":null},{"id":"A148","nama":"C. MYDIATRIL TETES MATA0,5%","kekuatan":0.5,"satuan":"%","volume":null,"satuan_vol":null},{"id":"A149","nama":"C. MYDIATRIL TETES MATA1%","kekuatan":1.0,"satuan":"%","volume":null,"satuan_vol":null},{"id":"A150","nama":"C. PANTOCAIN TETES MATA0,5%","kekuatan":0.5,"satuan":"%","volume":null,"satuan_vol":null},{"id":"A151","nama":"C. PANTOCAINTETES MATA2%","kekuatan":2.0,"satuan":"%","volume":null,"satuan_vol":null},{"id":"A152","nama":"C. POLYGRAN TETES MATA","kekuatan":null,"satuan":null,"volume":null,"satuan_vol":null},{"id":"A153","nama":"C. PROTAGENTA TETES MATA","kekuatan":null,"satuan":null,"volume":5.0,"satuan_vol":"mL"},{"id":"A154","nama":"C. VASACON TETES MATA","kekuatan":null,"satuan":null,"volume":null,"satuan_vol":null},{"id":"A155","nama":"C. VASACON-A TETES MATA","kekuatan":null,"satuan":null,"volume":null,"satuan_vol":null},{"id":"A156","nama":"C. VITROLENTA TETES MATA","kekuatan":null,"satuan":null,"volume":null,"satuan_vol":null},{"id":"A157","nama":"C. XITROL TETES MATA","kekuatan":null,"satuan":null,"volume":5.0,"satuan_vol":"mL"},{"id":"A158","nama":"C. XITROL SALEP MATA","kekuatan":null,"satuan":null,"volume":null,"satuan_vol":null},{"id":"A159","nama":"C. LYTEERS TETES MATA","kekuatan":null,"satuan":null,"volume":null,"satuan_vol":null},{"id":"A160","nama":"C. MYCETINE SALEP MATA","kekuatan":null,"satuan":null,"volume":null,"satuan_vol":null},{"id":"A161","nama":"C. NONCORT TETES MATA","kekuatan":null,"satuan":null,"volume":null,"satuan_vol":null},{"id":"A162","nama":"C. PROTAGENTA MINIDOSE TETES MATA","kekuatan":null,"satuan":null,"volume":null,"satuan_vol":null},{"id":"A163","nama":"C. TIMOL TETES MATA0,25%","kekuatan":0.25,"satuan":"%","volume":null,"satuan_vol":null},{"id":"A164","nama":"C. TIMOL TETES MATA0,5%","kekuatan":0.5,"satuan":"%","volume":null,"satuan_vol":null},{"id":"A165","nama":"C. VASACON TETES MATA","kekuatan":null,"satuan":null,"volume":null,"satuan_vol":null},{"id":"A166","nama":"CAVICUR (CURCUMA) SIRUP","kekuatan":null,"satuan":null,"volume":null,"satuan_vol":null},{"id":"A167","nama":"CAVICUR (CURCUMA) TABLET","kekuatan":null,"satuan":null,"volume":null,"satuan_vol":null},{"id":"A168","nama":"CITICOLIN INJEKSI250mg","kekuatan":250.0,"satuan":"mg","volume":2.0,"satuan_vol":"mL"},{"id":"A169","nama":"CITICOLINE TABLET500mg","kekuatan":500.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A170","nama":"CITICOLINE INJEKSI500mg","kekuatan":500.0,"satuan":"mg","volume":4.0,"satuan_vol":"mL"},{"id":"A171","nama":"CLINIMIX INFUS","kekuatan":null,"satuan":null,"volume":null,"satuan_vol":null},{"id":"A172","nama":"CLINOLEIC INFUS","kekuatan":null,"satuan":null,"volume":null,"satuan_vol":null},{"id":"A173","nama":"CLOBETASOL PROPIONATE (LAMODEX) KRIM0,5mg","kekuatan":0.5,"satuan":"mg","volume":10.0,"satuan_vol":"G"},{"id":"A174","nama":"COLISTINE TABLET1.500.000IU","kekuatan":1500000.0,"satuan":"IU","volume":null,"satuan_vol":null},{"id":"A175","nama":"COLISTINE TABLET250IU","kekuatan":250.0,"satuan":"IU","volume":null,"satuan_vol":null},{"id":"A176","nama":"COMAFUSIN HEPAR INFUS","kekuatan":null,"satuan":null,"volume":null,"satuan_vol":null},{"id":"A177","nama":"COMBIFLEX PERI INFUS","kekuatan":null,"satuan":null,"volume":1440.0,"satuan_vol":"mL"},{"id":"A178","nama":"CURCUMA TABLET20mg","kekuatan":20.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A179","nama":"CURLIV PLUS SIRUP","kekuatan":null,"satuan":null,"volume":null,"satuan_vol":null},{"id":"A180","nama":"CYCLOSERINE (CLOSERIN) TABLET PROGRAM250mg","kekuatan":250.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A181","nama":"DAKARBAZIN (DAKARBAZIN MEDAC) INJEKSI200mg","kekuatan":200.0,"satuan":"mg","volume":1.0,"satuan_vol":"VIAL"},{"id":"A182","nama":"DEFERASIROKS (EXJADE) TABLET DISPERIBLE250mg","kekuatan":250.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A183","nama":"DEFERASIROKS (EXJADE) TABLET DISPERIBLE500mg","kekuatan":500.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A184","nama":"DEKSAMETASON INJEKSI5mg","kekuatan":5.0,"satuan":"mg","volume":1.0,"satuan_vol":"mL"},{"id":"A185","nama":"DEKSAMETASON TABLET0,5mg","kekuatan":0.5,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A186","nama":"DEKSMEDETOMIDIN (PRECEDEX) INJEKSI200mcg","kekuatan":200.0,"satuan":"mcg","volume":2.0,"satuan_vol":"mL"},{"id":"A187","nama":"DESOKSIMETASON KRIM0,25%","kekuatan":0.25,"satuan":"%","volume":null,"satuan_vol":null},{"id":"A188","nama":"DIAZEPAM (STESOLID) INJEKSI10mg","kekuatan":10.0,"satuan":"mg","volume":2.0,"satuan_vol":"mL"},{"id":"A189","nama":"DIAZEPAM (VALISANBE) INJEKSI10mg","kekuatan":10.0,"satuan":"mg","volume":2.0,"satuan_vol":"mL"},{"id":"A190","nama":"DIAZEPAM INJEKSI10mg","kekuatan":10.0,"satuan":"mg","volume":2.0,"satuan_vol":"mL"},{"id":"A191","nama":"DIAZEPAM INJEKSI DONASI10mg","kekuatan":10.0,"satuan":"mg","volume":2.0,"satuan_vol":"mL"},{"id":"A192","nama":"DIAZEPAM TABLET2mg","kekuatan":2.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A193","nama":"DIAZEPAM TABLET DONASI2mg","kekuatan":2.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A194","nama":"DIAZEPAM TABLET5mg","kekuatan":5.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A195","nama":"DIAZEPAM TABLET DONASI5mg","kekuatan":5.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A196","nama":"DIAZEPAM (STESOLID) RECTAL5mg","kekuatan":5.0,"satuan":"mg","volume":2.5,"satuan_vol":"mL"},{"id":"A197","nama":"DIENOGEST (VISANNE) TABLET2mg","kekuatan":2.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A198","nama":"DIFENHIDRAMIN INJEKSI10mg","kekuatan":10.0,"satuan":"mg","volume":1.0,"satuan_vol":"mL"},{"id":"A199","nama":"DIFENHIDRAMIN INJEKSI DONASI10mg","kekuatan":10.0,"satuan":"mg","volume":1.0,"satuan_vol":"mL"},{"id":"A200","nama":"DIGOKSIN TABLET0,25mg","kekuatan":0.25,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A201","nama":"DIGOKSIN (FARGOXIN) INJEKSI0,5mg","kekuatan":0.5,"satuan":"mg","volume":2.0,"satuan_vol":"mL"},{"id":"A202","nama":"DIHIDROARTEMISININ40mg","kekuatan":40.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A203","nama":"PIPERAKUIN (DHP-FRIMAL)320mg","kekuatan":320.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A204","nama":"DILTIAZEM (DILTIAZEM) KAPSUL100mg","kekuatan":100.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A205","nama":"DILTIAZEM TABLET180mg","kekuatan":180.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A206","nama":"DILTIAZEM (DILTIAZEM) INJEKSI25mg","kekuatan":25.0,"satuan":"mg","volume":5.0,"satuan_vol":"mL"},{"id":"A207","nama":"DIMENHIDRINAT TABLET50mg","kekuatan":50.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A208","nama":"DOBUTAMIN (DOBUJECT) INJEKSI250mg","kekuatan":250.0,"satuan":"mg","volume":5.0,"satuan_vol":"mL"},{"id":"A209","nama":"DOBUTAMIN INJEKSI250mg","kekuatan":250.0,"satuan":"mg","volume":5.0,"satuan_vol":"mL"},{"id":"A210","nama":"DOKSISIKLIN TABLET100mg","kekuatan":100.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A211","nama":"DOKSORUBISIN INJEKSI10mg","kekuatan":10.0,"satuan":"mg","volume":5.0,"satuan_vol":"mL"},{"id":"A212","nama":"DOKSORUBISIN INJEKSI50mg","kekuatan":50.0,"satuan":"mg","volume":5.0,"satuan_vol":"mL"},{"id":"A213","nama":"DOMPERIDON DROP5mg","kekuatan":5.0,"satuan":"mg","volume":1.0,"satuan_vol":"mL"},{"id":"A214","nama":"DOMPERIDON TABLET10mg","kekuatan":10.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A215","nama":"DOMPERIDON SIRUP5mg","kekuatan":5.0,"satuan":"mg","volume":5.0,"satuan_vol":"mL"},{"id":"A216","nama":"DONEPEZIL TABLET5mg","kekuatan":5.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A217","nama":"DONEPEZIL (ARICEPT) TABLET10mg","kekuatan":10.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A218","nama":"DOPAMIN (CETADOP) INJEKSI200mg","kekuatan":200.0,"satuan":"mg","volume":5.0,"satuan_vol":"mL"},{"id":"A219","nama":"DOPAMIN INJEKSI200mg","kekuatan":200.0,"satuan":"mg","volume":5.0,"satuan_vol":"mL"},{"id":"A220","nama":"DOSETAKSEL (BREXEL) INJEKSI80mg","kekuatan":80.0,"satuan":"mg","volume":8.0,"satuan_vol":"mL"},{"id":"A221","nama":"DOSETAKSEL (BREXEL) INJEKSI20mg","kekuatan":20.0,"satuan":"mg","volume":2.0,"satuan_vol":"mL"},{"id":"A222","nama":"DUTASTERID (AVODART) TABLET0,5mg","kekuatan":0.5,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A223","nama":"EFAVIRENZ TABLET PROGRAM600mg","kekuatan":600.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A224","nama":"EFEDRIN INJEKSI50mg","kekuatan":50.0,"satuan":"mg","volume":1.0,"satuan_vol":"mL"},{"id":"A225","nama":"EKSEMESTAN (AROMASIN) TABLET25mg","kekuatan":25.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A226","nama":"ELKANA SIRUP","kekuatan":null,"satuan":null,"volume":null,"satuan_vol":null},{"id":"A227","nama":"ENOKSAPARIN SODIUM (LOVENOX) INJEKSI40mg","kekuatan":40.0,"satuan":"mg","volume":0.4,"satuan_vol":"mL"},{"id":"A228","nama":"ENOKSAPARIN SODIUM (LOVENOX) INJEKSI DONASI40mg","kekuatan":40.0,"satuan":"mg","volume":0.4,"satuan_vol":"mL"},{"id":"A229","nama":"ENOKSAPARIN SODIUM (LOVENOX) INJEKSI60mg","kekuatan":60.0,"satuan":"mg","volume":0.6,"satuan_vol":"mL"},{"id":"A230","nama":"EPERISON TABLET50mg","kekuatan":50.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A231","nama":"EPINEFRIN INJEKSI1mg","kekuatan":1.0,"satuan":"mg","volume":1.0,"satuan_vol":"mL"},{"id":"A232","nama":"EPIRUBISIN HCL INJEKSI50mg","kekuatan":50.0,"satuan":"mg","volume":1.0,"satuan_vol":"VIAL"},{"id":"A233","nama":"ERGOTAMIN1mg","kekuatan":1.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A234","nama":"KAFEIN50mg","kekuatan":50.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A235","nama":"ERITROMISIN SIRUP200mg","kekuatan":200.0,"satuan":"mg","volume":5.0,"satuan_vol":"mL"},{"id":"A236","nama":"ERITROMISIN TABLET500mg","kekuatan":500.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A237","nama":"ERITROPOETIN ALFA (HEMAPO) INJEKSI2000IU","kekuatan":2000.0,"satuan":"IU","volume":null,"satuan_vol":null},{"id":"A238","nama":"ERITROPOETIN ALFA (HEMAPO) INJEKSI3000IU","kekuatan":3000.0,"satuan":"IU","volume":null,"satuan_vol":null},{"id":"A239","nama":"ERLOTINIB (TARCEVA) TABLET100mg","kekuatan":100.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A240","nama":"ESCITALOPRAM (DEPRAM) TABLET10mg","kekuatan":10.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A241","nama":"ESTAZOLAM (ESILGAN) TABLET1mg","kekuatan":1.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A242","nama":"ESTAZOLAM (ESILGAN) TABLET2mg","kekuatan":2.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A243","nama":"ETAMBUTOL TABLET250mg","kekuatan":250.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A244","nama":"ETAMBUTOL TABLET400mg","kekuatan":400.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A245","nama":"ETAMBUTOL TABLET500mg","kekuatan":500.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A246","nama":"ETIONAMID TABLET PROGRAM250mg","kekuatan":250.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A247","nama":"FAKTOR KOAGULASI IX (OCTANINE) INJEKSI500IU","kekuatan":500.0,"satuan":"IU","volume":null,"satuan_vol":null},{"id":"A248","nama":"FAKTOR KOAGULASI VIII (OCTANATE) INJEKSI500IU","kekuatan":500.0,"satuan":"IU","volume":null,"satuan_vol":null},{"id":"A249","nama":"FAVIPIRAVIR (AVIGAN TABLET PROGRAM200mg","kekuatan":200.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A250","nama":"FAVIPIRAVIR TABLET200mg","kekuatan":200.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A251","nama":"FAVIPIRAVIR TABLET HIBAH200mg","kekuatan":200.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A252","nama":"FENILEFRIN (C. EFRISEL) TETES MATA10%","kekuatan":10.0,"satuan":"%","volume":5.0,"satuan_vol":"mL"},{"id":"A253","nama":"FENITOIN NATRIUM (KUTOIN) INJEKSI100mg","kekuatan":100.0,"satuan":"mg","volume":2.0,"satuan_vol":"mL"},{"id":"A254","nama":"FENITOIN NATRIUM INJEKSI100mg","kekuatan":100.0,"satuan":"mg","volume":2.0,"satuan_vol":"mL"},{"id":"A255","nama":"FENOBARBITAL (FENOBARBITAL) INJEKSI200mg","kekuatan":200.0,"satuan":"mg","volume":2.0,"satuan_vol":"mL"},{"id":"A256","nama":"FENOBARBITAL TABLET30mg","kekuatan":30.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A257","nama":"FENOBARBITAL INJEKSI50mg","kekuatan":50.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A258","nama":"FENOFIBRAT TABLET300mg","kekuatan":300.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A259","nama":"FENOTEROL HBr (BEROTEC) SOLUTION0,1%","kekuatan":0.1,"satuan":"%","volume":null,"satuan_vol":null},{"id":"A260","nama":"FENOTEROL HBr (BEROTEC) MDI100mcg","kekuatan":100.0,"satuan":"mcg","volume":null,"satuan_vol":null},{"id":"A261","nama":"FENTANIL INJEKSI0,1mg","kekuatan":0.1,"satuan":"mg","volume":2.0,"satuan_vol":"mL"},{"id":"A262","nama":"FENTANIL (DUROGESIC) PATCH12,5mcg","kekuatan":12.5,"satuan":"mcg","volume":null,"satuan_vol":null},{"id":"A263","nama":"FENTANIL (DUROGESIC) PATCH25mcg","kekuatan":25.0,"satuan":"mcg","volume":null,"satuan_vol":null},{"id":"A264","nama":"FERRO FUMARAT, ASAM FOLAT (ETABION) TABLET","kekuatan":null,"satuan":null,"volume":null,"satuan_vol":null},{"id":"A265","nama":"FERRO FUMARAT, ASAM FOLAT (TABLET TAMBAH DARAH) TABLET","kekuatan":null,"satuan":null,"volume":null,"satuan_vol":null},{"id":"A266","nama":"FERRO FUMARAT, ASAM FOLAT (TABLET TAMBAH DARAH) TABLET PROGRAM","kekuatan":null,"satuan":null,"volume":null,"satuan_vol":null},{"id":"A267","nama":"FILGRASTIM (LEUCOGEN) INJEKSI300mcg","kekuatan":300.0,"satuan":"mcg","volume":null,"satuan_vol":null},{"id":"A268","nama":"FITOMENADION (VITAMIN K1) (VIT. K INFANT) INJEKSI2mg","kekuatan":2.0,"satuan":"mg","volume":1.0,"satuan_vol":"mL"},{"id":"A269","nama":"FITOMENADION (VITAMIN K1) INJEKSI2mg","kekuatan":2.0,"satuan":"mg","volume":1.0,"satuan_vol":"mL"},{"id":"A270","nama":"FITOMENADION TABLET10mg","kekuatan":10.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A271","nama":"FLAMAR TETES MATA","kekuatan":null,"satuan":null,"volume":null,"satuan_vol":null},{"id":"A272","nama":"FLORAGYN TABLET","kekuatan":null,"satuan":null,"volume":null,"satuan_vol":null},{"id":"A273","nama":"FLUFENAZIN DECANOATE (SIKZONOTE) INJEKSI25mg","kekuatan":25.0,"satuan":"mg","volume":1.0,"satuan_vol":"mL"},{"id":"A274","nama":"FLUKONAZOL KAPSUL PROGRAM150mg","kekuatan":150.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A275","nama":"FLUKONAZOL TABLET150mg","kekuatan":150.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A276","nama":"FLUKONAZOL INFUS200mg","kekuatan":200.0,"satuan":"mg","volume":100.0,"satuan_vol":"mL"},{"id":"A277","nama":"FLUNARIZIN TABLET10mg","kekuatan":10.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A278","nama":"FLUNARIZIN TABLET5mg","kekuatan":5.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A279","nama":"FLUOKSETIN (NOPRES) TABLET20mg","kekuatan":20.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A280","nama":"FLUOROURASIL (CURACIL) INJEKSI500mg","kekuatan":500.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A281","nama":"FLUOROURASIL INJEKSI500mg","kekuatan":500.0,"satuan":"mg","volume":1.0,"satuan_vol":"VIAL"},{"id":"A282","nama":"FLUTIKASON FUROAT (AVAMYS) NASAL SPRAY27,5mg","kekuatan":27.5,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A283","nama":"FOLAMIL GENIO KAPSUL","kekuatan":null,"satuan":null,"volume":null,"satuan_vol":null},{"id":"A284","nama":"FONDAPARINUX SODIUM (ARIXTRA) INJEKSI2,5mg","kekuatan":2.5,"satuan":"mg","volume":0.5,"satuan_vol":"mL"},{"id":"A285","nama":"FUKRICIN TETES MATA","kekuatan":null,"satuan":null,"volume":null,"satuan_vol":null},{"id":"A286","nama":"FUROSEMID (DIUVAR) INJEKSI20mg","kekuatan":20.0,"satuan":"mg","volume":2.0,"satuan_vol":"mL"},{"id":"A287","nama":"FUROSEMID (URESIX) TABLET40mg","kekuatan":40.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A288","nama":"FUROSEMID TABLET40mg","kekuatan":40.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A289","nama":"FUROSEMID INJEKSI20mg","kekuatan":20.0,"satuan":"mg","volume":2.0,"satuan_vol":"mL"},{"id":"A290","nama":"FURSULTIAMIN/DEXTROSE ANHYDRATE2,5mg","kekuatan":2.5,"satuan":"mg","volume":10.0,"satuan_vol":"mL"},{"id":"A291","nama":"FUTROLIT INFUS","kekuatan":null,"satuan":null,"volume":500.0,"satuan_vol":"mL"},{"id":"A292","nama":"GABAPENTIN (ALPENTIN) KAPSUL100mg","kekuatan":100.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A293","nama":"GABAPENTIN TABLET300mg","kekuatan":300.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A294","nama":"GEFITINIB (IRESSA) TABLET250mg","kekuatan":250.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A295","nama":"GELOFUSIN INFUS","kekuatan":null,"satuan":null,"volume":500.0,"satuan_vol":"mL"},{"id":"A296","nama":"GEMFIBROZIL KAPSUL300mg","kekuatan":300.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A297","nama":"GEMSITABIN (GEMCICAL) INJEKSI1000mg","kekuatan":1000.0,"satuan":"mg","volume":1.0,"satuan_vol":"VIAL"},{"id":"A298","nama":"GEMSITABIN (GEMEDAC) INJEKSI1000mg","kekuatan":1000.0,"satuan":"mg","volume":1.0,"satuan_vol":"VIAL"},{"id":"A299","nama":"GEMSITABIN (GEMTAN) INJEKSI1000mg","kekuatan":1000.0,"satuan":"mg","volume":1.0,"satuan_vol":"VIAL"},{"id":"A300","nama":"GENOINT SALEP MATA","kekuatan":null,"satuan":null,"volume":null,"satuan_vol":null},{"id":"A301","nama":"GENTAMISIN 0,1%","kekuatan":0.1,"satuan":"%","volume":null,"satuan_vol":null},{"id":"A302","nama":"FLUCINOLON0,025%","kekuatan":0.025,"satuan":"%","volume":null,"satuan_vol":null},{"id":"A303","nama":"GENTAMISIN SALEP KULIT0,1%","kekuatan":0.1,"satuan":"%","volume":null,"satuan_vol":null},{"id":"A304","nama":"GENTAMISIN TETES MATA0,3%","kekuatan":0.3,"satuan":"%","volume":null,"satuan_vol":null},{"id":"A305","nama":"GENTAMISIN (SAGESTAM) INJEKSI80mg","kekuatan":80.0,"satuan":"mg","volume":2.0,"satuan_vol":"mL"},{"id":"A306","nama":"GENTAMISIN INJEKSI80mg","kekuatan":80.0,"satuan":"mg","volume":2.0,"satuan_vol":"mL"},{"id":"A307","nama":"GLIBENKLAMID TABLET5mg","kekuatan":5.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A308","nama":"GLIKLAZID TABLET80mg","kekuatan":80.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A309","nama":"GLUKUIDON (GLURENORM) TABLET30mg","kekuatan":30.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A310","nama":"GLUKUIDON TABLET30mg","kekuatan":30.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A311","nama":"GLIMEPIRIDE TABLET1mg","kekuatan":1.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A312","nama":"GLIMEPIRIDE TABLET2mg","kekuatan":2.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A313","nama":"GLIMEPIRIDE TABLET3mg","kekuatan":3.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A314","nama":"GLIMEPIRIDE TABLET4mg","kekuatan":4.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A315","nama":"GLISERIL GUAIAKOLAT (GUAIFENESIN) TABLET100mg","kekuatan":100.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A316","nama":"GLISERIL GUAIAKOLAT (GUAIFENESIN) TABLET50mg","kekuatan":50.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A317","nama":"GLISERIL TRINITRAT (NTG) INJEKSI10mg","kekuatan":10.0,"satuan":"mg","volume":10.0,"satuan_vol":"mL"},{"id":"A318","nama":"GLISERIL TRINITRAT (NITROKAF RETARD) KAPSUL2,5mg","kekuatan":2.5,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A319","nama":"GLISERIL TRINITRAT (NITROKAF RETARD FORTE) KAPSUL5mg","kekuatan":5.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A320","nama":"GLUKOSA INFUS 10 %50gram","kekuatan":50.0,"satuan":"gram","volume":500.0,"satuan_vol":"mL"},{"id":"A321","nama":"GLUKOSA 40 %10gram","kekuatan":10.0,"satuan":"gram","volume":25.0,"satuan_vol":"mL"},{"id":"A322","nama":"GLUKOSA 5% 1/2 NS INFUS (SANBE)25gram","kekuatan":25.0,"satuan":"gram","volume":500.0,"satuan_vol":"mL"},{"id":"A323","nama":"GLUKOSA 5% 1/2 NS INFUS (WIDATRA)25gram","kekuatan":25.0,"satuan":"gram","volume":500.0,"satuan_vol":"mL"},{"id":"A324","nama":"GLUKOSA 5% 1/2 NS INFUS (SANBE)25gram","kekuatan":25.0,"satuan":"gram","volume":500.0,"satuan_vol":"mL"},{"id":"A325","nama":"GLUKOSA 5% 1/4 NS INFUS (WIDATRA)25gram","kekuatan":25.0,"satuan":"gram","volume":500.0,"satuan_vol":"mL"},{"id":"A326","nama":"GLUKOSA 5% INFUS5gram","kekuatan":5.0,"satuan":"gram","volume":100.0,"satuan_vol":"mL"},{"id":"A327","nama":"GLUKOSA 5% INFUS25gram","kekuatan":25.0,"satuan":"gram","volume":500.0,"satuan_vol":"mL"},{"id":"A328","nama":"GLUKOSAMIN TABLET250mg","kekuatan":250.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A329","nama":"GOSERELIN (ZOLADEX) INJEKSI3,6mg","kekuatan":3.6,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A330","nama":"GRANISENTRON 0,1% INJEKSI0,001gram","kekuatan":0.001,"satuan":"gram","volume":1.0,"satuan_vol":"mL"},{"id":"A331","nama":"GRANISETRON INJEKSI0,003gram","kekuatan":0.003,"satuan":"gram","volume":3.0,"satuan_vol":"mL"},{"id":"A332","nama":"GRISEOFULVIN TABLET125mg","kekuatan":125.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A333","nama":"HALOPERIDOL TABLET0,5mg","kekuatan":0.5,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A334","nama":"HALOPERIDOL TABLET1,5mg","kekuatan":1.5,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A335","nama":"HALOPERIDOL TABLET5mg","kekuatan":5.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A336","nama":"HALOPERIDOL TABLET (LODOMER) INJEKSI5mg","kekuatan":5.0,"satuan":"mg","volume":1.0,"satuan_vol":"mL"},{"id":"A337","nama":"HALOPERIDOL (HALDOL DECANOAS) INJEKSI50mg","kekuatan":50.0,"satuan":"mg","volume":1.0,"satuan_vol":"mL"},{"id":"A338","nama":"HALOTAN CAIRAN","kekuatan":null,"satuan":null,"volume":250.0,"satuan_vol":"mL"},{"id":"A339","nama":"HEPARIN (INVICLOT) INJEKSI25000UNIT","kekuatan":25000.0,"satuan":"UNIT","volume":5.0,"satuan_vol":"mL"},{"id":"A340","nama":"HEPARIN SODIUM (THROMECON) GEL","kekuatan":null,"satuan":null,"volume":null,"satuan_vol":null},{"id":"A341","nama":"HEPATITIS B IMUNOGLOBULIN INJEKSI220UNIT","kekuatan":220.0,"satuan":"UNIT","volume":0.5,"satuan_vol":"mL"},{"id":"A342","nama":"HEPATITIS B IMUNOGLOBULIN INJEKSI PROGRAM220UNIT","kekuatan":220.0,"satuan":"UNIT","volume":0.5,"satuan_vol":"mL"},{"id":"A343","nama":"HEXETIDIN 0,1% (HEXADOL) LARUTAN","kekuatan":null,"satuan":null,"volume":null,"satuan_vol":null},{"id":"A344","nama":"HIDROKLORTIAZID TABLET25mg","kekuatan":25.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A345","nama":"HIDROKORTISON (FARTISON) INJEKSI100mg","kekuatan":100.0,"satuan":"mg","volume":1.0,"satuan_vol":"VIAL"},{"id":"A346","nama":"HIDROKORTISON KRIM2,5%","kekuatan":2.5,"satuan":"%","volume":null,"satuan_vol":null},{"id":"A347","nama":"HIDROKSIKLOROKUIN TABLET200mg","kekuatan":200.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A348","nama":"HIDROKSIKLOROKUIN TABLET HIBAH200mg","kekuatan":200.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A349","nama":"HIDROKSIUREA MEDAK TABLET500mg","kekuatan":500.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A350","nama":"HIOSIN BUTILBROMINDA (GITAS) INJEKSI20mg","kekuatan":20.0,"satuan":"mg","volume":1.0,"satuan_vol":"mL"},{"id":"A351","nama":"HUMAN TETANUS IMUNOGLOBULIN (TETAGAM) INJEKSI250IU","kekuatan":250.0,"satuan":"IU","volume":null,"satuan_vol":null},{"id":"A352","nama":"HYDROMAL INFUS","kekuatan":null,"satuan":null,"volume":500.0,"satuan_vol":"mL"},{"id":"A353","nama":"IBUPROFEN SIRUP100mg","kekuatan":100.0,"satuan":"mg","volume":5.0,"satuan_vol":"mL"},{"id":"A354","nama":"IBUPROFEN TABLET200mg","kekuatan":200.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A355","nama":"IBUPROFEN SIRUP200mg","kekuatan":200.0,"satuan":"mg","volume":5.0,"satuan_vol":"mL"},{"id":"A356","nama":"IBUPROFEN TABLET400mg","kekuatan":400.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A357","nama":"IFOSFAMID (HOLOXAN) INJEKSI1000mg","kekuatan":1000.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A358","nama":"IFOSFAMID (HOLOXAN) INJEKSI2000mg","kekuatan":2000.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A359","nama":"IMATINIB MESILAT (GLIVEC) TABLET100mg","kekuatan":100.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A360","nama":"IMUNOGLOBULIN INTRAVENA 5% (GAMMARASS)","kekuatan":null,"satuan":null,"volume":50.0,"satuan_vol":"mL"},{"id":"A361","nama":"INDACATEROL (ONBREZ) INHALER300mcg","kekuatan":300.0,"satuan":"mcg","volume":null,"satuan_vol":null},{"id":"A362","nama":"IOPROMID (ULTRAVIST) INJEKSI300mg","kekuatan":300.0,"satuan":"mg","volume":50.0,"satuan_vol":"mL"},{"id":"A363","nama":"IOPROMID (ULTRAVIST) INJEKSI370mg","kekuatan":370.0,"satuan":"mg","volume":50.0,"satuan_vol":"mL"},{"id":"A364","nama":"IPATROPIUM BROMIDE/SALBUTAMOL SULFATE500/2,5mcg/mg","kekuatan":"500/2,5","satuan":"mcg/mg","volume":null,"satuan_vol":null},{"id":"A365","nama":"IRINOTEKAN (CAMPTO) INJEKSI100mg","kekuatan":100.0,"satuan":"mg","volume":5.0,"satuan_vol":"mL"},{"id":"A366","nama":"IRINOTEKAN (CAMPTO) INJEKSI40mg","kekuatan":40.0,"satuan":"mg","volume":2.0,"satuan_vol":"mL"},{"id":"A367","nama":"IRON SURCROSE (DIALIFER) INJEKSI200mg","kekuatan":200.0,"satuan":"mg","volume":5.0,"satuan_vol":"mL"},{"id":"A368","nama":"ISOFLURAN (TERREL) INHALASI","kekuatan":null,"satuan":null,"volume":100.0,"satuan_vol":"mL"},{"id":"A369","nama":"ISOFLURAN (TERREL) INHALASI","kekuatan":null,"satuan":null,"volume":250.0,"satuan_vol":"mL"},{"id":"A370","nama":"ISOKSUPRIN (TONOTAN) TABLET20mg","kekuatan":20.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A371","nama":"ISONIAZID TABLET PROGRAM100mg","kekuatan":100.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A372","nama":"ISONIAZID TABLET300mg","kekuatan":300.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A373","nama":"ISONIAZID TABLET PROGRAM300mg","kekuatan":300.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A374","nama":"ISOSORBID DINITRAT (ISDN) INJEKSI10mg","kekuatan":10.0,"satuan":"mg","volume":10.0,"satuan_vol":"mL"},{"id":"A375","nama":"ISOSORBID DINITRAT (ISDN) TABLET5mg","kekuatan":5.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A376","nama":"ISOTIC ADRETOR TETES MATA0,5%","kekuatan":0.5,"satuan":"%","volume":null,"satuan_vol":null},{"id":"A377","nama":"ISOXSUPRINE (HISTOLAN) TABLET20mg","kekuatan":20.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A378","nama":"ITRAKONAZOL TABLET100mg","kekuatan":100.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A379","nama":"KABIVEN PERIPHERAL","kekuatan":null,"satuan":null,"volume":1440.0,"satuan_vol":"mL"},{"id":"A380","nama":"KAEN 1B INFUS","kekuatan":null,"satuan":null,"volume":500.0,"satuan_vol":"mL"},{"id":"A381","nama":"KAEN 3A INFUS","kekuatan":null,"satuan":null,"volume":500.0,"satuan_vol":"mL"},{"id":"A382","nama":"KAEN 3B INFUS","kekuatan":null,"satuan":null,"volume":500.0,"satuan_vol":"mL"},{"id":"A383","nama":"KAEN 4A INFUS","kekuatan":null,"satuan":null,"volume":500.0,"satuan_vol":"mL"},{"id":"A384","nama":"KAEN 4B INFUS","kekuatan":null,"satuan":null,"volume":500.0,"satuan_vol":"mL"},{"id":"A385","nama":"KAEN mg3 INFUS","kekuatan":null,"satuan":null,"volume":500.0,"satuan_vol":"mL"},{"id":"A386","nama":"KALIUM ASPARTAT (KALIPAR) TABLET300mg","kekuatan":300.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A387","nama":"KALIUM DIKLOFENAK TABLET50mg","kekuatan":50.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A388","nama":"KALIUM KLORIDA (KCL) INJEKSI","kekuatan":null,"satuan":null,"volume":25.0,"satuan_vol":"mL"},{"id":"A389","nama":"KALIUM KLORIDA SR (KSR) TABLET600mg","kekuatan":600.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A390","nama":"KALSITRIOL (OSCAL) KAPSUL0,25mcg","kekuatan":0.25,"satuan":"mcg","volume":null,"satuan_vol":null},{"id":"A391","nama":"KALSITRIOL (OSCAL) KAPSUL0,5mcg","kekuatan":0.5,"satuan":"mcg","volume":null,"satuan_vol":null},{"id":"A392","nama":"KALSIUM FOLINAT (LEUKOVORIN) INJEKSI50mg","kekuatan":50.0,"satuan":"mg","volume":5.0,"satuan_vol":"mL"},{"id":"A393","nama":"KALSIUM GLUKONAT 10% INJEKSI1gram","kekuatan":1.0,"satuan":"gram","volume":10.0,"satuan_vol":"mL"},{"id":"A394","nama":"KALSIUM KARBONAT (CALOS) TABLET500mg","kekuatan":500.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A395","nama":"KALSIUM LAKTAT TABLET500mg","kekuatan":500.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A396","nama":"KALSIUM POLISTIRENA SULFONAT5G","kekuatan":5.0,"satuan":"G","volume":null,"satuan_vol":null},{"id":"A397","nama":"KANASIMIN INJEKSI1000mg","kekuatan":1000.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A398","nama":"KANASIMIN INJEKSI PROGRAM1000mg","kekuatan":1000.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A399","nama":"KANDESARTAN TABLET16mg","kekuatan":16.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A400","nama":"KANDESARTAN TABLET8mg","kekuatan":8.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A401","nama":"KAPESITABIN (BINECAP) TABLET 500mg","kekuatan":500.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A402","nama":"KAPTOPRIL TABLET12,5mg","kekuatan":12.5,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A403","nama":"KAPTOPRIL TABLET25mg","kekuatan":25.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A404","nama":"KAPTOPRIL TABLET50mg","kekuatan":50.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A405","nama":"KARBAMAZEPIN (BAmgETOL) TABLET200mg","kekuatan":200.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A406","nama":"KARBAMAZEPIN (TEGRETOL) TABLET200mg","kekuatan":200.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A407","nama":"KARBAMAZEPIN TABLET200mg","kekuatan":200.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A408","nama":"KARBOZOKROM (ADONA) TABLET10mg","kekuatan":10.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A409","nama":"KARBAZOKROM (CROME) TABLET10mg","kekuatan":10.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A410","nama":"KARBAZOKROM (ADONA) INJEKSI50mg","kekuatan":50.0,"satuan":"mg","volume":10.0,"satuan_vol":"mL"},{"id":"A411","nama":"KARBAZOKROM (CROME) INJEKSI50mg","kekuatan":50.0,"satuan":"mg","volume":10.0,"satuan_vol":"mL"},{"id":"A412","nama":"KARBOPLATIN INJEKSI150mg","kekuatan":150.0,"satuan":"mg","volume":10.0,"satuan_vol":"mL"},{"id":"A413","nama":"KARBOPLATIN INJEKSI450mg","kekuatan":450.0,"satuan":"mg","volume":45.0,"satuan_vol":"mL"},{"id":"A414","nama":"KARVEDILOL (VBLOC) TABLET25mg","kekuatan":25.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A415","nama":"KARVEDILOL (VBLOC) TABLET6,25mg","kekuatan":6.25,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A416","nama":"KETOKONAZOL KRIM2%","kekuatan":2.0,"satuan":"%","volume":null,"satuan_vol":null},{"id":"A417","nama":"KETOKONAZOLE TABLET200mg","kekuatan":200.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A418","nama":"KETOPROFEN (PRONALGES) SUPPOSITORIA100mg","kekuatan":100.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A419","nama":"KETOPROFEN (PROTOFEN) SUPPOSITORIA100mg","kekuatan":100.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A420","nama":"KETOROLAK INJEKSI10mg","kekuatan":10.0,"satuan":"mg","volume":1.0,"satuan_vol":"mL"},{"id":"A421","nama":"KETOROLAK TABLET30mg","kekuatan":30.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A422","nama":"KETOROLAK INJEKSI30mg","kekuatan":30.0,"satuan":"mg","volume":1.0,"satuan_vol":"mL"},{"id":"A423","nama":"KIDMIN INFUS","kekuatan":null,"satuan":null,"volume":200.0,"satuan_vol":"mL"},{"id":"A424","nama":"KLINDAMISIN KAPSUL150mg","kekuatan":150.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A425","nama":"KLINDAMISIN KAPSUL300mg","kekuatan":300.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A426","nama":"KLOBAZAM TABLET10mg","kekuatan":10.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A427","nama":"KLOFAZIMIN (LAMPREME) TABLET100mg","kekuatan":100.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A428","nama":"KLOFAZIMIN (LAMPREME) TABLET50mg","kekuatan":50.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A429","nama":"KLOMIFEN SITRAT (CLOVERTIL) TABLET50mg","kekuatan":50.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A430","nama":"KLOMIFEN SITRAT TABLET50mg","kekuatan":50.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A431","nama":"KLONIDIN (CATAPRES) INJEKSI0,15mg","kekuatan":0.15,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A432","nama":"KLONIDIN TABLET0,15mg","kekuatan":0.15,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A433","nama":"KLOPIDOGREL TABLET75mg","kekuatan":75.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A434","nama":"KLORAMFENIKOL (COLSANCENTINE) INJEKSI1gram","kekuatan":1.0,"satuan":"gram","volume":null,"satuan_vol":null},{"id":"A435","nama":"KLORAMFENIKOL SALEP MATA1%","kekuatan":1.0,"satuan":"%","volume":null,"satuan_vol":null},{"id":"A436","nama":"KLORAMFENIKOL KAPSUL250mg","kekuatan":250.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A437","nama":"KLORDIAZEPOXID (BRAXIDIN)5mg","kekuatan":5.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A438","nama":"KLIDIUM BROMID (BRAXIDIN)2.5mg","kekuatan":"2023-05-02 00:00:00","satuan":"mg","volume":null,"satuan_vol":null},{"id":"A439","nama":"KLORFENIRAMIN (CTM) (ORPHEN) TABLET4mg","kekuatan":4.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A440","nama":"KLORFENIRAMIN (CTM) TABLET4mg","kekuatan":4.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A441","nama":"KLOROKUIN TABLET150mg","kekuatan":150.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A442","nama":"KLOROKUIN TABLET HIBAH250mg","kekuatan":250.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A443","nama":"KLORPROMAZIN (CEPEZET) TABLET100mg","kekuatan":100.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A444","nama":"KLOZAPIN (CLORILEX) TABLET100mg","kekuatan":100.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A445","nama":"KLOZAPIN TABLET100mg","kekuatan":100.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A446","nama":"KLOZAPIN TABLET25mg","kekuatan":25.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A447","nama":"KODEIN TABLET10mg","kekuatan":10.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A448","nama":"KODEIN ANHIDRAT (CODIPRONT CUM EXPECT) SIRUP11,11mg","kekuatan":11.11,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A449","nama":"FENILTOLOKSAMIN (CODIPRONT CUM EXPECT) SIRUP3.67mg","kekuatan":"3.67","satuan":"mg","volume":null,"satuan_vol":null},{"id":"A450","nama":"GUAIFENESIN (CODIPRONT CUM EXPECT) SIRUP55.55mg","kekuatan":"55.55","satuan":"mg","volume":null,"satuan_vol":null},{"id":"A451","nama":"KOFEIN SERBUK","kekuatan":null,"satuan":null,"volume":null,"satuan_vol":null},{"id":"A452","nama":"KOLEKALSIFEROL (PROVE D3) TABLET1000IU","kekuatan":1000.0,"satuan":"IU","volume":null,"satuan_vol":null},{"id":"A453","nama":"KOLKISIN (COLCITINE) TABLET0,5mg","kekuatan":0.5,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A454","nama":"KOLKISIN (L-CISIN) TABLET0,5mg","kekuatan":0.5,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A455","nama":"KOTRIMOKSAZOL SIRUP240mg","kekuatan":240.0,"satuan":"mg","volume":5.0,"satuan_vol":"mL"},{"id":"A456","nama":"KOTRIMOKSAZOL TABLET480mg","kekuatan":480.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A457","nama":"KOTRIMOKSAZOL TABLET PROGRAM480mg","kekuatan":480.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A458","nama":"KOTRIMOKSAZOL TABLET960mg","kekuatan":960.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A459","nama":"KUININ (KINA) TABLET200mg","kekuatan":200.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A460","nama":"LACTOBACILLUS (FLORAGYN) KAPSUL","kekuatan":null,"satuan":null,"volume":null,"satuan_vol":null},{"id":"A461","nama":"LACTOBACILLUS PENCERNAAN (LACIDOFIL) SACHET","kekuatan":null,"satuan":null,"volume":null,"satuan_vol":null},{"id":"A462","nama":"LAKTOSUM SERBUK","kekuatan":null,"satuan":null,"volume":null,"satuan_vol":null},{"id":"A463","nama":"LAKTULOSA (LAXADILAC) SIRUP3,3mg","kekuatan":3.3,"satuan":"mg","volume":5.0,"satuan_vol":"mL"},{"id":"A464","nama":"LAMIVUDIN (HEPLAV) TABLET100mg","kekuatan":100.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A465","nama":"LAMIVUDIN TABLET100mg","kekuatan":100.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A466","nama":"LAMIVUDIN TABLET PROGRAM150mg","kekuatan":150.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A467","nama":"LAMOTRIGIN (LAMIROS) TABLET50mg","kekuatan":50.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A468","nama":"LAMOTRIGINE (LAMIROS) TABLET100mg","kekuatan":100.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A469","nama":"LANSOPRAZOL (PROSOGAN) INFEKSI30mg","kekuatan":30.0,"satuan":"mg","volume":1.0,"satuan_vol":"VIAL"},{"id":"A470","nama":"LANSOPRAZOL INJEKSI30mg","kekuatan":30.0,"satuan":"mg","volume":1.0,"satuan_vol":"VIAL"},{"id":"A471","nama":"LANSOPRAZOL KAPSUL30mg","kekuatan":30.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A472","nama":"LANTUS SOLOSTAR PEN INSULIN INJEKSI","kekuatan":null,"satuan":null,"volume":null,"satuan_vol":null},{"id":"A473","nama":"LAPATINIB (TYKERB) TABLET250mg","kekuatan":250.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A474","nama":"LAXADIN SIRUP","kekuatan":null,"satuan":null,"volume":30.0,"satuan_vol":"mL"},{"id":"A475","nama":"LAXADIN SIRUP","kekuatan":null,"satuan":null,"volume":60.0,"satuan_vol":"mL"},{"id":"A476","nama":"LETROZOL (LEZRA) TABLET2,5mg","kekuatan":2.5,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A477","nama":"LEUPRORELIN ASETAT (ENDROLIN) INJEKSI3,75mg","kekuatan":3.75,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A478","nama":"LEVEMIR PEN INSULIN INJEKSI","kekuatan":null,"satuan":null,"volume":null,"satuan_vol":null},{"id":"A479","nama":"LEVOBUPIVAKAIN (LEVICA) INJEKSI50mg","kekuatan":50.0,"satuan":"mg","volume":10.0,"satuan_vol":"mL"},{"id":"A480","nama":"LEVODOPA (LEPARSON) TABLET100mg","kekuatan":100.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A481","nama":"BENSERAZID (LEPARSON) TABLET25mg","kekuatan":25.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A482","nama":"LEVOFLOKSASIN (AMESOL) TABLET PROGRAM250mg","kekuatan":250.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A483","nama":"LEVOFLOKSASIN TABLET500mg","kekuatan":500.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A484","nama":"LEVOFLOKSASIN INFUS500mg","kekuatan":500.0,"satuan":"mg","volume":100.0,"satuan_vol":"mL"},{"id":"A485","nama":"LEVOTIROKSIN (EUTHYROX) TABLET100mcg","kekuatan":100.0,"satuan":"mcg","volume":null,"satuan_vol":null},{"id":"A486","nama":"LEVOTIROKSIN (THYRAX) TABLET50mcg","kekuatan":50.0,"satuan":"mcg","volume":null,"satuan_vol":null},{"id":"A487","nama":"LIDOCAIN 10% (XYLOCAIN) SPRAY10%","kekuatan":10.0,"satuan":"%","volume":null,"satuan_vol":null},{"id":"A488","nama":"LIDOCAIN 2% INJEKSI0,04gram","kekuatan":0.04,"satuan":"gram","volume":2.0,"satuan_vol":"mL"},{"id":"A489","nama":"LIDOKAIN (PEHACAIN) INJEKSI20mg","kekuatan":20.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A490","nama":"EPINEFRIN (PEHACAIN) INJEKSI0,0125mg","kekuatan":0.0125,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A491","nama":"LIDOKAIN (DOLONES) KRIM25mg","kekuatan":25.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A492","nama":"PRILOKAIN (DOLONES) KRIM25mg","kekuatan":25.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A493","nama":"LINEZOLID TABLET PROGRAM600mg","kekuatan":600.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A494","nama":"LIPOMED 20% INFUS20gram","kekuatan":20.0,"satuan":"gram","volume":100.0,"satuan_vol":"mL"},{"id":"A495","nama":"LISINOPRIL TABLET10mg","kekuatan":10.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A496","nama":"LISINOPRIL TABLET5mg","kekuatan":5.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A497","nama":"LOPERAMID TAB.2mg","kekuatan":2.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A498","nama":"LOPINAVIR (ALUVIA) TABLET200mg","kekuatan":200.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A499","nama":"RITONAVIR (ALUVIA) TABLET50mg","kekuatan":50.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A500","nama":"LORATADIN TABLET10mg","kekuatan":10.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A501","nama":"LORAZEPAM (MERLOPAM) TABLET0,5mg","kekuatan":0.5,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A502","nama":"LOSARTAN TABLET50mg","kekuatan":50.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A503","nama":"MAGNESIUM SULFAT (mgSO4) 40% INJEKSI10gram","kekuatan":10.0,"satuan":"gram","volume":25.0,"satuan_vol":"mL"},{"id":"A504","nama":"MAGNESIUM SULFAT (mgSO4) 20% INJEKSI5gram","kekuatan":5.0,"satuan":"gram","volume":25.0,"satuan_vol":"mL"},{"id":"A505","nama":"MALTOSE 10% (MARTOS) INFUS50gram","kekuatan":50.0,"satuan":"gram","volume":500.0,"satuan_vol":"mL"},{"id":"A506","nama":"MANITOL 20% INFUS100gram","kekuatan":100.0,"satuan":"gram","volume":500.0,"satuan_vol":"mL"},{"id":"A507","nama":"MAPROTILIN (SANDEPRIL) TABLET50mg","kekuatan":50.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A508","nama":"MEBIDROLIN NAPADISILAT (HISTAPAN) TABLET50mg","kekuatan":50.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A509","nama":"MECOBALAMIN TABLET500mg","kekuatan":500.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A510","nama":"MECOBALAMIN INJEKSI500mcg","kekuatan":500.0,"satuan":"mcg","volume":1.0,"satuan_vol":"mL"},{"id":"A511","nama":"MELOKSIKAM TABLET15mg","kekuatan":15.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A512","nama":"MELOKSIKAM TABLET7,5mg","kekuatan":7.5,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A513","nama":"MEROPENEM INJEKSI1000mg","kekuatan":1000.0,"satuan":"mg","volume":1.0,"satuan_vol":"VIAL"},{"id":"A514","nama":"MEROPENEM INJEKSI500mg","kekuatan":500.0,"satuan":"mg","volume":1.0,"satuan_vol":"VIAL"},{"id":"A515","nama":"MESNA (UROMITEZAN) INJEKSI400mg","kekuatan":400.0,"satuan":"mg","volume":4.0,"satuan_vol":"mL"},{"id":"A516","nama":"METAMIZOL (ANTRAIN) INJEKSI1000mg","kekuatan":1000.0,"satuan":"mg","volume":2.0,"satuan_vol":"mL"},{"id":"A517","nama":"METAMIZOL (SANTAGESIK) INJEKSI1000mg","kekuatan":1000.0,"satuan":"mg","volume":2.0,"satuan_vol":"mL"},{"id":"A518","nama":"METAMIZOL INJEKSI1000mg","kekuatan":1000.0,"satuan":"mg","volume":2.0,"satuan_vol":"mL"},{"id":"A519","nama":"METAMIZOL (PRONEURON) TABLET500mg","kekuatan":500.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A520","nama":"DIAZEPAM (PRONEURON) TABLET2mg","kekuatan":2.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A521","nama":"METFORMIN TABLET500mg","kekuatan":500.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A522","nama":"METHISOPRINOL SIRUP250mg","kekuatan":250.0,"satuan":"mg","volume":5.0,"satuan_vol":"mL"},{"id":"A523","nama":"METHISOPRINOL TABLET500mg","kekuatan":500.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A524","nama":"METHOXSALEN (SORALEN) SOL1%","kekuatan":1.0,"satuan":"%","volume":null,"satuan_vol":null},{"id":"A525","nama":"METILDOPA (DOPAMET) TABLET250mg","kekuatan":250.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A526","nama":"METILERGOMETRIN (BLEDSTOP) TABLET0,125mg","kekuatan":0.125,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A527","nama":"METILERGOMETRIN TABLET0,125mg","kekuatan":0.125,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A528","nama":"METILERGOMETRIN (BLEDSTOP) INJEKSI0,2mg","kekuatan":0.2,"satuan":"mg","volume":1.0,"satuan_vol":"mL"},{"id":"A529","nama":"METILERGOMETRIN INJEKSI0,2mg","kekuatan":0.2,"satuan":"mg","volume":1.0,"satuan_vol":"mL"},{"id":"A530","nama":"METILFENIDAT (PROHIPER) TABLET10mg","kekuatan":10.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A531","nama":"METILFENIDAT TABLET10mg","kekuatan":10.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A532","nama":"METILPREDNISOLON INJEKSI125mg","kekuatan":125.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A533","nama":"METILPREDNISOLON TABLET16mg","kekuatan":16.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A534","nama":"METILPRIDNISOLON TABLET4mg","kekuatan":4.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A535","nama":"METILPRIDNISOLON TABLET8mg","kekuatan":8.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A536","nama":"METOKLOPRAMID (SOTATIC) INJEKSI10mg","kekuatan":10.0,"satuan":"mg","volume":2.0,"satuan_vol":"mL"},{"id":"A537","nama":"METOKLOPRAMID INJEKSI10mg","kekuatan":10.0,"satuan":"mg","volume":2.0,"satuan_vol":"mL"},{"id":"A538","nama":"METOKLOPRAMID TABLET10mg","kekuatan":10.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A539","nama":"METOTREKSAT (RHEU-TREX)2,5mg","kekuatan":2.5,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A540","nama":"METRONIDAZOL (VAGIZOL)","kekuatan":null,"satuan":null,"volume":null,"satuan_vol":null},{"id":"A541","nama":"METRONIDAZOL (TROGYL)125mg","kekuatan":125.0,"satuan":"mg","volume":5.0,"satuan_vol":"mL"},{"id":"A542","nama":"METRONIDAZOL SIRUP125mg","kekuatan":125.0,"satuan":"mg","volume":5.0,"satuan_vol":"mL"},{"id":"A543","nama":"METRONIDAZOL (PROVAGIN)500mg","kekuatan":500.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A544","nama":"METRONIDAZOL (PROVAGIN)1000mg","kekuatan":1000.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A545","nama":"METRONIDAZOL INFUS500mg","kekuatan":500.0,"satuan":"mg","volume":100.0,"satuan_vol":"mL"},{"id":"A546","nama":"METRONIDAZOL TABLET500mg","kekuatan":500.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A547","nama":"MIDAZOLAM (MILOZ) INJEKSI15mg","kekuatan":15.0,"satuan":"mg","volume":3.0,"satuan_vol":"mL"},{"id":"A548","nama":"MIDAZOLAM (FORTANEST) INJEKSI5mg","kekuatan":5.0,"satuan":"mg","volume":5.0,"satuan_vol":"mL"},{"id":"A549","nama":"MIDAZOLAM INJEKSI5mg","kekuatan":5.0,"satuan":"mg","volume":5.0,"satuan_vol":"mL"},{"id":"A550","nama":"MIDAZOLAM (MIDAZOLAM HAMELIN) INJEKSI5mg","kekuatan":5.0,"satuan":"mg","volume":1.0,"satuan_vol":"mL"},{"id":"A551","nama":"MIDAZOLAM (SEDACUM) INJEKSI5mg","kekuatan":5.0,"satuan":"mg","volume":5.0,"satuan_vol":"mL"},{"id":"A552","nama":"MIKOFENOLAT MOFETIL (CELLCEPT)500mg","kekuatan":500.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A553","nama":"MIKOZONAL 2%/HIDROKORTISON 1%","kekuatan":null,"satuan":null,"volume":null,"satuan_vol":null},{"id":"A554","nama":"MIKOZONAL 2% KRIM2%","kekuatan":2.0,"satuan":"%","volume":10.0,"satuan_vol":"gram"},{"id":"A555","nama":"MINOSIKLIN (NOMIKA) TABLET100mg","kekuatan":100.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A556","nama":"MINOXIDIL 5%/FINASTERIDE 0,1%","kekuatan":null,"satuan":null,"volume":null,"satuan_vol":null},{"id":"A557","nama":"MIRIWASH INFUS","kekuatan":null,"satuan":null,"volume":null,"satuan_vol":null},{"id":"A558","nama":"MISOPROSTOL TABLET0,2mg","kekuatan":0.2,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A559","nama":"MOKSIFLOKSASIN (MOLCIN) KAPLET400mg","kekuatan":400.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A560","nama":"MOKSIFLOKSASIN (STAXOM) TABLET PROGRAM400mg","kekuatan":400.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A561","nama":"MOKSIFLOKSASIN TABLET400mg","kekuatan":400.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A562","nama":"MOKSIFLOKSASIN TABLET PROGRAM 400mg","kekuatan":400.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A563","nama":"MOKSIFLOKSASIN INFUS400mg","kekuatan":400.0,"satuan":"mg","volume":250.0,"satuan_vol":"mL"},{"id":"A564","nama":"MOMETASON FUROAT KRIM0,1%","kekuatan":0.1,"satuan":"%","volume":10.0,"satuan_vol":"gram"},{"id":"A565","nama":"MOMETASON FUROAT KRIM0,1%","kekuatan":0.1,"satuan":"%","volume":5.0,"satuan_vol":"gram"},{"id":"A566","nama":"MORFIN (MST) TABLET10mg","kekuatan":10.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A567","nama":"MORFIN (MORFINA) INJEKSI10mg","kekuatan":10.0,"satuan":"mg","volume":1.0,"satuan_vol":"mL"},{"id":"A568","nama":"MUPIROCIN 2% (PIBAKSIN) SALEP0,2gram","kekuatan":0.2,"satuan":"gram","volume":10.0,"satuan_vol":"gram"},{"id":"A569","nama":"NALOKSON (NOKOBA) INJEKSI0,8mg","kekuatan":0.8,"satuan":"mg","volume":2.0,"satuan_vol":"mL"},{"id":"A570","nama":"NATRIUM BIKARBONAT (NABIC) TABLET500mg","kekuatan":500.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A571","nama":"NATRIUM BIKARBONAT (MEYLON) INJEKSI","kekuatan":null,"satuan":null,"volume":25.0,"satuan_vol":"mL"},{"id":"A572","nama":"NATRIUM DIKLOFENAK (FLAMAR)20gram","kekuatan":20.0,"satuan":"gram","volume":null,"satuan_vol":null},{"id":"A573","nama":"NATRIUM DIKLOFENAK (MEGATIC)20gram","kekuatan":20.0,"satuan":"gram","volume":null,"satuan_vol":null},{"id":"A574","nama":"NATRIUM DIKLOFENAK TABLET25mg","kekuatan":25.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A575","nama":"NATRIUM DIKLOFENAK50mg","kekuatan":50.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A576","nama":"NATRIUM DOCUSATE (FORUMEN) TETES TELINGA5mg","kekuatan":5.0,"satuan":"mg","volume":10.0,"satuan_vol":"mL"},{"id":"A577","nama":"NATRIUM FENITOIN (KUTOIN) KAPSUL100mg","kekuatan":100.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A578","nama":"NATRIUM FENITOIN KAPSUL100mg","kekuatan":100.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A579","nama":"NATRIUM HIALURONAT (UMARON) INJEKSI20mg","kekuatan":20.0,"satuan":"mg","volume":2.0,"satuan_vol":"mL"},{"id":"A580","nama":"NATRIUM KLORIDA (NACL) 0,9% INFUS9gram","kekuatan":9.0,"satuan":"gram","volume":1.0,"satuan_vol":"L"},{"id":"A581","nama":"NATRIUM KLORIDA (NACL) 0,9% INFUS0,9gram","kekuatan":0.9,"satuan":"gram","volume":100.0,"satuan_vol":"mL"},{"id":"A582","nama":"NATRIUM KLORIDA (NACL) 0,9% INFUS4,5gram","kekuatan":4.5,"satuan":"gram","volume":500.0,"satuan_vol":"mL"},{"id":"A583","nama":"NATRIUM KLORIDA (NACL) 3% INFUS1,5gram","kekuatan":1.5,"satuan":"gram","volume":500.0,"satuan_vol":"mL"},{"id":"A584","nama":"NATRIUM PIKOSULFAT (LAXOBERON) DROP7,5mg","kekuatan":7.5,"satuan":"mg","volume":1.0,"satuan_vol":"mL"},{"id":"A585","nama":"NEOMYCIN/BACITRACIN (NEBACETIN) POWDER5/250mg/IU","kekuatan":"5/250","satuan":"mg/IU","volume":null,"satuan_vol":null},{"id":"A586","nama":"NEOSTIGMIN (NEOSTIGMIN HAMELIN) INJEKSI0,5mg","kekuatan":0.5,"satuan":"mg","volume":1.0,"satuan_vol":"mL"},{"id":"A587","nama":"NEVIRAPIN TABLET PROGRAM200mg","kekuatan":200.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A588","nama":"NIFEDIPIN TABLET10mg","kekuatan":10.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A589","nama":"NIFEDIPIN SR (ADALAT OROS) TABLET30mg","kekuatan":30.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A590","nama":"NIKARDIPIN INJEKSI10mg","kekuatan":10.0,"satuan":"mg","volume":10.0,"satuan_vol":"mL"},{"id":"A591","nama":"NIMODIPIN INFUS10mg","kekuatan":10.0,"satuan":"mg","volume":50.0,"satuan_vol":"mL"},{"id":"A592","nama":"NIMODIPIN (NIMOTOP) TABLET30mg","kekuatan":30.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A593","nama":"NISTATIN DROP100000IU","kekuatan":100000.0,"satuan":"IU","volume":null,"satuan_vol":null},{"id":"A594","nama":"NISTATIN VAGINAL TABLET VAGINA100000IU","kekuatan":100000.0,"satuan":"IU","volume":null,"satuan_vol":null},{"id":"A595","nama":"NOREPINEFRIN (VASCON) INJEKSI4mg","kekuatan":4.0,"satuan":"mg","volume":4.0,"satuan_vol":"mL"},{"id":"A596","nama":"NOREPINEFRIN INJEKSI4mg","kekuatan":4.0,"satuan":"mg","volume":4.0,"satuan_vol":"mL"},{"id":"A597","nama":"NORETISTERON (REGUMEN) TABLET5mg","kekuatan":5.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A598","nama":"NORPHAGEN INJEKSI","kekuatan":null,"satuan":null,"volume":20.0,"satuan_vol":"mL"},{"id":"A599","nama":"NOSKAPIN (LONGATIN) KAPSUL50mg","kekuatan":50.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A600","nama":"NOVOMIX PEN INSULIN INJEKSI","kekuatan":null,"satuan":null,"volume":null,"satuan_vol":null},{"id":"A601","nama":"NOVORAPID PEN INSULIN INJEKSI","kekuatan":null,"satuan":null,"volume":null,"satuan_vol":null},{"id":"A602","nama":"OBAT BATUK HITAM (OBH) SIRUP","kekuatan":null,"satuan":null,"volume":null,"satuan_vol":null},{"id":"A603","nama":"OCUFLAM TETES MATA","kekuatan":null,"satuan":null,"volume":null,"satuan_vol":null},{"id":"A604","nama":"OFLOKSASIN TABLET200mg","kekuatan":200.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A605","nama":"OFLOKSASIN TABLET400mg","kekuatan":400.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A606","nama":"OFLOXACIN (AKILEN) TETES TELINGA3mg","kekuatan":3.0,"satuan":"mg","volume":1.0,"satuan_vol":"mL"},{"id":"A607","nama":"OKSALIPLATIN (OXALIPLATIN MEDAC) SERBUK INJEKSI100mg","kekuatan":100.0,"satuan":"mg","volume":1.0,"satuan_vol":"VIAL"},{"id":"A608","nama":"OKSALIPLATIN (BELLOXA) INJEKSI100mg","kekuatan":100.0,"satuan":"mg","volume":1.0,"satuan_vol":"VIAL"},{"id":"A609","nama":"OKSIMETAZOLIN (ILIADIN) TETES HIDUNG0,025%","kekuatan":0.025,"satuan":"%","volume":null,"satuan_vol":null},{"id":"A610","nama":"OKSIMETAZOLIN (ILIADIN) SPRAY HIDUNG0,05%","kekuatan":0.05,"satuan":"%","volume":null,"satuan_vol":null},{"id":"A611","nama":"OKSIMETAZOLIN (ILIADIN MOIST) TETES HIDUNG0,05%","kekuatan":0.05,"satuan":"%","volume":null,"satuan_vol":null},{"id":"A612","nama":"OKSITETRASIKLIN SALEP KULIT3%","kekuatan":3.0,"satuan":"%","volume":null,"satuan_vol":null},{"id":"A613","nama":"OKSITOSIN INJEKSI10IU","kekuatan":10.0,"satuan":"IU","volume":null,"satuan_vol":null},{"id":"A614","nama":"OLANZAPIN (ZYPREXA)10mg","kekuatan":10.0,"satuan":"mg","volume":1.0,"satuan_vol":"VIAL"},{"id":"A615","nama":"OLANZAPIN TABLET10mg","kekuatan":10.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A616","nama":"OLANZAPIN TABLET5mg","kekuatan":5.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A617","nama":"OMEPRAZOL KAPSUL20mg","kekuatan":20.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A618","nama":"OMEPRAZOL INJEKSI40mg","kekuatan":40.0,"satuan":"mg","volume":1.0,"satuan_vol":"VIAL"},{"id":"A619","nama":"ONDANSETRON TABLET4mg","kekuatan":4.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A620","nama":"ONDANSETRON INJEKSI4mg","kekuatan":4.0,"satuan":"mg","volume":2.0,"satuan_vol":"mL"},{"id":"A621","nama":"ONDANSETRON INJEKSI HIBAH4mg","kekuatan":4.0,"satuan":"mg","volume":2.0,"satuan_vol":"mL"},{"id":"A622","nama":"ONDANSETRON INJEKSI 8mg","kekuatan":8.0,"satuan":"mg","volume":4.0,"satuan_vol":"mL"},{"id":"A623","nama":"ORALIT SACHET","kekuatan":null,"satuan":null,"volume":null,"satuan_vol":null},{"id":"A624","nama":"OSELTAMIVIR (FLUVIR) KAPSUL PROGRAM75mg","kekuatan":75.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A625","nama":"OSELTAMIVIR KAPSUL 75mg","kekuatan":75.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A626","nama":"OSELTAMIVIR KAPSUL PROGRAM75mg","kekuatan":75.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A627","nama":"OTILON TETES TELINGA5mg","kekuatan":5.0,"satuan":"mg","volume":1.0,"satuan_vol":"mL"},{"id":"A628","nama":"OTSUTRAN INFUS40mg","kekuatan":40.0,"satuan":"mg","volume":500.0,"satuan_vol":"mL"},{"id":"A629","nama":"PAKLITAKSEL INJEKSI100mg","kekuatan":100.0,"satuan":"mg","volume":16.7,"satuan_vol":"mL"},{"id":"A630","nama":"PAKLITAKSEL INJEKSI30mg","kekuatan":30.0,"satuan":"mg","volume":5.0,"satuan_vol":"mL"},{"id":"A631","nama":"PARACETAMOL DROPS100mg","kekuatan":100.0,"satuan":"mg","volume":1.0,"satuan_vol":"mL"},{"id":"A632","nama":"PARACETAMOL INFUS1000mg","kekuatan":1000.0,"satuan":"mg","volume":100.0,"satuan_vol":"mL"},{"id":"A633","nama":"PARACETAMOL SIRUP120mg","kekuatan":120.0,"satuan":"mg","volume":5.0,"satuan_vol":"mL"},{"id":"A634","nama":"PARACETAMOL (DUMIN) RECTAL TUBE125mg","kekuatan":125.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A635","nama":"PARACETAMOL (PAMOL) SUPPOSITORIA125mg","kekuatan":125.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A636","nama":"PARACETAMOL (DUMIN) RECTAL TUBE250mg","kekuatan":250.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A637","nama":"PARACETAMOL (PAMOL) SUPPOSITORIA250mg","kekuatan":250.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A638","nama":"PARACETAMOL (PYREXIN EXTRA)325mg","kekuatan":325.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A639","nama":"TRAMADOL (PYREXIN EXTRA)37,5mg","kekuatan":37.5,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A640","nama":"PARACETAMOL TABLET500mg","kekuatan":500.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A641","nama":"N-ASETIL SISTEIN (SISTENOL)200mg","kekuatan":200.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A642","nama":"PENISILIN PROCAINE (PP) INJEKSI3.000.000IU","kekuatan":3000000.0,"satuan":"IU","volume":null,"satuan_vol":null},{"id":"A643","nama":"PERAK SULFADIAZIN (BURNAZIN) KRIM10mg","kekuatan":10.0,"satuan":"mg","volume":500.0,"satuan_vol":"gram"},{"id":"A644","nama":"PERAK SULFADIAZIN KRIM10mg","kekuatan":10.0,"satuan":"mg","volume":500.0,"satuan_vol":"gram"},{"id":"A645","nama":"PERAK SULFADIAZIN (BURNAZIN) KRIM10mg","kekuatan":10.0,"satuan":"mg","volume":35.0,"satuan_vol":"gram"},{"id":"A646","nama":"PERMETRIN (SCABIMITE) KRIM5%","kekuatan":5.0,"satuan":"%","volume":30.0,"satuan_vol":"gram"},{"id":"A647","nama":"PETIDIN INJEKSI100mg","kekuatan":100.0,"satuan":"mg","volume":2.0,"satuan_vol":"mL"},{"id":"A648","nama":"PIOGLITAZON (GLIABETES) TABLET30mg","kekuatan":30.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A649","nama":"PIOGLITAZON TABLET30mg","kekuatan":30.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A650","nama":"PIPERACILLIN (TAZAM) INJEKSI4gram","kekuatan":4.0,"satuan":"gram","volume":null,"satuan_vol":null},{"id":"A651","nama":"TAZOBACTAM (TAZAM) INJEKSI5gram","kekuatan":5.0,"satuan":"gram","volume":null,"satuan_vol":null},{"id":"A652","nama":"PIRACETAM INJEKSI1000mg","kekuatan":1000.0,"satuan":"mg","volume":5.0,"satuan_vol":"mL"},{"id":"A653","nama":"PIRACETAM INJEKSI3000mg","kekuatan":3000.0,"satuan":"mg","volume":15.0,"satuan_vol":"mL"},{"id":"A654","nama":"PIRACETAM (LATROPIL) SIRUP500mg","kekuatan":500.0,"satuan":"mg","volume":5.0,"satuan_vol":"mL"},{"id":"A655","nama":"PIRACETAM (NEUROTAM) SIRUP500mg","kekuatan":500.0,"satuan":"mg","volume":5.0,"satuan_vol":"mL"},{"id":"A656","nama":"PIRACETAM TABLET800mg","kekuatan":800.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A657","nama":"PIRAZINAMID TABLET PROGRAM400mg","kekuatan":400.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A658","nama":"PIRAZINAMID TABLET 500mg","kekuatan":500.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A659","nama":"PIRAZINAMID TABLET PROGRAM500mg","kekuatan":500.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A660","nama":"PIRIDOKSIN (VITAMIN B6) TABLET10mg","kekuatan":10.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A661","nama":"PIRIDOKSIN (VITAMIN B6) TABLET25mg","kekuatan":25.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A662","nama":"PIRIDOSTIGMIN (MESTINON) TABLET60mg","kekuatan":60.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A663","nama":"POLIDEMISIN TETES MATA","kekuatan":null,"satuan":null,"volume":null,"satuan_vol":null},{"id":"A664","nama":"POVIDON IODIN (BETADINE) OBAT KUMUR","kekuatan":null,"satuan":null,"volume":100.0,"satuan_vol":"mL"},{"id":"A665","nama":"POVIDON IODIN (BETADINE) OBAT KUMUR","kekuatan":null,"satuan":null,"volume":190.0,"satuan_vol":"mL"},{"id":"A666","nama":"POVIDON IODIN 10% (BETADINE) VAGINAL DOUCHE10%","kekuatan":10.0,"satuan":"%","volume":null,"satuan_vol":null},{"id":"A667","nama":"POVIDON IODIN 10% (BETADINE)VAGINAL DOUCHE+ALAT10%","kekuatan":10.0,"satuan":"%","volume":null,"satuan_vol":null},{"id":"A668","nama":"PRAMIPEKSOL (SIFROL) TABLET0,375mg","kekuatan":0.375,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A669","nama":"PRAMIPEKSOL (SIFROL) TABLET0,75mg","kekuatan":0.75,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A670","nama":"PREDNISON TABLET5mg","kekuatan":5.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A671","nama":"PREGABALIN TABLET75mg","kekuatan":75.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A672","nama":"PRIMAKUIN TABLET PROGRAM15mg","kekuatan":15.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A673","nama":"PRO TB-2 TABLET","kekuatan":null,"satuan":null,"volume":null,"satuan_vol":null},{"id":"A674","nama":"PRO TB-4 TABLET","kekuatan":null,"satuan":null,"volume":null,"satuan_vol":null},{"id":"A675","nama":"PROGESTERON (MICROGEST) TABLET","kekuatan":null,"satuan":null,"volume":null,"satuan_vol":null},{"id":"A676","nama":"PROKATEROL (MEPTIN MINI) TABLET0,025mg","kekuatan":0.025,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A677","nama":"PRONTOSAN SOL","kekuatan":null,"satuan":null,"volume":350.0,"satuan_vol":"mL"},{"id":"A678","nama":"PRONTOSAN GEL","kekuatan":null,"satuan":null,"volume":null,"satuan_vol":null},{"id":"A679","nama":"PROPILTIOURASIL (PTU) TABLET100mg","kekuatan":100.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A680","nama":"PROPOFOL 1% (FRESOFOL) INJEKSI0,2gram","kekuatan":0.2,"satuan":"gram","volume":20.0,"satuan_vol":"mL"},{"id":"A681","nama":"PROPOFOL 1% (PROPOFOL LIPURO) INJEKSI0,2gram","kekuatan":0.2,"satuan":"gram","volume":20.0,"satuan_vol":"mL"},{"id":"A682","nama":"PROPRANOLOL TABLET40mg","kekuatan":40.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A683","nama":"PSEUDOEFEDRIN HCL (RHINOS NEO0 DROP7,5mg","kekuatan":7.5,"satuan":"mg","volume":0.8,"satuan_vol":"mL"},{"id":"A684","nama":"PSEUDOEFEDRIN HCL (RHINOS SR) KAPSUL120mg","kekuatan":120.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A685","nama":"LORATADIN (RHINOS SR) KAPSUL5mg","kekuatan":5.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A686","nama":"PSEUDOEFEDRINE HCL (TREMENZA) SIRUP30mg","kekuatan":30.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A687","nama":"TRIPROLIDINE (TREMENZA) SIRUP1.25","kekuatan":"1.25","satuan":null,"volume":null,"satuan_vol":null},{"id":"A688","nama":"PSEUDOEFEDRIN HCL (TREMENZA) TABLET60mg","kekuatan":60.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A689","nama":"TRIPROLIDINE (TREMENZA) TABLET2,5mg","kekuatan":2.5,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A690","nama":"PSEUDOEFEDRIN HCL (ALCO) DROP7,5mg","kekuatan":7.5,"satuan":"mg","volume":0.8,"satuan_vol":"mL"},{"id":"A691","nama":"PSIDII SIRUP250mg","kekuatan":250.0,"satuan":"mg","volume":5.0,"satuan_vol":"mL"},{"id":"A692","nama":"PSIDII KAPSUL500mg","kekuatan":500.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A693","nama":"QUETIAPIN TABLET100mg","kekuatan":100.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A694","nama":"QUETIAPIN XR (SEROQUEL) TABLET200mg","kekuatan":200.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A695","nama":"QUETIAPIN XR TABLET200mg","kekuatan":200.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A696","nama":"QUETIAPIN XR (SOROQUIN) TABLET300mg","kekuatan":300.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A697","nama":"QUETIAPIN XR (SEROQUEL) TABLET400mg","kekuatan":400.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A698","nama":"QUETIAPIN XR (SOROQUIN) TABLET400mg","kekuatan":400.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A699","nama":"RAMIPRIL TABLET2,5mg","kekuatan":2.5,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A700","nama":"RAMIPRIL TABLET5mg","kekuatan":5.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A701","nama":"RANITIDIN TABLET150mg","kekuatan":150.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A702","nama":"RANITIDIN INJEKSI50mg","kekuatan":50.0,"satuan":"mg","volume":2.0,"satuan_vol":"mL"},{"id":"A703","nama":"RANITIDIN (RANIVEL) SIRUP75mg","kekuatan":75.0,"satuan":"mg","volume":5.0,"satuan_vol":"mL"},{"id":"A704","nama":"REBAMIPID TABLET100mg","kekuatan":100.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A705","nama":"REMDESIVIR (COVIFOR) INJEKSI100mg","kekuatan":100.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A706","nama":"REMDESIVIR (COVIFOR) INJEKSI DONASI100mg","kekuatan":100.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A707","nama":"REMDESIVIR (DESREM) INJEKSI100mg","kekuatan":100.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A708","nama":"REMDESIVIR (DESREM) INJEKSI DONASI100mg","kekuatan":100.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A709","nama":"REMDESIVIR INJEKSI (REMDAC) DONASI100mg","kekuatan":100.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A710","nama":"REMDESIVIR INJEKSI DONASI100mg","kekuatan":100.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A711","nama":"RENAX KAPSUL","kekuatan":null,"satuan":null,"volume":null,"satuan_vol":null},{"id":"A712","nama":"RIFAMPISIN KAPSUL450mg","kekuatan":450.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A713","nama":"RIFAMPISIN KAPSUL600mg","kekuatan":600.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A714","nama":"RINGER LAKTAT (RL) INFUS","kekuatan":null,"satuan":null,"volume":500.0,"satuan_vol":"mL"},{"id":"A715","nama":"RINGERFUNDIN INFUS","kekuatan":null,"satuan":null,"volume":null,"satuan_vol":null},{"id":"A716","nama":"RISEDRONAT (OSTEONATE) TABLET35mg","kekuatan":35.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A717","nama":"RISPERIDON TABLET2mg","kekuatan":2.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A718","nama":"RITUKSIMAB (RITUXIKAL) INJEKSI100mg","kekuatan":100.0,"satuan":"mg","volume":1.0,"satuan_vol":"VIAL"},{"id":"A719","nama":"RITUKSIMAB (RITUXIKAL) INJEKSI500mg","kekuatan":500.0,"satuan":"mg","volume":1.0,"satuan_vol":"VIAL"},{"id":"A720","nama":"RIVAROKSABAN (XARETOL) TABLET10mg","kekuatan":10.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A721","nama":"RIVAROKSABAN (XARETOL) TABLET15mg","kekuatan":15.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A722","nama":"RIVAROKSABAN (XARETOL) TABLET20mg","kekuatan":20.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A723","nama":"ROKURONIUM (BELNIUM) INJEKSI50mg","kekuatan":50.0,"satuan":"mg","volume":5.0,"satuan_vol":"mL"},{"id":"A724","nama":"ROKURONIUM (ROCULAX) INJEKSI50mg","kekuatan":50.0,"satuan":"mg","volume":5.0,"satuan_vol":"mL"},{"id":"A725","nama":"SAGESTAM SALEP MATA","kekuatan":null,"satuan":null,"volume":null,"satuan_vol":null},{"id":"A726","nama":"SALBUTAMOL (VENTOLIN) INHALER100mcg","kekuatan":100.0,"satuan":"mcg","volume":null,"satuan_vol":null},{"id":"A727","nama":"SALBUTAMOL TABLET2mg","kekuatan":2.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A728","nama":"SALBUTAMOL SIRUP2mg","kekuatan":2.0,"satuan":"mg","volume":5.0,"satuan_vol":"mL"},{"id":"A729","nama":"SALBUTAMOL (VENTOLIN) NEBULE2,5mg","kekuatan":2.5,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A730","nama":"SALMETEROL/FLUTIKASON PROPIONAT (SEREDITDE) INHALER25/50mcg","kekuatan":"25/50","satuan":"mcg","volume":null,"satuan_vol":null},{"id":"A731","nama":"SALMETEROL/FLUTIKASON (SERETIDE) DISKUS50/100mcg","kekuatan":"50/100","satuan":"mcg","volume":null,"satuan_vol":null},{"id":"A732","nama":"SALMETEROL/FLUTIKASON (SERETIDE) DISKUS50/250mcg","kekuatan":"50/250","satuan":"mcg","volume":null,"satuan_vol":null},{"id":"A733","nama":"SANGOBION KIDS SIRUP","kekuatan":null,"satuan":null,"volume":100.0,"satuan_vol":"mL"},{"id":"A734","nama":"SEFADROKSIL SIRUP125mg","kekuatan":125.0,"satuan":"mg","volume":5.0,"satuan_vol":"mL"},{"id":"A735","nama":"SEFADROKSIL (RENASISTIN) DROP150mg","kekuatan":150.0,"satuan":"mg","volume":1.0,"satuan_vol":"mL"},{"id":"A736","nama":"SEFADROKSIL TABLET500mg","kekuatan":500.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A737","nama":"SEFAZOLIN INJEKSI1000mg","kekuatan":1000.0,"satuan":"mg","volume":1.0,"satuan_vol":"VIAL"},{"id":"A738","nama":"SEFEPIM INJEKSI1000mg","kekuatan":1000.0,"satuan":"mg","volume":1.0,"satuan_vol":"VIAL"},{"id":"A739","nama":"SEFIKSIM KAPSUL100mg","kekuatan":100.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A740","nama":"SEFIKSIM SIRUP100mg","kekuatan":100.0,"satuan":"mg","volume":5.0,"satuan_vol":"mL"},{"id":"A741","nama":"SEFIKSIM TABLET200mg","kekuatan":200.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A742","nama":"SEFOPERAZON INJEKSI1000mg","kekuatan":1000.0,"satuan":"mg","volume":1.0,"satuan_vol":"VIAL"},{"id":"A743","nama":"SEFOPERAZON SULBAKTAM INJEKSI1000mg","kekuatan":1000.0,"satuan":"mg","volume":1.0,"satuan_vol":"VIAL"},{"id":"A744","nama":"SEFOTAKSIM INJEKSI1000mg","kekuatan":1000.0,"satuan":"mg","volume":1.0,"satuan_vol":"VIAL"},{"id":"A745","nama":"SEFOTAKSIM INJEKSI500mg","kekuatan":500.0,"satuan":"mg","volume":1.0,"satuan_vol":"VIAL"},{"id":"A746","nama":"SEFTAZIDIM INJEKSI1000mg","kekuatan":1000.0,"satuan":"mg","volume":1.0,"satuan_vol":"VIAL"},{"id":"A747","nama":"SEFTRIAKSON INJEKSI1000mg","kekuatan":1000.0,"satuan":"mg","volume":1.0,"satuan_vol":"VIAL"},{"id":"A748","nama":"SELKOM C TABLET HIBAH","kekuatan":null,"satuan":null,"volume":null,"satuan_vol":null},{"id":"A749","nama":"SELOXY AA KAPLET","kekuatan":null,"satuan":null,"volume":null,"satuan_vol":null},{"id":"A750","nama":"SERTRALIN TABLET50mg","kekuatan":50.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A751","nama":"SERUM ANTI BISA ULAR (BIOSAVE) INJEKSI","kekuatan":null,"satuan":null,"volume":null,"satuan_vol":null},{"id":"A752","nama":"SERUM ANTI DIFTERI (ADS) INJEKSI10.000IU","kekuatan":10000.0,"satuan":"IU","volume":null,"satuan_vol":null},{"id":"A753","nama":"SERUM ANTIRABIES INJEKSI PROGRAM","kekuatan":null,"satuan":null,"volume":null,"satuan_vol":null},{"id":"A754","nama":"SERUM ANTITETANUS (A.T.S) INJEKSI1500IU","kekuatan":1500.0,"satuan":"IU","volume":null,"satuan_vol":null},{"id":"A755","nama":"SERUM ANTITETANUS (A.T.S) INJEKSI DONASI1500IU","kekuatan":1500.0,"satuan":"IU","volume":null,"satuan_vol":null},{"id":"A756","nama":"SETIRIZIN TABLET10mg","kekuatan":10.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A757","nama":"SETIRIZIN DROP10mg","kekuatan":10.0,"satuan":"mg","volume":1.0,"satuan_vol":"mL"},{"id":"A758","nama":"SETIRIZIN SIRUP HIBAH5mg","kekuatan":5.0,"satuan":"mg","volume":5.0,"satuan_vol":"mL"},{"id":"A759","nama":"SETIRIZIN SIRUP5mg","kekuatan":5.0,"satuan":"mg","volume":5.0,"satuan_vol":"mL"},{"id":"A760","nama":"SEVOFLURAN INHALASI","kekuatan":null,"satuan":null,"volume":250.0,"satuan_vol":"mL"},{"id":"A761","nama":"SIKLOFOSFAMID INJEKSI1000mg","kekuatan":1000.0,"satuan":"mg","volume":1.0,"satuan_vol":"VIAL"},{"id":"A762","nama":"SIKLOFOSFAMID (ENDOXAN) INJEKSI1000mg","kekuatan":1000.0,"satuan":"mg","volume":1.0,"satuan_vol":"VIAL"},{"id":"A763","nama":"SIKLOFOSFAMID (ENDOXAN) INJEKSI200mg","kekuatan":200.0,"satuan":"mg","volume":1.0,"satuan_vol":"VIAL"},{"id":"A764","nama":"SIKLOFOSFAMID INJEKSI200mg","kekuatan":200.0,"satuan":"mg","volume":1.0,"satuan_vol":"VIAL"},{"id":"A765","nama":"SIKLOSPORIN (SANDIMUM NEORAL) TABLET25mg","kekuatan":25.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A766","nama":"SILDENAFIL TABLET100mg","kekuatan":100.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A767","nama":"SILDENAFIL TABLET50mg","kekuatan":50.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A768","nama":"SILOSTAZOL SR (PLEETAL) KAPSUL100mg","kekuatan":100.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A769","nama":"SILOSTAZOL TAB.100mg","kekuatan":100.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A770","nama":"SIMETIDIN TABLET200mg","kekuatan":200.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A771","nama":"SIMVASTATIN TABLET20mg","kekuatan":20.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A772","nama":"SIPROFLOKSASIN INFUS200mg","kekuatan":200.0,"satuan":"mg","volume":100.0,"satuan_vol":"mL"},{"id":"A773","nama":"SIPROFLOKSASIN (BAQUINOR) TETES MATA3mg","kekuatan":3.0,"satuan":"mg","volume":5.0,"satuan_vol":"mL"},{"id":"A774","nama":"SIPROFLOKSASIN TABLET500mg","kekuatan":500.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A775","nama":"SISPLATIN (CISPLATIN) INJEKSI10mg","kekuatan":10.0,"satuan":"mg","volume":10.0,"satuan_vol":"mL"},{"id":"A776","nama":"SISPLATIN (CISPLATIN) INJEKSI50mg","kekuatan":50.0,"satuan":"mg","volume":50.0,"satuan_vol":"mL"},{"id":"A777","nama":"SODIUM HYALURONATE 0,1% (HYALOPH) TETES MATA0,1%","kekuatan":0.1,"satuan":"%","volume":5.0,"satuan_vol":"mL"},{"id":"A778","nama":"SOMATOSTATIN (SOMASTOSTATIN LYOMARK) INJEKSI3mg","kekuatan":3.0,"satuan":"mg","volume":1.0,"satuan_vol":"VIAL"},{"id":"A779","nama":"SPIRAMISIN TABLET500mg","kekuatan":500.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A780","nama":"SPIRONOLAKTON TABLET100mg","kekuatan":100.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A781","nama":"SPIRONOLAKTON TABLET25mg","kekuatan":25.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A782","nama":"STREPTOMISIN INJEKSI1000mg","kekuatan":1000.0,"satuan":"mg","volume":1.0,"satuan_vol":"VIAL"},{"id":"A783","nama":"SUKRALFAT SIRUP500mg","kekuatan":500.0,"satuan":"mg","volume":5.0,"satuan_vol":"mL"},{"id":"A784","nama":"SULFADOKSIN TABLET (ANTIMALARIA)500mg","kekuatan":500.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A785","nama":"PIRIMETAMIN TABLET (ANTIMALARIA)25mg","kekuatan":25.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A786","nama":"SULFASALAZIN (SULTIFIS) TABLET500mg","kekuatan":500.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A787","nama":"SULPIRIDA (DOGMATIL) TABLET50mg","kekuatan":50.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A788","nama":"SUSU DIAB. VITA DIGEST VAN","kekuatan":null,"satuan":null,"volume":null,"satuan_vol":null},{"id":"A789","nama":"SUSU ENSURE COKLAT400gram","kekuatan":400.0,"satuan":"gram","volume":null,"satuan_vol":null},{"id":"A790","nama":"SUSU ENSURE VANILLA","kekuatan":null,"satuan":null,"volume":null,"satuan_vol":null},{"id":"A791","nama":"SUSU ENTRAKID VANILLA","kekuatan":null,"satuan":null,"volume":null,"satuan_vol":null},{"id":"A792","nama":"SUSU ENTRAMIX VANILLA","kekuatan":null,"satuan":null,"volume":null,"satuan_vol":null},{"id":"A793","nama":"SUSU ENTRASOL GOLD VANILLA","kekuatan":null,"satuan":null,"volume":null,"satuan_vol":null},{"id":"A794","nama":"SUSU HEPATOSOL VANILLA","kekuatan":null,"satuan":null,"volume":null,"satuan_vol":null},{"id":"A795","nama":"SUSU INFANTRINI400gram","kekuatan":400.0,"satuan":"gram","volume":null,"satuan_vol":null},{"id":"A796","nama":"SUSU NEPHRISOL VANILLA","kekuatan":null,"satuan":null,"volume":null,"satuan_vol":null},{"id":"A797","nama":"SUSU NUTRIBABY PROSYNEO 1","kekuatan":null,"satuan":null,"volume":null,"satuan_vol":null},{"id":"A798","nama":"SUSU NUTRIBABY PROSYNEO 2","kekuatan":null,"satuan":null,"volume":null,"satuan_vol":null},{"id":"A799","nama":"SUSU NUTRICAN JERUK245gram","kekuatan":245.0,"satuan":"gram","volume":null,"satuan_vol":null},{"id":"A800","nama":"SUSU NUTRICAN STROBERI245gram","kekuatan":245.0,"satuan":"gram","volume":null,"satuan_vol":null},{"id":"A801","nama":"SUSU NUTRIDRINK400mg","kekuatan":400.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A802","nama":"SUSU NUTRILON BABY ALLE PRE 1","kekuatan":null,"satuan":null,"volume":null,"satuan_vol":null},{"id":"A803","nama":"SUSU NUTRILON BABI PEPTIJUNIOR 400gram","kekuatan":400.0,"satuan":"gram","volume":null,"satuan_vol":null},{"id":"A804","nama":"SUSU NUNTRINIDRINK","kekuatan":null,"satuan":null,"volume":200.0,"satuan_vol":"mL"},{"id":"A805","nama":"SUSU PAN-ENTERAL40gram","kekuatan":40.0,"satuan":"gram","volume":null,"satuan_vol":null},{"id":"A806","nama":"SUSU PEPTISOL VANILLA","kekuatan":null,"satuan":null,"volume":null,"satuan_vol":null},{"id":"A807","nama":"SUSU PERTIBREN VANILLA","kekuatan":null,"satuan":null,"volume":null,"satuan_vol":null},{"id":"A808","nama":"SUSUPRENAGEN MOM EMESIS COKLAT400gram","kekuatan":400.0,"satuan":"gram","volume":null,"satuan_vol":null},{"id":"A809","nama":"SUSU PROTEIN VANILLA","kekuatan":null,"satuan":null,"volume":null,"satuan_vol":null},{"id":"A810","nama":"SUSU SGM BBLR400gram","kekuatan":400.0,"satuan":"gram","volume":null,"satuan_vol":null},{"id":"A811","nama":"SUSU SGM GAIN 74 400gram","kekuatan":"74 400","satuan":"gram","volume":null,"satuan_vol":null},{"id":"A812","nama":"SUSU SGM LLM400gram","kekuatan":400.0,"satuan":"gram","volume":null,"satuan_vol":null},{"id":"A813","nama":"TAKROLIMUS (PROGRAF) TABLET0,5mg","kekuatan":0.5,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A814","nama":"TAKROLIMUS (PROGRAF) TABLET1mg","kekuatan":1.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A815","nama":"TAMOKSIFEN (TAMOFEN) TABLET10mg","kekuatan":10.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A816","nama":"TAMSULOSIN (HARNAL D) TABLET0,2mg","kekuatan":0.2,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A817","nama":"TAMSULOSIN (HARNAL OCAS) TABLET0,4mg","kekuatan":0.4,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A818","nama":"TELMISARTAN (MICARDIS) TABLET40mg","kekuatan":40.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A819","nama":"TELMISARTAN (MICARDIS) TABLET80mg","kekuatan":80.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A820","nama":"TELMISARTAN TABLET80mg","kekuatan":80.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A821","nama":"TENOFOVIR (KIFOVIR) TABLET300mg","kekuatan":300.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A822","nama":"TENOFOVIR TABLET300mg","kekuatan":300.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A823","nama":"TENOFOVIR TABLET PROGRAM300mg","kekuatan":300.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A824","nama":"TEOFILIN SR (RETAPHYL SR) TABLET300mg","kekuatan":300.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A825","nama":"TERBINAFINE HCL 1% (TERMISIL) KRIM","kekuatan":null,"satuan":null,"volume":null,"satuan_vol":null},{"id":"A826","nama":"TERBUTALIN (BRICASMA) INJEKSI0,5mg","kekuatan":0.5,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A827","nama":"TIAMAZOL (THYROZOL) TABLET10mg","kekuatan":10.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A828","nama":"TIKAGRELOR (BRILINTA) TABLET90mg","kekuatan":90.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A829","nama":"TIOTROPIUM BROMIDA (SPIRIVA) HANDIHALER","kekuatan":null,"satuan":null,"volume":null,"satuan_vol":null},{"id":"A830","nama":"TOBRAMISIN/DEKSAMETHASONE (BRAFILEX PLUS)3mg","kekuatan":3.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A831","nama":"TOKOFEROL (SANTA E) TABLET100IU","kekuatan":100.0,"satuan":"IU","volume":null,"satuan_vol":null},{"id":"A832","nama":"TOKOFEROL (SANTA E) TABLET200IU","kekuatan":200.0,"satuan":"IU","volume":null,"satuan_vol":null},{"id":"A833","nama":"TOKOFEROL (ETUROL) KAPSUL400IU","kekuatan":400.0,"satuan":"IU","volume":null,"satuan_vol":null},{"id":"A834","nama":"TOKOFEROL (SANTA E) TABLET400IU","kekuatan":400.0,"satuan":"IU","volume":null,"satuan_vol":null},{"id":"A835","nama":"TOPICARE KRIM100gram","kekuatan":100.0,"satuan":"gram","volume":null,"satuan_vol":null},{"id":"A836","nama":"TOPIRAMAT (TOPAMAX) TABLET25mg","kekuatan":25.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A837","nama":"TOPIRAMAT (TOPAMAX) TABLET50mg","kekuatan":50.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A838","nama":"TOSILIZUMAB (ACTEMRA) INJEKSI400mg","kekuatan":400.0,"satuan":"mg","volume":20.0,"satuan_vol":"mL"},{"id":"A839","nama":"TOSILIZUMAB (ACTEMRA) INJEKSI80mg","kekuatan":80.0,"satuan":"mg","volume":4.0,"satuan_vol":"mL"},{"id":"A840","nama":"TRAMADOL INJEKSI100mg","kekuatan":100.0,"satuan":"mg","volume":2.0,"satuan_vol":"mL"},{"id":"A841","nama":"TRAMADOL TABLET50mg","kekuatan":50.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A842","nama":"TRASTUZUMAB (HERZEMAB) INJEKSI440mg","kekuatan":440.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A843","nama":"TRIAMSINOLON (TRILAC) INJEKSI10mg","kekuatan":10.0,"satuan":"mg","volume":1.0,"satuan_vol":"VIAL"},{"id":"A844","nama":"TRIAMSINOLON TABLET4mg","kekuatan":4.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A845","nama":"TRIAMSINOLON ASETONID (KETRICIN) SALEP MUKOSA MULUT","kekuatan":null,"satuan":null,"volume":null,"satuan_vol":null},{"id":"A846","nama":"TRIAMSINOLON ASETONID INJEKSI10mg","kekuatan":10.0,"satuan":"mg","volume":1.0,"satuan_vol":"mL"},{"id":"A847","nama":"TRIAMSINOLOS ASETONID (NASACORT) SPRAY55mcg","kekuatan":55.0,"satuan":"mcg","volume":null,"satuan_vol":null},{"id":"A848","nama":"TRIFLUOPERAZIN (STELOSI) TABLET5mg","kekuatan":5.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A849","nama":"TRIFLUOPERAZIN TABLET5mg","kekuatan":5.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A850","nama":"TRIHEKSIFENIDIL (ARKINE) TABLET2mg","kekuatan":2.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A851","nama":"TRIHEKSIFENDIL (HEXYMER) TABLET2mg","kekuatan":2.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A852","nama":"TRIHEKSIFENDIL TABLET2mg","kekuatan":2.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A853","nama":"TRIPOLIDIN HCL (EFLIN/GIFED/LAFIPED EXP) SIRUP1,25mg","kekuatan":1.25,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A854","nama":"PSEUDOEFEDRIN HCL (EFLIN/GIFED/LAFIPED EXP) SIRUP30mg","kekuatan":30.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A855","nama":"GUAIFENASIN (GIFED) SIRUP100mg","kekuatan":100.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A856","nama":"GLYCERYL GUAIACOLATE (LAPIFED EXP) SIRUP100mg","kekuatan":100.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A857","nama":"DMP (LAPIFED DM) SIRUP10mg","kekuatan":10.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A858","nama":"UREA 20% (CARMED) KRIM8gram","kekuatan":8.0,"satuan":"gram","volume":40.0,"satuan_vol":"gram"},{"id":"A859","nama":"VALPROAT (DEPAKOTE) TABLET250mg","kekuatan":250.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A860","nama":"VALPROAT SIRUP250mg","kekuatan":250.0,"satuan":"mg","volume":5.0,"satuan_vol":"mL"},{"id":"A861","nama":"VALPROAT ER (DEPAKOTE) TABLET250mg","kekuatan":250.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A862","nama":"VALPROAT ER (DEPAKOTE) TABLET500mg","kekuatan":500.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A863","nama":"VALSARTAN TABLET80mg","kekuatan":80.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A864","nama":"VANKOMISIN INJEKSI500mg","kekuatan":500.0,"satuan":"mg","volume":1.0,"satuan_vol":"VIAL"},{"id":"A865","nama":"VERAPAMIL TABLET80mg","kekuatan":80.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A866","nama":"VINKRISTIN INJEKSI2mg","kekuatan":2.0,"satuan":"mg","volume":2.0,"satuan_vol":"mL"},{"id":"A867","nama":"VINORELBIN (NAVELBIN) INJEKSI50mg","kekuatan":50.0,"satuan":"mg","volume":5.0,"satuan_vol":"mL"},{"id":"A868","nama":"VIP ALBUMIN KAPSUL","kekuatan":null,"satuan":null,"volume":null,"satuan_vol":null},{"id":"A869","nama":"VIP ALBUMIN PLUS SACHET","kekuatan":null,"satuan":null,"volume":null,"satuan_vol":null},{"id":"A870","nama":"VITAMIN A TABLET6000IU","kekuatan":6000.0,"satuan":"IU","volume":null,"satuan_vol":null},{"id":"A871","nama":"VITAMIN B KOMPLEKS (BIOCOMBIN) INJEKSI","kekuatan":null,"satuan":null,"volume":null,"satuan_vol":null},{"id":"A872","nama":"VITAMIN B KOMPLEKS TABLET","kekuatan":null,"satuan":null,"volume":null,"satuan_vol":null},{"id":"A873","nama":"VITAMIN B KOMPLEKS TABLET IPI","kekuatan":null,"satuan":null,"volume":null,"satuan_vol":null},{"id":"A874","nama":"VITAMIN B1 TABLET50mg","kekuatan":50.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A875","nama":"VITAMIN C TABLET50mg","kekuatan":50.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A876","nama":"VITAMIN C PROGRAM500mg","kekuatan":500.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A877","nama":"VITAMIN C TABLET HIBAH500mg","kekuatan":500.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A878","nama":"VITAMIN D TABLET 1.000IU","kekuatan":1000.0,"satuan":"IU","volume":null,"satuan_vol":null},{"id":"A879","nama":"VITAMIN D (HI-D5000) TABLET5.000IU","kekuatan":5000.0,"satuan":"IU","volume":null,"satuan_vol":null},{"id":"A880","nama":"VITAMIN D (HI-D5000) TABLET5.000IU","kekuatan":5000.0,"satuan":"IU","volume":null,"satuan_vol":null},{"id":"A881","nama":"WARFARIN (NOTISIL) TABLET2mg","kekuatan":2.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A882","nama":"WIDA KN 1 INFUS","kekuatan":null,"satuan":null,"volume":500.0,"satuan_vol":"mL"},{"id":"A883","nama":"WIDA KN 2 INFUS","kekuatan":null,"satuan":null,"volume":500.0,"satuan_vol":"mL"},{"id":"A884","nama":"WIDABES INFUS","kekuatan":null,"satuan":null,"volume":500.0,"satuan_vol":"mL"},{"id":"A885","nama":"WIHADES 130 INFUS","kekuatan":null,"satuan":null,"volume":500.0,"satuan_vol":"mL"},{"id":"A886","nama":"ZAMELL SIRUP","kekuatan":null,"satuan":null,"volume":null,"satuan_vol":null},{"id":"A887","nama":"ZIDOVUDIN KAPSUL PROM100mg","kekuatan":100.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A888","nama":"ZINC DROP10mg","kekuatan":10.0,"satuan":"mg","volume":1.0,"satuan_vol":"mL"},{"id":"A889","nama":"ZINC SIRUP20mg","kekuatan":20.0,"satuan":"mg","volume":5.0,"satuan_vol":"mL"},{"id":"A890","nama":"ZINC SIRUP PROGRAM20mg","kekuatan":20.0,"satuan":"mg","volume":5.0,"satuan_vol":"mL"},{"id":"A891","nama":"ZINK TABLET20mg","kekuatan":20.0,"satuan":"mg","volume":null,"satuan_vol":null},{"id":"A892","nama":"ZOLPIDEM (ZUDEM) TABLET10mg","kekuatan":10.0,"satuan":"mg","volume":null,"satuan_vol":null}];
 
-// ==================== NAVIGASI SIDEBAR ====================
-let ACTIVE_PANEL = 'jumlah';
+// ==================== NAVIGASI SIDEBAR (DIPERKUAT) ====================
 function navTo(id){
-  ACTIVE_PANEL = id;
-  document.querySelectorAll('.panel').forEach(p=>{
-    p.classList.toggle('show', p.dataset.panel === id);
-  });
-  document.querySelectorAll('.sidebar .sb-item').forEach(b=>{
+  console.log('navTo dipanggil dengan id:', id);
+  const panel = document.querySelector(`.panel[data-panel="${id}"]`);
+  if (!panel) {
+    console.warn('Panel dengan data-panel="' + id + '" tidak ditemukan!');
+    return;
+  }
+  // Sembunyikan semua panel
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('show'));
+  // Tampilkan panel yang dipilih
+  panel.classList.add('show');
+  // Update sidebar aktif
+  document.querySelectorAll('.sidebar .sb-item').forEach(b => {
     b.classList.toggle('active', b.dataset.panel === id);
   });
-  document.querySelector('.main-content')?.scrollTo({top:0, behavior:'smooth'});
+  // Scroll ke atas konten
+  const main = document.querySelector('.main-content');
+  if (main) main.scrollTo({top: 0, behavior: 'smooth'});
 }
 
 // ==================== AUTOCOMPLETE ====================
@@ -1171,6 +1007,7 @@ let PICKED = {};
 function setupAC(searchId, acId, key, onPick){
   const inp = document.getElementById(searchId);
   const ac  = document.getElementById(acId);
+  if (!inp || !ac) return;
   inp.addEventListener('input', ()=>{
     const q = inp.value.trim().toLowerCase();
     PICKED[key] = null;
@@ -1579,11 +1416,7 @@ function hitungPPI(prefix, label, mgPerVial){
 // ==================== N-ASETILSISTEIN ====================
 const NAC_KONSENTRASI = 200;
 function calcNAC(){
-  const dosis = parseFloat(document.getElementById('nac-dosis').value);
-  const bb    = parseFloat(document.getElementById('nac-bb').value);
-  const vol   = parseFloat(document.getElementById('nac-vol').value);
-  if([dosis, bb, vol].some(isNaN) || vol <= 0) return;
-  // hanya update preview tidak digunakan
+  // hanya untuk preview, tidak digunakan
 }
 function hitungNAC(){
   const dosis = parseFloat(document.getElementById('nac-dosis').value);
