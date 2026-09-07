@@ -419,8 +419,8 @@ footer{text-align:center; font-family:var(--mono); font-size:11px; color:var(--s
 
   <!-- MAIN CONTENT -->
   <div class="main-content">
-  <!-- ════ PANEL 1 — HITUNG JUMLAH OBAT ════ -->
-  <div class="panel show" data-panel="jumlah">
+
+<div class="panel show" data-panel="jumlah">
     <h2>Hitung Jumlah Obat</h2>
     <p class="desc">Nama obat → kekuatan sediaan otomatis dari database (VLOOKUP) · Rumus: Jumlah Diambil = Kekuatan Diminta ÷ Kekuatan Sediaan × Jumlah Permintaan</p>
 
@@ -460,9 +460,6 @@ footer{text-align:center; font-family:var(--mono); font-size:11px; color:var(--s
     </div>
   </div>
 
-<!-- ════════════════════════════════════════
-     PANEL 2 — KONVERSI DOSIS & TETES
-     ════════════════════════════════════════ -->
 <div class="panel" data-panel="konversi">
   <h2>Konversi Dosis & Tetes</h2>
   <p class="desc">Dua arah seperti di Excel: (A) cari kekuatan dari volume yang diminta, (B) cari volume dari kekuatan yang diminta · Plus konversi mL ↔ tetes (1 mL = 20 gtt).</p>
@@ -564,10 +561,6 @@ footer{text-align:center; font-family:var(--mono); font-size:11px; color:var(--s
   </div>
 </div>
 
-<!-- ════════════════════════════════════════
-     PANEL 3 — ALBUMIN
-     Rumus: =(3.5-B1)*0.8*B2  →  =IF(B4=20,B3*5,IF(B4=25,B3*4,B3*20))
-     ════════════════════════════════════════ -->
 <div class="panel" data-panel="albumin">
   <h2>Kebutuhan Albumin</h2>
   <p class="desc">Target koreksi albumin normal 3.5 g/dL · Rumus: Kekuatan = (3.5 − Kadar Pasien) × 0.8 × BB · Volume = Kekuatan × faktor (20%→×5, 25%→×4)</p>
@@ -614,10 +607,6 @@ footer{text-align:center; font-family:var(--mono); font-size:11px; color:var(--s
   </div>
 </div>
 
-<!-- ════════════════════════════════════════
-     PANEL 4 — GFR (Cockcroft-Gault)
-     Rumus: =(140-B1)*B2*(IF(B3="L",1,0.85))/(72*B4)
-     ════════════════════════════════════════ -->
 <div class="panel" data-panel="gfr">
   <h2>GFR (Cockcroft-Gault)</h2>
   <p class="desc">Rumus: GFR = (140 − Usia) × BB × (1 jika Laki-laki, 0.85 jika Perempuan) ÷ (72 × Serum Kreatinin)</p>
@@ -659,14 +648,89 @@ footer{text-align:center; font-family:var(--mono); font-size:11px; color:var(--s
   </div>
 </div>
 
-<!-- ════════════════════════════════════════
-     PANEL 5 — TPN DEXTROSE
-     Rumus persis dari sel Excel (konstanta baku 4 opsi D):
-     D12.5: D5=27.5/35×V, D40=7.5/35×V
-     D15:   D5=25/35×V,   D40=10/35×V
-     D20:   D5=20/35×V,   D40=15/35×V
-     D25:   D5=15/35×V,   D40=20/35×V
-     ════════════════════════════════════════ -->
+<!-- ════ PANEL: TPN RACIKAN ════ -->
+  <div class="panel" data-panel="tpnracik">
+    <h2>🍼 TPN Racikan (Dextrose + Elektrolit)</h2>
+    <p class="desc">
+      Hitung volume D1+D2 untuk target kadar dextrose, ditambah volume NaCl 3%, KCl 7.46%, Ca Glukonas 10%<br>
+      Konstanta: NaCl 3% = 0.513 mEq/mL · KCl 7.46% = 1.000 mEq/mL · Ca Glukonas 10% = 0.465 mEq/mL
+    </p>
+    <div class="grid">
+      <div class="field">
+        <label class="lbl">Berat Badan Pasien</label>
+        <input type="number" id="tr-bb" placeholder="3" min="0" step="0.1">
+        <span class="unit-tag">kg</span>
+      </div>
+      <div class="field">
+        <label class="lbl">Volume Larutan Total</label>
+        <input type="number" id="tr-vol" placeholder="150" min="0">
+        <span class="unit-tag">mL</span>
+      </div>
+    </div>
+    <div style="border-top:1px solid var(--line);padding-top:16px;margin-bottom:14px;">
+      <div class="section-title">Dextrose</div>
+      <div class="grid3">
+        <div class="field">
+          <label class="lbl">Target Konsentrasi (D)</label>
+          <input type="number" id="tr-dtarget" placeholder="12.5" min="0" step="0.5">
+          <span class="unit-tag">%</span>
+        </div>
+        <div class="field">
+          <label class="lbl">Dextrose 1 (D rendah)</label>
+          <input type="number" id="tr-d1" placeholder="5" min="0">
+          <span class="unit-tag">%</span>
+        </div>
+        <div class="field">
+          <label class="lbl">Dextrose 2 (D tinggi)</label>
+          <input type="number" id="tr-d2" placeholder="40" min="0">
+          <span class="unit-tag">%</span>
+        </div>
+      </div>
+    </div>
+    <div style="border-top:1px solid var(--line);padding-top:16px;margin-bottom:14px;">
+      <div class="section-title">Elektrolit (isi 0 jika tidak dibutuhkan)</div>
+      <div class="grid3">
+        <div class="field">
+          <label class="lbl">Na (NaCl 3%)</label>
+          <input type="number" id="tr-na" placeholder="3" min="0" step="0.1">
+          <span class="unit-tag">mEq/kgBB</span>
+        </div>
+        <div class="field">
+          <label class="lbl">K (KCl 7.46%)</label>
+          <input type="number" id="tr-k" placeholder="2" min="0" step="0.1">
+          <span class="unit-tag">mEq/kgBB</span>
+        </div>
+        <div class="field">
+          <label class="lbl">Ca (Ca Glukonas 10%)</label>
+          <input type="number" id="tr-ca" placeholder="1" min="0" step="0.1">
+          <span class="unit-tag">mEq/kgBB</span>
+        </div>
+      </div>
+    </div>
+    <div class="btn-row">
+      <button class="btn-primary" onclick="hitungTPNRacik()">Hitung</button>
+      <button class="btn-reset" onclick="resetPanel('tpnracik')">↻ Reset</button>
+    </div>
+    <div class="result-box" id="tr-result">
+      <div class="rlabel">Hasil Racikan</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-bottom:16px;">
+        <div class="result-item"><div class="ri-label">NaCl 3%</div><div class="ri-val" id="tr-rnacl">—<span class="ri-unit">mL</span></div></div>
+        <div class="result-item"><div class="ri-label">KCl 7.46%</div><div class="ri-val" id="tr-rkcl">—<span class="ri-unit">mL</span></div></div>
+        <div class="result-item"><div class="ri-label">Ca Glukonas 10%</div><div class="ri-val" id="tr-rca">—<span class="ri-unit">mL</span></div></div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-bottom:16px;">
+        <div class="result-item"><div class="ri-label">Vol Non-Elektrolit</div><div class="ri-val" id="tr-rnonelek">—<span class="ri-unit">mL</span></div></div>
+        <div class="result-item"><div class="ri-label" id="tr-ld1">Dextrose 1</div><div class="ri-val" id="tr-rd1">—<span class="ri-unit">mL</span></div></div>
+        <div class="result-item"><div class="ri-label" id="tr-ld2">Dextrose 2</div><div class="ri-val" id="tr-rd2">—<span class="ri-unit">mL</span></div></div>
+      </div>
+      <div style="background:#fff;border-radius:7px;padding:10px 14px;display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
+        <span style="font-size:12.5px;color:var(--soft);font-weight:600;">TOTAL VOLUME</span>
+        <span class="ri-val" id="tr-rtotal" style="font-size:20px;">—<span class="ri-unit">mL</span></span>
+      </div>
+      <div class="rformula" id="tr-rformula"></div>
+    </div>
+  </div>
+
 <div class="panel" data-panel="tpndex">
   <h2>TPN — Campuran Dextrose (D5% + D40%)</h2>
   <p class="desc">Tabel 4 opsi kadar dextrose akhir sesuai Excel · Rumus per opsi menggunakan konstanta baku dari sel asli.</p>
@@ -697,12 +761,6 @@ footer{text-align:center; font-family:var(--mono); font-size:11px; color:var(--s
   </div>
 </div>
 
-<!-- ════════════════════════════════════════
-     PANEL 6 — TPN DEXTROSE + NaCl
-     =B3/B2*B4 → volume NaCl
-     =B4-B5 → sisa volume dextrose
-     lalu tabel D sama seperti TPN Dextrose dari sisa volume
-     ════════════════════════════════════════ -->
 <div class="panel" data-panel="tpnns">
   <h2>TPN — Dextrose + NaCl</h2>
   <p class="desc">Langkah 1: hitung volume NaCl yang diambil · Langkah 2: sisa volume dipecah ke D5+D40 untuk tiap opsi kadar dextrose</p>
@@ -754,10 +812,469 @@ footer{text-align:center; font-family:var(--mono); font-size:11px; color:var(--s
   </div>
 </div>
 
-<!-- ════════════════════════════════════════
-     PANEL 7 — OBAT DRIP
-     Semua rumus 1:1 dari sel Excel per obat
-     ════════════════════════════════════════ -->
+<div class="panel" data-panel="heparin">
+    <h2>🩸 Heparin Syringe Pump</h2>
+    <p class="desc">
+      Standar sediaan: Heparin 25.000 unit/5 mL = <strong>5.000 unit/mL</strong><br>
+      Konsentrasi larutan dihitung otomatis · Rumus: Rate = Dosis ÷ Konsentrasi Larutan
+    </p>
+
+    <div class="grid3">
+      <div class="field">
+        <label class="lbl">Dosis Yang Diminta</label>
+        <input type="number" id="hp-dosis" placeholder="1000" min="0"
+               oninput="calcHepKonsentrasi()">
+        <span class="unit-tag">unit/jam</span>
+      </div>
+      <div class="field">
+        <label class="lbl">Jumlah Heparin Diambil</label>
+        <input type="number" id="hp-ambil" placeholder="2" min="0" step="0.1"
+               oninput="calcHepKonsentrasi()">
+        <span class="unit-tag">mL</span>
+      </div>
+      <div class="field">
+        <label class="lbl">Volume Larutan Total</label>
+        <input type="number" id="hp-vol" placeholder="50" min="0"
+               oninput="calcHepKonsentrasi()">
+        <span class="unit-tag">mL</span>
+      </div>
+    </div>
+
+    <!-- Konsentrasi — tampil otomatis saat input diisi -->
+    <div class="field" style="max-width:300px;">
+      <label class="lbl">Konsentrasi Larutan (otomatis)</label>
+      <input type="text" id="hp-konsentrasi" readonly placeholder="→ isi kolom di atas">
+      <span class="unit-tag">unit/mL</span>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn-primary" onclick="hitungHeparin()">Hitung</button>
+      <button class="btn-reset" onclick="resetPanel('heparin')">↻ Reset</button>
+    </div>
+
+    <div class="result-box" id="hp-result">
+      <div class="rlabel">Rate Infus</div>
+      <div class="rval" id="hp-rate">— <span class="runit">mL/jam</span></div>
+      <div class="rformula" id="hp-formula"></div>
+    </div>
+  </div>
+
+<div class="panel" data-panel="amiodaron">
+    <h2>❤️ Amiodaron Syringe Pump</h2>
+    <p class="desc">
+      Standar sediaan: 1 ampul = <strong>150 mg / 3 mL</strong><br>
+      Konsentrasi larutan dihitung otomatis · Rumus: Rate = Dosis (mg/menit) × 60 ÷ Konsentrasi
+    </p>
+
+    <div class="grid3">
+      <div class="field">
+        <label class="lbl">Dosis Yang Diminta</label>
+        <input type="number" id="am-dosis" placeholder="0.5" min="0" step="0.1"
+               oninput="calcKonsentrasi('am',150)">
+        <span class="unit-tag">mg/menit</span>
+      </div>
+      <div class="field">
+        <label class="lbl">Jumlah Ampul</label>
+        <input type="number" id="am-amp" placeholder="1" min="1" step="1"
+               oninput="calcKonsentrasi('am',150)">
+        <span class="unit-tag">amp</span>
+      </div>
+      <div class="field">
+        <label class="lbl">Volume Larutan Total</label>
+        <input type="number" id="am-vol" placeholder="50" min="0"
+               oninput="calcKonsentrasi('am',150)">
+        <span class="unit-tag">mL</span>
+      </div>
+    </div>
+
+    <div class="field" style="max-width:300px;">
+      <label class="lbl">Konsentrasi Larutan (otomatis)</label>
+      <input type="text" id="am-konsentrasi" readonly placeholder="→ isi kolom di atas">
+      <span class="unit-tag">mg/mL</span>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn-primary" onclick="hitungDripMgMenit('am','Amiodaron',150)">Hitung</button>
+      <button class="btn-reset" onclick="resetPanel('amiodaron')">↻ Reset</button>
+    </div>
+
+    <div class="result-box" id="am-result">
+      <div class="rlabel">Rate Infus</div>
+      <div class="rval" id="am-rate">— <span class="runit">mL/jam</span></div>
+      <div class="rformula" id="am-formula"></div>
+    </div>
+  </div>
+
+<div class="panel" data-panel="lidocain">
+    <h2>⚡ Lidocain Syringe Pump</h2>
+    <p class="desc">
+      Standar sediaan: 1 ampul = <strong>400 mg / 20 mL</strong><br>
+      Konsentrasi larutan dihitung otomatis · Rumus: Rate = Dosis (mg/menit) × 60 ÷ Konsentrasi
+    </p>
+
+    <div class="grid3">
+      <div class="field">
+        <label class="lbl">Dosis Yang Diminta</label>
+        <input type="number" id="li-dosis" placeholder="2" min="0" step="0.1"
+               oninput="calcKonsentrasi('li',400)">
+        <span class="unit-tag">mg/menit</span>
+      </div>
+      <div class="field">
+        <label class="lbl">Jumlah Ampul</label>
+        <input type="number" id="li-amp" placeholder="1" min="1" step="1"
+               oninput="calcKonsentrasi('li',400)">
+        <span class="unit-tag">amp</span>
+      </div>
+      <div class="field">
+        <label class="lbl">Volume Larutan Total</label>
+        <input type="number" id="li-vol" placeholder="50" min="0"
+               oninput="calcKonsentrasi('li',400)">
+        <span class="unit-tag">mL</span>
+      </div>
+    </div>
+
+    <div class="field" style="max-width:300px;">
+      <label class="lbl">Konsentrasi Larutan (otomatis)</label>
+      <input type="text" id="li-konsentrasi" readonly placeholder="→ isi kolom di atas">
+      <span class="unit-tag">mg/mL</span>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn-primary" onclick="hitungDripMgMenit('li','Lidocain',400)">Hitung</button>
+      <button class="btn-reset" onclick="resetPanel('lidocain')">↻ Reset</button>
+    </div>
+
+    <div class="result-box" id="li-result">
+      <div class="rlabel">Rate Infus</div>
+      <div class="rval" id="li-rate">— <span class="runit">mL/jam</span></div>
+      <div class="rformula" id="li-formula"></div>
+    </div>
+  </div>
+
+<div class="panel" data-panel="fentanil">
+    <h2>💊 Fentanil Syringe Pump</h2>
+    <p class="desc">
+      Standar sediaan: 1 ampul = <strong>500 mcg / 10 mL</strong><br>
+      Konsentrasi larutan dihitung otomatis · Rumus: Rate = Dosis (mcg/jam) ÷ Konsentrasi
+    </p>
+
+    <div class="grid3">
+      <div class="field">
+        <label class="lbl">Dosis Yang Diminta</label>
+        <input type="number" id="fn-dosis" placeholder="100" min="0"
+               oninput="calcKonsentrasiMcg('fn', 500)">
+        <span class="unit-tag">mcg/jam</span>
+      </div>
+      <div class="field">
+        <label class="lbl">Jumlah Ampul</label>
+        <input type="number" id="fn-amp" placeholder="1" min="1" step="1"
+               oninput="calcKonsentrasiMcg('fn', 500)">
+        <span class="unit-tag">amp</span>
+      </div>
+      <div class="field">
+        <label class="lbl">Volume Larutan Total</label>
+        <input type="number" id="fn-vol" placeholder="50" min="0"
+               oninput="calcKonsentrasiMcg('fn', 500)">
+        <span class="unit-tag">mL</span>
+      </div>
+    </div>
+
+    <div class="field" style="max-width:300px;">
+      <label class="lbl">Konsentrasi Larutan (otomatis)</label>
+      <input type="text" id="fn-konsentrasi" readonly placeholder="→ isi kolom di atas">
+      <span class="unit-tag">mcg/mL</span>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn-primary" onclick="hitungDripMcgJam('fn','Fentanil',500)">Hitung</button>
+      <button class="btn-reset" onclick="resetPanel('fentanil')">↻ Reset</button>
+    </div>
+
+    <div class="result-box" id="fn-result">
+      <div class="rlabel">Rate Infus</div>
+      <div class="rval" id="fn-rate">— <span class="runit">mL/jam</span></div>
+      <div class="rformula" id="fn-formula"></div>
+    </div>
+  </div>
+
+<div class="panel" data-panel="dexmed">
+    <h2>🧬 Dexmedetomidin Syringe Pump</h2>
+    <p class="desc">
+      Standar sediaan: 1 vial = <strong>200 mcg / 2 mL</strong> (Precedex)<br>
+      Konsentrasi larutan dihitung otomatis · Rumus: Rate = (Dosis × BB) ÷ Konsentrasi
+    </p>
+
+    <div class="grid">
+      <div class="field">
+        <label class="lbl">Dosis Yang Diminta</label>
+        <input type="number" id="dx-dosis" placeholder="0.5" min="0" step="0.1"
+               oninput="calcKonsentrasiMcg('dx', 200)">
+        <span class="unit-tag">mcg/KgBB/jam</span>
+      </div>
+      <div class="field">
+        <label class="lbl">Berat Badan Pasien</label>
+        <input type="number" id="dx-bb" placeholder="60" min="0">
+        <span class="unit-tag">kg</span>
+      </div>
+    </div>
+    <div class="grid">
+      <div class="field">
+        <label class="lbl">Jumlah Vial</label>
+        <input type="number" id="dx-amp" placeholder="1" min="1" step="1"
+               oninput="calcKonsentrasiMcg('dx', 200)">
+        <span class="unit-tag">vial</span>
+      </div>
+      <div class="field">
+        <label class="lbl">Volume Larutan Total</label>
+        <input type="number" id="dx-vol" placeholder="50" min="0"
+               oninput="calcKonsentrasiMcg('dx', 200)">
+        <span class="unit-tag">mL</span>
+      </div>
+    </div>
+
+    <div class="field" style="max-width:300px;">
+      <label class="lbl">Konsentrasi Larutan (otomatis)</label>
+      <input type="text" id="dx-konsentrasi" readonly placeholder="→ isi vial & volume">
+      <span class="unit-tag">mcg/mL</span>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn-primary" onclick="hitungDexmed()">Hitung</button>
+      <button class="btn-reset" onclick="resetPanel('dexmed')">↻ Reset</button>
+    </div>
+
+    <div class="result-box" id="dx-result">
+      <div class="rlabel">Rate Infus</div>
+      <div class="rval" id="dx-rate">— <span class="runit">mL/jam</span></div>
+      <div class="rformula" id="dx-formula"></div>
+    </div>
+  </div>
+
+<div class="panel" data-panel="midazolam">
+    <h2>😴 Midazolam Syringe Pump</h2>
+    <p class="desc">
+      Sediaan: <strong>5 mg/mL</strong> (undiluted · 15 mg/3 mL atau 50 mg/10 mL)<br>
+      Rumus: Rate = Dosis ÷ 5
+    </p>
+
+    <div class="note-box" style="margin-bottom:18px;">
+      <strong>⚠ Perlu konfirmasi:</strong> Sheet Excel Midazolam tidak memiliki data sample.
+      Konsentrasi <strong>5 mg/mL</strong> adalah standar umum undiluted.
+      Konfirmasi ke apoteker RS apakah Midazolam diberikan undiluted atau diencerkan —
+      jika diencerkan, konsentrasi akan berbeda dan angka <code>MIDAZOLAM_KONSENTRASI</code>
+      di dalam file HTML perlu disesuaikan.
+    </div>
+
+    <div class="field" style="max-width:300px;">
+      <label class="lbl">Dosis Yang Diminta</label>
+      <input type="number" id="mz-dosis" placeholder="5" min="0" step="0.5"
+             oninput="previewMidazolam()">
+      <span class="unit-tag">mg/jam</span>
+    </div>
+
+    <div class="field" style="max-width:300px;">
+      <label class="lbl">Rate (preview otomatis)</label>
+      <input type="text" id="mz-preview" readonly placeholder="→ isi dosis di atas">
+      <span class="unit-tag">mL/jam</span>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn-primary" onclick="hitungMidazolam()">Hitung</button>
+      <button class="btn-reset" onclick="resetPanel('midazolam')">↻ Reset</button>
+    </div>
+
+    <div class="result-box" id="mz-result">
+      <div class="rlabel">Rate Infus</div>
+      <div class="rval" id="mz-rate">— <span class="runit">mL/jam</span></div>
+      <div class="rformula" id="mz-formula"></div>
+    </div>
+  </div>
+
+<div class="panel" data-panel="furosemid">
+    <h2>💧 Furosemid Syringe Pump</h2>
+    <p class="desc">
+      Sediaan: <strong>10 mg/mL</strong> (undiluted · 20 mg/2 mL atau 40 mg/4 mL)<br>
+      Konsentrasi sudah baku — sesuai data sample sheet Excel (50 mg/jam → 5 mL/jam)<br>
+      Rumus: Rate = Dosis ÷ 10
+    </p>
+
+    <div class="field" style="max-width:300px;">
+      <label class="lbl">Dosis Yang Diminta</label>
+      <input type="number" id="fr-dosis" placeholder="50" min="0" step="0.5"
+             oninput="previewFurosemid()">
+      <span class="unit-tag">mg/jam</span>
+    </div>
+
+    <!-- Preview real-time -->
+    <div class="field" style="max-width:300px;">
+      <label class="lbl">Rate (preview otomatis)</label>
+      <input type="text" id="fr-preview" readonly placeholder="→ isi dosis di atas">
+      <span class="unit-tag">mL/jam</span>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn-primary" onclick="hitungFurosemid()">Hitung</button>
+      <button class="btn-reset" onclick="resetPanel('furosemid')">↻ Reset</button>
+    </div>
+
+    <div class="result-box" id="fr-result">
+      <div class="rlabel">Rate Infus</div>
+      <div class="rval" id="fr-rate">— <span class="runit">mL/jam</span></div>
+      <div class="rformula" id="fr-formula"></div>
+    </div>
+  </div>
+
+<div class="panel" data-panel="pantoprazole">
+    <h2>🟣 Pantoprazole Syringe Pump</h2>
+    <p class="desc">
+      Standar sediaan: 1 vial = <strong>40 mg</strong><br>
+      Konsentrasi larutan dihitung otomatis · Rumus: Rate = Dosis (mg/jam) ÷ Konsentrasi
+    </p>
+
+    <div class="grid3">
+      <div class="field">
+        <label class="lbl">Dosis Yang Diminta</label>
+        <input type="number" id="pt-dosis" placeholder="8" min="0" step="0.5"
+               oninput="calcKonsentrasiVial('pt', 40)">
+        <span class="unit-tag">mg/jam</span>
+      </div>
+      <div class="field">
+        <label class="lbl">Jumlah Vial</label>
+        <input type="number" id="pt-vial" placeholder="1" min="1" step="1"
+               oninput="calcKonsentrasiVial('pt', 40)">
+        <span class="unit-tag">vial</span>
+      </div>
+      <div class="field">
+        <label class="lbl">Volume Larutan Total</label>
+        <input type="number" id="pt-vol" placeholder="100" min="0"
+               oninput="calcKonsentrasiVial('pt', 40)">
+        <span class="unit-tag">mL</span>
+      </div>
+    </div>
+
+    <div class="field" style="max-width:300px;">
+      <label class="lbl">Konsentrasi Larutan (otomatis)</label>
+      <input type="text" id="pt-konsentrasi" readonly placeholder="→ isi kolom di atas">
+      <span class="unit-tag">mg/mL</span>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn-primary" onclick="hitungPPI('pt','Pantoprazole',40)">Hitung</button>
+      <button class="btn-reset" onclick="resetPanel('pantoprazole')">↻ Reset</button>
+    </div>
+
+    <div class="result-box" id="pt-result">
+      <div class="rlabel">Rate Infus</div>
+      <div class="rval" id="pt-rate">— <span class="runit">mL/jam</span></div>
+      <div class="rformula" id="pt-formula"></div>
+    </div>
+  </div>
+
+<div class="panel" data-panel="omeprazole">
+    <h2>🔵 Omeprazole Syringe Pump</h2>
+    <p class="desc">
+      Standar sediaan: 1 vial = <strong>40 mg</strong><br>
+      Konsentrasi larutan dihitung otomatis · Rumus: Rate = Dosis (mg/jam) ÷ Konsentrasi
+    </p>
+
+    <div class="grid3">
+      <div class="field">
+        <label class="lbl">Dosis Yang Diminta</label>
+        <input type="number" id="om-dosis" placeholder="8" min="0" step="0.5"
+               oninput="calcKonsentrasiVial('om', 40)">
+        <span class="unit-tag">mg/jam</span>
+      </div>
+      <div class="field">
+        <label class="lbl">Jumlah Vial</label>
+        <input type="number" id="om-vial" placeholder="1" min="1" step="1"
+               oninput="calcKonsentrasiVial('om', 40)">
+        <span class="unit-tag">vial</span>
+      </div>
+      <div class="field">
+        <label class="lbl">Volume Larutan Total</label>
+        <input type="number" id="om-vol" placeholder="100" min="0"
+               oninput="calcKonsentrasiVial('om', 40)">
+        <span class="unit-tag">mL</span>
+      </div>
+    </div>
+
+    <div class="field" style="max-width:300px;">
+      <label class="lbl">Konsentrasi Larutan (otomatis)</label>
+      <input type="text" id="om-konsentrasi" readonly placeholder="→ isi kolom di atas">
+      <span class="unit-tag">mg/mL</span>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn-primary" onclick="hitungPPI('om','Omeprazole',40)">Hitung</button>
+      <button class="btn-reset" onclick="resetPanel('omeprazole')">↻ Reset</button>
+    </div>
+
+    <div class="result-box" id="om-result">
+      <div class="rlabel">Rate Infus</div>
+      <div class="rval" id="om-rate">— <span class="runit">mL/jam</span></div>
+      <div class="rformula" id="om-formula"></div>
+    </div>
+  </div>
+
+<div class="panel" data-panel="nac">
+    <h2>🧬 N-Asetilsistein (NAC)</h2>
+    <p class="desc">
+      Sediaan: <strong>200 mg/mL</strong> · Hitung volume NAC yang diambil, volume pelarut, dan rate infus<br>
+      Rumus: Vol NAC = (Dosis × BB) ÷ 200 &nbsp;·&nbsp; Vol Pelarut = Vol Larutan − Vol NAC &nbsp;·&nbsp; Rate = Vol Larutan (mL/jam)
+    </p>
+
+    <!-- Protokol 3 fase sebagai panduan -->
+    <div style="background:var(--ambl);border:1px solid #e8c68a;border-radius:8px;padding:12px 16px;margin-bottom:18px;font-size:12.5px;color:#7a5010;line-height:1.7;">
+      <strong>Protokol standar antidotum paracetamol (total 21 jam):</strong><br>
+      Fase 1 — <strong>150 mg/kgBB</strong> dalam 200 mL D5W selama <strong>1 jam</strong><br>
+      Fase 2 — <strong>50 mg/kgBB</strong> dalam 500 mL D5W selama <strong>4 jam</strong><br>
+      Fase 3 — <strong>100 mg/kgBB</strong> dalam 1000 mL D5W selama <strong>16 jam</strong>
+    </div>
+
+    <div class="grid">
+      <div class="field">
+        <label class="lbl">Dosis Yang Diminta</label>
+        <input type="number" id="nac-dosis" placeholder="150" min="0" step="0.5"
+               oninput="calcNAC()">
+        <span class="unit-tag">mg/kgBB/jam</span>
+      </div>
+      <div class="field">
+        <label class="lbl">Berat Badan Pasien</label>
+        <input type="number" id="nac-bb" placeholder="60" min="0"
+               oninput="calcNAC()">
+        <span class="unit-tag">kg</span>
+      </div>
+    </div>
+    <div class="field" style="max-width:260px;">
+      <label class="lbl">Volume Larutan Total</label>
+      <input type="number" id="nac-vol" placeholder="200" min="0"
+             oninput="calcNAC()">
+      <span class="unit-tag">mL</span>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn-primary" onclick="hitungNAC()">Hitung</button>
+      <button class="btn-reset" onclick="resetPanel('nac')">↻ Reset</button>
+    </div>
+
+    <div class="result-box" id="nac-result">
+      <div class="rlabel">Hasil Perhitungan</div>
+      <div class="result-pair" style="margin-bottom:16px;">
+        <div class="result-item">
+          <div class="ri-label">Volume NAC Diambil</div>
+          <div class="ri-val" id="nac-rvol">—<span class="ri-unit">mL</span></div>
+        </div>
+        <div class="result-item">
+          <div class="ri-label">Volume Pelarut (D5W)</div>
+          <div class="ri-val" id="nac-rpelarut">—<span class="ri-unit">mL</span></div>
+        </div>
+      </div>
+      <div class="rlabel" style="margin-bottom:4px;">Rate Infus</div>
+      <div class="rval" id="nac-rrate">— <span class="runit">mL/jam</span></div>
+      <div class="rformula" id="nac-rformula"></div>
+    </div>
+  </div>
+
 <div class="panel" data-panel="drip">
   <h2>Obat Drip / Syringe Pump</h2>
   <p class="desc">Pilih obat · Rumus diambil 1:1 dari masing-masing sheet Excel · Hasil dalam CC/jam.</p>
@@ -2129,807 +2646,6 @@ function resetPanel(id){
   if(id==='jumlah') PICKED['j']=null;
 }
 </script>
+
 </body>
-</html>  <!-- ════ PANEL: MIDAZOLAM ════ -->
-  <div class="panel" data-panel="midazolam">
-    <h2>😴 Midazolam Syringe Pump</h2>
-    <p class="desc">
-      Sediaan: <strong>5 mg/mL</strong> (undiluted · 15 mg/3 mL atau 50 mg/10 mL)<br>
-      Rumus: Rate = Dosis ÷ 5
-    </p>
-
-    <div class="note-box" style="margin-bottom:18px;">
-      <strong>⚠ Perlu konfirmasi:</strong> Sheet Excel Midazolam tidak memiliki data sample.
-      Konsentrasi <strong>5 mg/mL</strong> adalah standar umum undiluted.
-      Konfirmasi ke apoteker RS apakah Midazolam diberikan undiluted atau diencerkan —
-      jika diencerkan, konsentrasi akan berbeda dan angka <code>MIDAZOLAM_KONSENTRASI</code>
-      di dalam file HTML perlu disesuaikan.
-    </div>
-
-    <div class="field" style="max-width:300px;">
-      <label class="lbl">Dosis Yang Diminta</label>
-      <input type="number" id="mz-dosis" placeholder="5" min="0" step="0.5"
-             oninput="previewMidazolam()">
-      <span class="unit-tag">mg/jam</span>
-    </div>
-
-    <div class="field" style="max-width:300px;">
-      <label class="lbl">Rate (preview otomatis)</label>
-      <input type="text" id="mz-preview" readonly placeholder="→ isi dosis di atas">
-      <span class="unit-tag">mL/jam</span>
-    </div>
-
-    <div class="btn-row">
-      <button class="btn-primary" onclick="hitungMidazolam()">Hitung</button>
-      <button class="btn-reset" onclick="resetPanel('midazolam')">↻ Reset</button>
-    </div>
-
-    <div class="result-box" id="mz-result">
-      <div class="rlabel">Rate Infus</div>
-      <div class="rval" id="mz-rate">— <span class="runit">mL/jam</span></div>
-      <div class="rformula" id="mz-formula"></div>
-    </div>
-  </div>
-
-  <!-- ════ PANEL: FUROSEMID ════ -->
-  <div class="panel" data-panel="furosemid">
-    <h2>💧 Furosemid Syringe Pump</h2>
-    <p class="desc">
-      Sediaan: <strong>10 mg/mL</strong> (undiluted · 20 mg/2 mL atau 40 mg/4 mL)<br>
-      Konsentrasi sudah baku — sesuai data sample sheet Excel (50 mg/jam → 5 mL/jam)<br>
-      Rumus: Rate = Dosis ÷ 10
-    </p>
-
-    <div class="field" style="max-width:300px;">
-      <label class="lbl">Dosis Yang Diminta</label>
-      <input type="number" id="fr-dosis" placeholder="50" min="0" step="0.5"
-             oninput="previewFurosemid()">
-      <span class="unit-tag">mg/jam</span>
-    </div>
-
-    <!-- Preview real-time -->
-    <div class="field" style="max-width:300px;">
-      <label class="lbl">Rate (preview otomatis)</label>
-      <input type="text" id="fr-preview" readonly placeholder="→ isi dosis di atas">
-      <span class="unit-tag">mL/jam</span>
-    </div>
-
-    <div class="btn-row">
-      <button class="btn-primary" onclick="hitungFurosemid()">Hitung</button>
-      <button class="btn-reset" onclick="resetPanel('furosemid')">↻ Reset</button>
-    </div>
-
-    <div class="result-box" id="fr-result">
-      <div class="rlabel">Rate Infus</div>
-      <div class="rval" id="fr-rate">— <span class="runit">mL/jam</span></div>
-      <div class="rformula" id="fr-formula"></div>
-    </div>
-  </div>
-
-  <!-- ════ PANEL: N-ASETILSISTEIN ════ -->
-  <div class="panel" data-panel="nac">
-    <h2>🧬 N-Asetilsistein (NAC)</h2>
-    <p class="desc">
-      Sediaan: <strong>200 mg/mL</strong> · Hitung volume NAC yang diambil, volume pelarut, dan rate infus<br>
-      Rumus: Vol NAC = (Dosis × BB) ÷ 200 &nbsp;·&nbsp; Vol Pelarut = Vol Larutan − Vol NAC &nbsp;·&nbsp; Rate = Vol Larutan (mL/jam)
-    </p>
-
-    <!-- Protokol 3 fase sebagai panduan -->
-    <div style="background:var(--ambl);border:1px solid #e8c68a;border-radius:8px;padding:12px 16px;margin-bottom:18px;font-size:12.5px;color:#7a5010;line-height:1.7;">
-      <strong>Protokol standar antidotum paracetamol (total 21 jam):</strong><br>
-      Fase 1 — <strong>150 mg/kgBB</strong> dalam 200 mL D5W selama <strong>1 jam</strong><br>
-      Fase 2 — <strong>50 mg/kgBB</strong> dalam 500 mL D5W selama <strong>4 jam</strong><br>
-      Fase 3 — <strong>100 mg/kgBB</strong> dalam 1000 mL D5W selama <strong>16 jam</strong>
-    </div>
-
-    <div class="grid">
-      <div class="field">
-        <label class="lbl">Dosis Yang Diminta</label>
-        <input type="number" id="nac-dosis" placeholder="150" min="0" step="0.5"
-               oninput="calcNAC()">
-        <span class="unit-tag">mg/kgBB/jam</span>
-      </div>
-      <div class="field">
-        <label class="lbl">Berat Badan Pasien</label>
-        <input type="number" id="nac-bb" placeholder="60" min="0"
-               oninput="calcNAC()">
-        <span class="unit-tag">kg</span>
-      </div>
-    </div>
-    <div class="field" style="max-width:260px;">
-      <label class="lbl">Volume Larutan Total</label>
-      <input type="number" id="nac-vol" placeholder="200" min="0"
-             oninput="calcNAC()">
-      <span class="unit-tag">mL</span>
-    </div>
-
-    <div class="btn-row">
-      <button class="btn-primary" onclick="hitungNAC()">Hitung</button>
-      <button class="btn-reset" onclick="resetPanel('nac')">↻ Reset</button>
-    </div>
-
-    <div class="result-box" id="nac-result">
-      <div class="rlabel">Hasil Perhitungan</div>
-      <div class="result-pair" style="margin-bottom:16px;">
-        <div class="result-item">
-          <div class="ri-label">Volume NAC Diambil</div>
-          <div class="ri-val" id="nac-rvol">—<span class="ri-unit">mL</span></div>
-        </div>
-        <div class="result-item">
-          <div class="ri-label">Volume Pelarut (D5W)</div>
-          <div class="ri-val" id="nac-rpelarut">—<span class="ri-unit">mL</span></div>
-        </div>
-      </div>
-      <div class="rlabel" style="margin-bottom:4px;">Rate Infus</div>
-      <div class="rval" id="nac-rrate">— <span class="runit">mL/jam</span></div>
-      <div class="rformula" id="nac-rformula"></div>
-    </div>
-  </div>
-
-  <!-- ════ PANEL: PANTOPRAZOLE ════ -->
-  <div class="panel" data-panel="pantoprazole">
-    <h2>🟣 Pantoprazole Syringe Pump</h2>
-    <p class="desc">
-      Standar sediaan: 1 vial = <strong>40 mg</strong><br>
-      Konsentrasi larutan dihitung otomatis · Rumus: Rate = Dosis (mg/jam) ÷ Konsentrasi
-    </p>
-
-    <div class="grid3">
-      <div class="field">
-        <label class="lbl">Dosis Yang Diminta</label>
-        <input type="number" id="pt-dosis" placeholder="8" min="0" step="0.5"
-               oninput="calcKonsentrasiVial('pt', 40)">
-        <span class="unit-tag">mg/jam</span>
-      </div>
-      <div class="field">
-        <label class="lbl">Jumlah Vial</label>
-        <input type="number" id="pt-vial" placeholder="1" min="1" step="1"
-               oninput="calcKonsentrasiVial('pt', 40)">
-        <span class="unit-tag">vial</span>
-      </div>
-      <div class="field">
-        <label class="lbl">Volume Larutan Total</label>
-        <input type="number" id="pt-vol" placeholder="100" min="0"
-               oninput="calcKonsentrasiVial('pt', 40)">
-        <span class="unit-tag">mL</span>
-      </div>
-    </div>
-
-    <div class="field" style="max-width:300px;">
-      <label class="lbl">Konsentrasi Larutan (otomatis)</label>
-      <input type="text" id="pt-konsentrasi" readonly placeholder="→ isi kolom di atas">
-      <span class="unit-tag">mg/mL</span>
-    </div>
-
-    <div class="btn-row">
-      <button class="btn-primary" onclick="hitungPPI('pt','Pantoprazole',40)">Hitung</button>
-      <button class="btn-reset" onclick="resetPanel('pantoprazole')">↻ Reset</button>
-    </div>
-
-    <div class="result-box" id="pt-result">
-      <div class="rlabel">Rate Infus</div>
-      <div class="rval" id="pt-rate">— <span class="runit">mL/jam</span></div>
-      <div class="rformula" id="pt-formula"></div>
-    </div>
-  </div>
-
-  <!-- ════ PANEL: OMEPRAZOLE ════ -->
-  <div class="panel" data-panel="omeprazole">
-    <h2>🔵 Omeprazole Syringe Pump</h2>
-    <p class="desc">
-      Standar sediaan: 1 vial = <strong>40 mg</strong><br>
-      Konsentrasi larutan dihitung otomatis · Rumus: Rate = Dosis (mg/jam) ÷ Konsentrasi
-    </p>
-
-    <div class="grid3">
-      <div class="field">
-        <label class="lbl">Dosis Yang Diminta</label>
-        <input type="number" id="om-dosis" placeholder="8" min="0" step="0.5"
-               oninput="calcKonsentrasiVial('om', 40)">
-        <span class="unit-tag">mg/jam</span>
-      </div>
-      <div class="field">
-        <label class="lbl">Jumlah Vial</label>
-        <input type="number" id="om-vial" placeholder="1" min="1" step="1"
-               oninput="calcKonsentrasiVial('om', 40)">
-        <span class="unit-tag">vial</span>
-      </div>
-      <div class="field">
-        <label class="lbl">Volume Larutan Total</label>
-        <input type="number" id="om-vol" placeholder="100" min="0"
-               oninput="calcKonsentrasiVial('om', 40)">
-        <span class="unit-tag">mL</span>
-      </div>
-    </div>
-
-    <div class="field" style="max-width:300px;">
-      <label class="lbl">Konsentrasi Larutan (otomatis)</label>
-      <input type="text" id="om-konsentrasi" readonly placeholder="→ isi kolom di atas">
-      <span class="unit-tag">mg/mL</span>
-    </div>
-
-    <div class="btn-row">
-      <button class="btn-primary" onclick="hitungPPI('om','Omeprazole',40)">Hitung</button>
-      <button class="btn-reset" onclick="resetPanel('omeprazole')">↻ Reset</button>
-    </div>
-
-    <div class="result-box" id="om-result">
-      <div class="rlabel">Rate Infus</div>
-      <div class="rval" id="om-rate">— <span class="runit">mL/jam</span></div>
-      <div class="rformula" id="om-formula"></div>
-    </div>
-  </div>
-
-  <!-- ════ PANEL: FENTANIL ════ -->
-  <div class="panel" data-panel="fentanil">
-    <h2>💊 Fentanil Syringe Pump</h2>
-    <p class="desc">
-      Standar sediaan: 1 ampul = <strong>500 mcg / 10 mL</strong><br>
-      Konsentrasi larutan dihitung otomatis · Rumus: Rate = Dosis (mcg/jam) ÷ Konsentrasi
-    </p>
-
-    <div class="grid3">
-      <div class="field">
-        <label class="lbl">Dosis Yang Diminta</label>
-        <input type="number" id="fn-dosis" placeholder="100" min="0"
-               oninput="calcKonsentrasiMcg('fn', 500)">
-        <span class="unit-tag">mcg/jam</span>
-      </div>
-      <div class="field">
-        <label class="lbl">Jumlah Ampul</label>
-        <input type="number" id="fn-amp" placeholder="1" min="1" step="1"
-               oninput="calcKonsentrasiMcg('fn', 500)">
-        <span class="unit-tag">amp</span>
-      </div>
-      <div class="field">
-        <label class="lbl">Volume Larutan Total</label>
-        <input type="number" id="fn-vol" placeholder="50" min="0"
-               oninput="calcKonsentrasiMcg('fn', 500)">
-        <span class="unit-tag">mL</span>
-      </div>
-    </div>
-
-    <div class="field" style="max-width:300px;">
-      <label class="lbl">Konsentrasi Larutan (otomatis)</label>
-      <input type="text" id="fn-konsentrasi" readonly placeholder="→ isi kolom di atas">
-      <span class="unit-tag">mcg/mL</span>
-    </div>
-
-    <div class="btn-row">
-      <button class="btn-primary" onclick="hitungDripMcgJam('fn','Fentanil',500)">Hitung</button>
-      <button class="btn-reset" onclick="resetPanel('fentanil')">↻ Reset</button>
-    </div>
-
-    <div class="result-box" id="fn-result">
-      <div class="rlabel">Rate Infus</div>
-      <div class="rval" id="fn-rate">— <span class="runit">mL/jam</span></div>
-      <div class="rformula" id="fn-formula"></div>
-    </div>
-  </div>
-
-  <!-- ════ PANEL: DEXMEDETOMIDIN ════ -->
-  <div class="panel" data-panel="dexmed">
-    <h2>🧬 Dexmedetomidin Syringe Pump</h2>
-    <p class="desc">
-      Standar sediaan: 1 vial = <strong>200 mcg / 2 mL</strong> (Precedex)<br>
-      Konsentrasi larutan dihitung otomatis · Rumus: Rate = (Dosis × BB) ÷ Konsentrasi
-    </p>
-
-    <div class="grid">
-      <div class="field">
-        <label class="lbl">Dosis Yang Diminta</label>
-        <input type="number" id="dx-dosis" placeholder="0.5" min="0" step="0.1"
-               oninput="calcKonsentrasiMcg('dx', 200)">
-        <span class="unit-tag">mcg/KgBB/jam</span>
-      </div>
-      <div class="field">
-        <label class="lbl">Berat Badan Pasien</label>
-        <input type="number" id="dx-bb" placeholder="60" min="0">
-        <span class="unit-tag">kg</span>
-      </div>
-    </div>
-    <div class="grid">
-      <div class="field">
-        <label class="lbl">Jumlah Vial</label>
-        <input type="number" id="dx-amp" placeholder="1" min="1" step="1"
-               oninput="calcKonsentrasiMcg('dx', 200)">
-        <span class="unit-tag">vial</span>
-      </div>
-      <div class="field">
-        <label class="lbl">Volume Larutan Total</label>
-        <input type="number" id="dx-vol" placeholder="50" min="0"
-               oninput="calcKonsentrasiMcg('dx', 200)">
-        <span class="unit-tag">mL</span>
-      </div>
-    </div>
-
-    <div class="field" style="max-width:300px;">
-      <label class="lbl">Konsentrasi Larutan (otomatis)</label>
-      <input type="text" id="dx-konsentrasi" readonly placeholder="→ isi vial & volume">
-      <span class="unit-tag">mcg/mL</span>
-    </div>
-
-    <div class="btn-row">
-      <button class="btn-primary" onclick="hitungDexmed()">Hitung</button>
-      <button class="btn-reset" onclick="resetPanel('dexmed')">↻ Reset</button>
-    </div>
-
-    <div class="result-box" id="dx-result">
-      <div class="rlabel">Rate Infus</div>
-      <div class="rval" id="dx-rate">— <span class="runit">mL/jam</span></div>
-      <div class="rformula" id="dx-formula"></div>
-    </div>
-  </div>
-
-  <!-- ════ PANEL: MIDAZOLAM ════ -->
-  <div class="panel" data-panel="midazolam">
-    <h2>😴 Midazolam Syringe Pump</h2>
-    <p class="desc">
-      Sediaan: <strong>5 mg/mL</strong> (undiluted · 15 mg/3 mL atau 50 mg/10 mL)<br>
-      Rumus: Rate = Dosis ÷ 5
-    </p>
-
-    <div class="note-box" style="margin-bottom:18px;">
-      <strong>⚠ Perlu konfirmasi:</strong> Sheet Excel Midazolam tidak memiliki data sample.
-      Konsentrasi <strong>5 mg/mL</strong> adalah standar umum undiluted.
-      Konfirmasi ke apoteker RS apakah Midazolam diberikan undiluted atau diencerkan —
-      jika diencerkan, konsentrasi akan berbeda dan angka <code>MIDAZOLAM_KONSENTRASI</code>
-      di dalam file HTML perlu disesuaikan.
-    </div>
-
-    <div class="field" style="max-width:300px;">
-      <label class="lbl">Dosis Yang Diminta</label>
-      <input type="number" id="mz-dosis" placeholder="5" min="0" step="0.5"
-             oninput="previewMidazolam()">
-      <span class="unit-tag">mg/jam</span>
-    </div>
-
-    <div class="field" style="max-width:300px;">
-      <label class="lbl">Rate (preview otomatis)</label>
-      <input type="text" id="mz-preview" readonly placeholder="→ isi dosis di atas">
-      <span class="unit-tag">mL/jam</span>
-    </div>
-
-    <div class="btn-row">
-      <button class="btn-primary" onclick="hitungMidazolam()">Hitung</button>
-      <button class="btn-reset" onclick="resetPanel('midazolam')">↻ Reset</button>
-    </div>
-
-    <div class="result-box" id="mz-result">
-      <div class="rlabel">Rate Infus</div>
-      <div class="rval" id="mz-rate">— <span class="runit">mL/jam</span></div>
-      <div class="rformula" id="mz-formula"></div>
-    </div>
-  </div>
-
-  <!-- ════ PANEL: FUROSEMID ════ -->
-  <div class="panel" data-panel="furosemid">
-    <h2>💧 Furosemid Syringe Pump</h2>
-    <p class="desc">
-      Sediaan: <strong>10 mg/mL</strong> (undiluted · 20 mg/2 mL atau 40 mg/4 mL)<br>
-      Konsentrasi sudah baku — sesuai data sample sheet Excel (50 mg/jam → 5 mL/jam)<br>
-      Rumus: Rate = Dosis ÷ 10
-    </p>
-
-    <div class="field" style="max-width:300px;">
-      <label class="lbl">Dosis Yang Diminta</label>
-      <input type="number" id="fr-dosis" placeholder="50" min="0" step="0.5"
-             oninput="previewFurosemid()">
-      <span class="unit-tag">mg/jam</span>
-    </div>
-
-    <!-- Preview real-time -->
-    <div class="field" style="max-width:300px;">
-      <label class="lbl">Rate (preview otomatis)</label>
-      <input type="text" id="fr-preview" readonly placeholder="→ isi dosis di atas">
-      <span class="unit-tag">mL/jam</span>
-    </div>
-
-    <div class="btn-row">
-      <button class="btn-primary" onclick="hitungFurosemid()">Hitung</button>
-      <button class="btn-reset" onclick="resetPanel('furosemid')">↻ Reset</button>
-    </div>
-
-    <div class="result-box" id="fr-result">
-      <div class="rlabel">Rate Infus</div>
-      <div class="rval" id="fr-rate">— <span class="runit">mL/jam</span></div>
-      <div class="rformula" id="fr-formula"></div>
-    </div>
-  </div>
-
-  <!-- ════ PANEL: N-ASETILSISTEIN ════ -->
-  <div class="panel" data-panel="nac">
-    <h2>🧬 N-Asetilsistein (NAC)</h2>
-    <p class="desc">
-      Sediaan: <strong>200 mg/mL</strong> · Hitung volume NAC yang diambil, volume pelarut, dan rate infus<br>
-      Rumus: Vol NAC = (Dosis × BB) ÷ 200 &nbsp;·&nbsp; Vol Pelarut = Vol Larutan − Vol NAC &nbsp;·&nbsp; Rate = Vol Larutan (mL/jam)
-    </p>
-
-    <!-- Protokol 3 fase sebagai panduan -->
-    <div style="background:var(--ambl);border:1px solid #e8c68a;border-radius:8px;padding:12px 16px;margin-bottom:18px;font-size:12.5px;color:#7a5010;line-height:1.7;">
-      <strong>Protokol standar antidotum paracetamol (total 21 jam):</strong><br>
-      Fase 1 — <strong>150 mg/kgBB</strong> dalam 200 mL D5W selama <strong>1 jam</strong><br>
-      Fase 2 — <strong>50 mg/kgBB</strong> dalam 500 mL D5W selama <strong>4 jam</strong><br>
-      Fase 3 — <strong>100 mg/kgBB</strong> dalam 1000 mL D5W selama <strong>16 jam</strong>
-    </div>
-
-    <div class="grid">
-      <div class="field">
-        <label class="lbl">Dosis Yang Diminta</label>
-        <input type="number" id="nac-dosis" placeholder="150" min="0" step="0.5"
-               oninput="calcNAC()">
-        <span class="unit-tag">mg/kgBB/jam</span>
-      </div>
-      <div class="field">
-        <label class="lbl">Berat Badan Pasien</label>
-        <input type="number" id="nac-bb" placeholder="60" min="0"
-               oninput="calcNAC()">
-        <span class="unit-tag">kg</span>
-      </div>
-    </div>
-    <div class="field" style="max-width:260px;">
-      <label class="lbl">Volume Larutan Total</label>
-      <input type="number" id="nac-vol" placeholder="200" min="0"
-             oninput="calcNAC()">
-      <span class="unit-tag">mL</span>
-    </div>
-
-    <div class="btn-row">
-      <button class="btn-primary" onclick="hitungNAC()">Hitung</button>
-      <button class="btn-reset" onclick="resetPanel('nac')">↻ Reset</button>
-    </div>
-
-    <div class="result-box" id="nac-result">
-      <div class="rlabel">Hasil Perhitungan</div>
-      <div class="result-pair" style="margin-bottom:16px;">
-        <div class="result-item">
-          <div class="ri-label">Volume NAC Diambil</div>
-          <div class="ri-val" id="nac-rvol">—<span class="ri-unit">mL</span></div>
-        </div>
-        <div class="result-item">
-          <div class="ri-label">Volume Pelarut (D5W)</div>
-          <div class="ri-val" id="nac-rpelarut">—<span class="ri-unit">mL</span></div>
-        </div>
-      </div>
-      <div class="rlabel" style="margin-bottom:4px;">Rate Infus</div>
-      <div class="rval" id="nac-rrate">— <span class="runit">mL/jam</span></div>
-      <div class="rformula" id="nac-rformula"></div>
-    </div>
-  </div>
-
-  <!-- ════ PANEL: PANTOPRAZOLE ════ -->
-  <div class="panel" data-panel="pantoprazole">
-    <h2>🟣 Pantoprazole Syringe Pump</h2>
-    <p class="desc">
-      Standar sediaan: 1 vial = <strong>40 mg</strong><br>
-      Konsentrasi larutan dihitung otomatis · Rumus: Rate = Dosis (mg/jam) ÷ Konsentrasi
-    </p>
-
-    <div class="grid3">
-      <div class="field">
-        <label class="lbl">Dosis Yang Diminta</label>
-        <input type="number" id="pt-dosis" placeholder="8" min="0" step="0.5"
-               oninput="calcKonsentrasiVial('pt', 40)">
-        <span class="unit-tag">mg/jam</span>
-      </div>
-      <div class="field">
-        <label class="lbl">Jumlah Vial</label>
-        <input type="number" id="pt-vial" placeholder="1" min="1" step="1"
-               oninput="calcKonsentrasiVial('pt', 40)">
-        <span class="unit-tag">vial</span>
-      </div>
-      <div class="field">
-        <label class="lbl">Volume Larutan Total</label>
-        <input type="number" id="pt-vol" placeholder="100" min="0"
-               oninput="calcKonsentrasiVial('pt', 40)">
-        <span class="unit-tag">mL</span>
-      </div>
-    </div>
-
-    <div class="field" style="max-width:300px;">
-      <label class="lbl">Konsentrasi Larutan (otomatis)</label>
-      <input type="text" id="pt-konsentrasi" readonly placeholder="→ isi kolom di atas">
-      <span class="unit-tag">mg/mL</span>
-    </div>
-
-    <div class="btn-row">
-      <button class="btn-primary" onclick="hitungPPI('pt','Pantoprazole',40)">Hitung</button>
-      <button class="btn-reset" onclick="resetPanel('pantoprazole')">↻ Reset</button>
-    </div>
-
-    <div class="result-box" id="pt-result">
-      <div class="rlabel">Rate Infus</div>
-      <div class="rval" id="pt-rate">— <span class="runit">mL/jam</span></div>
-      <div class="rformula" id="pt-formula"></div>
-    </div>
-  </div>
-
-  <!-- ════ PANEL: OMEPRAZOLE ════ -->
-  <div class="panel" data-panel="omeprazole">
-    <h2>🔵 Omeprazole Syringe Pump</h2>
-    <p class="desc">
-      Standar sediaan: 1 vial = <strong>40 mg</strong><br>
-      Konsentrasi larutan dihitung otomatis · Rumus: Rate = Dosis (mg/jam) ÷ Konsentrasi
-    </p>
-
-    <div class="grid3">
-      <div class="field">
-        <label class="lbl">Dosis Yang Diminta</label>
-        <input type="number" id="om-dosis" placeholder="8" min="0" step="0.5"
-               oninput="calcKonsentrasiVial('om', 40)">
-        <span class="unit-tag">mg/jam</span>
-      </div>
-      <div class="field">
-        <label class="lbl">Jumlah Vial</label>
-        <input type="number" id="om-vial" placeholder="1" min="1" step="1"
-               oninput="calcKonsentrasiVial('om', 40)">
-        <span class="unit-tag">vial</span>
-      </div>
-      <div class="field">
-        <label class="lbl">Volume Larutan Total</label>
-        <input type="number" id="om-vol" placeholder="100" min="0"
-               oninput="calcKonsentrasiVial('om', 40)">
-        <span class="unit-tag">mL</span>
-      </div>
-    </div>
-
-    <div class="field" style="max-width:300px;">
-      <label class="lbl">Konsentrasi Larutan (otomatis)</label>
-      <input type="text" id="om-konsentrasi" readonly placeholder="→ isi kolom di atas">
-      <span class="unit-tag">mg/mL</span>
-    </div>
-
-    <div class="btn-row">
-      <button class="btn-primary" onclick="hitungPPI('om','Omeprazole',40)">Hitung</button>
-      <button class="btn-reset" onclick="resetPanel('omeprazole')">↻ Reset</button>
-    </div>
-
-    <div class="result-box" id="om-result">
-      <div class="rlabel">Rate Infus</div>
-      <div class="rval" id="om-rate">— <span class="runit">mL/jam</span></div>
-      <div class="rformula" id="om-formula"></div>
-    </div>
-  </div>
-
-  <!-- ════ PANEL: FENTANIL ════ -->
-  <div class="panel" data-panel="fentanil">
-    <h2>💫 Fentanil Syringe Pump</h2>
-    <p class="desc">
-      Standar sediaan: 1 ampul = <strong>500 mcg / 10 mL</strong><br>
-      Konsentrasi larutan dihitung otomatis · Rumus: Rate = Dosis (mcg/jam) ÷ Konsentrasi
-    </p>
-
-    <div class="grid3">
-      <div class="field">
-        <label class="lbl">Dosis Yang Diminta</label>
-        <input type="number" id="fn-dosis" placeholder="100" min="0"
-               oninput="calcKonsentrasi('fn', 500)">
-        <span class="unit-tag">mcg/jam</span>
-      </div>
-      <div class="field">
-        <label class="lbl">Jumlah Ampul</label>
-        <input type="number" id="fn-amp" placeholder="1" min="1" step="1"
-               oninput="calcKonsentrasi('fn', 500)">
-        <span class="unit-tag">amp</span>
-      </div>
-      <div class="field">
-        <label class="lbl">Volume Larutan Total</label>
-        <input type="number" id="fn-vol" placeholder="50" min="0"
-               oninput="calcKonsentrasi('fn', 500)">
-        <span class="unit-tag">mL</span>
-      </div>
-    </div>
-
-    <div class="field" style="max-width:300px;">
-      <label class="lbl">Konsentrasi Larutan (otomatis)</label>
-      <input type="text" id="fn-konsentrasi" readonly placeholder="→ isi kolom di atas">
-      <span class="unit-tag">mcg/mL</span>
-    </div>
-
-    <div class="btn-row">
-      <button class="btn-primary" onclick="hitungDripPerJam('fn','Fentanil',500)">Hitung</button>
-      <button class="btn-reset" onclick="resetPanel('fentanil')">↻ Reset</button>
-    </div>
-
-    <div class="result-box" id="fn-result">
-      <div class="rlabel">Rate Infus</div>
-      <div class="rval" id="fn-rate">— <span class="runit">mL/jam</span></div>
-      <div class="rformula" id="fn-formula"></div>
-    </div>
-  </div>
-
-  <!-- ════ PANEL: DEXMEDETOMIDIN ════ -->
-  <div class="panel" data-panel="dexmed">
-    <h2>🧠 Dexmedetomidin Syringe Pump</h2>
-    <p class="desc">
-      Standar sediaan: 1 vial = <strong>200 mcg / 2 mL</strong> (Precedex)<br>
-      Konsentrasi larutan dihitung otomatis · Rumus: Rate = (Dosis × BB) ÷ Konsentrasi
-    </p>
-
-    <div class="grid" style="grid-template-columns:1fr 1fr;">
-      <div class="field">
-        <label class="lbl">Dosis Yang Diminta</label>
-        <input type="number" id="dx-dosis" placeholder="0.5" min="0" step="0.1"
-               oninput="calcKonsentrasiVial('dx', 200)">
-        <span class="unit-tag">mcg/kgBB/jam</span>
-      </div>
-      <div class="field">
-        <label class="lbl">Berat Badan</label>
-        <input type="number" id="dx-bb" placeholder="60" min="0">
-        <span class="unit-tag">kg</span>
-      </div>
-    </div>
-    <div class="grid" style="grid-template-columns:1fr 1fr;">
-      <div class="field">
-        <label class="lbl">Jumlah Vial</label>
-        <input type="number" id="dx-vial" placeholder="1" min="1" step="1"
-               oninput="calcKonsentrasiVial('dx', 200)">
-        <span class="unit-tag">vial</span>
-      </div>
-      <div class="field">
-        <label class="lbl">Volume Larutan Total</label>
-        <input type="number" id="dx-vol" placeholder="50" min="0"
-               oninput="calcKonsentrasiVial('dx', 200)">
-        <span class="unit-tag">mL</span>
-      </div>
-    </div>
-
-    <div class="field" style="max-width:300px;">
-      <label class="lbl">Konsentrasi Larutan (otomatis)</label>
-      <input type="text" id="dx-konsentrasi" readonly placeholder="→ isi jumlah vial & volume">
-      <span class="unit-tag">mcg/mL</span>
-    </div>
-
-    <div class="btn-row">
-      <button class="btn-primary" onclick="hitungDexmed()">Hitung</button>
-      <button class="btn-reset" onclick="resetPanel('dexmed')">↻ Reset</button>
-    </div>
-
-    <div class="result-box" id="dx-result">
-      <div class="rlabel">Rate Infus</div>
-      <div class="rval" id="dx-rate">— <span class="runit">mL/jam</span></div>
-      <div class="rformula" id="dx-formula"></div>
-    </div>
-  </div>
-
-  <!-- ════ PANEL: AMIODARON ════ -->
-  <div class="panel" data-panel="amiodaron">
-    <h2>❤️ Amiodaron Syringe Pump</h2>
-    <p class="desc">
-      Standar sediaan: 1 ampul = <strong>150 mg / 3 mL</strong><br>
-      Konsentrasi larutan dihitung otomatis · Rumus: Rate = Dosis (mg/menit) × 60 ÷ Konsentrasi
-    </p>
-
-    <div class="grid3">
-      <div class="field">
-        <label class="lbl">Dosis Yang Diminta</label>
-        <input type="number" id="am-dosis" placeholder="0.5" min="0" step="0.1"
-               oninput="calcKonsentrasi('am',150)">
-        <span class="unit-tag">mg/menit</span>
-      </div>
-      <div class="field">
-        <label class="lbl">Jumlah Ampul</label>
-        <input type="number" id="am-amp" placeholder="1" min="1" step="1"
-               oninput="calcKonsentrasi('am',150)">
-        <span class="unit-tag">amp</span>
-      </div>
-      <div class="field">
-        <label class="lbl">Volume Larutan Total</label>
-        <input type="number" id="am-vol" placeholder="50" min="0"
-               oninput="calcKonsentrasi('am',150)">
-        <span class="unit-tag">mL</span>
-      </div>
-    </div>
-
-    <div class="field" style="max-width:300px;">
-      <label class="lbl">Konsentrasi Larutan (otomatis)</label>
-      <input type="text" id="am-konsentrasi" readonly placeholder="→ isi kolom di atas">
-      <span class="unit-tag">mg/mL</span>
-    </div>
-
-    <div class="btn-row">
-      <button class="btn-primary" onclick="hitungDripMgMenit('am','Amiodaron',150)">Hitung</button>
-      <button class="btn-reset" onclick="resetPanel('amiodaron')">↻ Reset</button>
-    </div>
-
-    <div class="result-box" id="am-result">
-      <div class="rlabel">Rate Infus</div>
-      <div class="rval" id="am-rate">— <span class="runit">mL/jam</span></div>
-      <div class="rformula" id="am-formula"></div>
-    </div>
-  </div>
-
-  <!-- ════ PANEL: LIDOCAIN ════ -->
-  <div class="panel" data-panel="lidocain">
-    <h2>⚡ Lidocain Syringe Pump</h2>
-    <p class="desc">
-      Standar sediaan: 1 ampul = <strong>400 mg / 20 mL</strong><br>
-      Konsentrasi larutan dihitung otomatis · Rumus: Rate = Dosis (mg/menit) × 60 ÷ Konsentrasi
-    </p>
-
-    <div class="grid3">
-      <div class="field">
-        <label class="lbl">Dosis Yang Diminta</label>
-        <input type="number" id="li-dosis" placeholder="2" min="0" step="0.1"
-               oninput="calcKonsentrasi('li',400)">
-        <span class="unit-tag">mg/menit</span>
-      </div>
-      <div class="field">
-        <label class="lbl">Jumlah Ampul</label>
-        <input type="number" id="li-amp" placeholder="1" min="1" step="1"
-               oninput="calcKonsentrasi('li',400)">
-        <span class="unit-tag">amp</span>
-      </div>
-      <div class="field">
-        <label class="lbl">Volume Larutan Total</label>
-        <input type="number" id="li-vol" placeholder="50" min="0"
-               oninput="calcKonsentrasi('li',400)">
-        <span class="unit-tag">mL</span>
-      </div>
-    </div>
-
-    <div class="field" style="max-width:300px;">
-      <label class="lbl">Konsentrasi Larutan (otomatis)</label>
-      <input type="text" id="li-konsentrasi" readonly placeholder="→ isi kolom di atas">
-      <span class="unit-tag">mg/mL</span>
-    </div>
-
-    <div class="btn-row">
-      <button class="btn-primary" onclick="hitungDripMgMenit('li','Lidocain',400)">Hitung</button>
-      <button class="btn-reset" onclick="resetPanel('lidocain')">↻ Reset</button>
-    </div>
-
-    <div class="result-box" id="li-result">
-      <div class="rlabel">Rate Infus</div>
-      <div class="rval" id="li-rate">— <span class="runit">mL/jam</span></div>
-      <div class="rformula" id="li-formula"></div>
-    </div>
-  </div>
-
-  <!-- ════ PANEL: HEPARIN ════ -->
-  <div class="panel" data-panel="heparin">
-    <h2>🩸 Heparin Syringe Pump</h2>
-    <p class="desc">
-      Standar sediaan: Heparin 25.000 unit/5 mL = <strong>5.000 unit/mL</strong><br>
-      Konsentrasi larutan dihitung otomatis · Rumus: Rate = Dosis ÷ Konsentrasi Larutan
-    </p>
-
-    <div class="grid3">
-      <div class="field">
-        <label class="lbl">Dosis Yang Diminta</label>
-        <input type="number" id="hp-dosis" placeholder="1000" min="0"
-               oninput="calcHepKonsentrasi()">
-        <span class="unit-tag">unit/jam</span>
-      </div>
-      <div class="field">
-        <label class="lbl">Jumlah Heparin Diambil</label>
-        <input type="number" id="hp-ambil" placeholder="2" min="0" step="0.1"
-               oninput="calcHepKonsentrasi()">
-        <span class="unit-tag">mL</span>
-      </div>
-      <div class="field">
-        <label class="lbl">Volume Larutan Total</label>
-        <input type="number" id="hp-vol" placeholder="50" min="0"
-               oninput="calcHepKonsentrasi()">
-        <span class="unit-tag">mL</span>
-      </div>
-    </div>
-
-    <!-- Konsentrasi — tampil otomatis saat input diisi -->
-    <div class="field" style="max-width:300px;">
-      <label class="lbl">Konsentrasi Larutan (otomatis)</label>
-      <input type="text" id="hp-konsentrasi" readonly placeholder="→ isi kolom di atas">
-      <span class="unit-tag">unit/mL</span>
-    </div>
-
-    <div class="btn-row">
-      <button class="btn-primary" onclick="hitungHeparin()">Hitung</button>
-      <button class="btn-reset" onclick="resetPanel('heparin')">↻ Reset</button>
-    </div>
-
-    <div class="result-box" id="hp-result">
-      <div class="rlabel">Rate Infus</div>
-      <div class="rval" id="hp-rate">— <span class="runit">mL/jam</span></div>
-      <div class="rformula" id="hp-formula"></div>
-    </div>
-  </div>
+</html>
